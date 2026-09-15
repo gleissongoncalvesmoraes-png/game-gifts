@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="google-site-verification" content="8S3xHAYjBRZIGgf9hDsWK3QS-lwr4GjNx_pHjhGRAb4" />
+    <meta name="google-site-verification" content="8S3xHAYjBRZlGgf9hDsWK3QS-Iwr4GjNx_pHjhGRAb4" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YNXFNNRX08"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YNXFNNRX08');
+    </script>
+    <meta name="description" content="Game Gifts organiza links públicos verificados de presentes para jogos mobile." />
+    <meta property="og:title" content="Game Gifts" />
+    <meta property="og:description" content="Links públicos de presentes para seus jogos favoritos." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="/" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href="/pt/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" hreflang="pt" href="/pt/" />
+    <link rel="alternate" hreflang="en" href="/en/" />
+    <link rel="alternate" hreflang="de" href="/de/" />
+    <link rel="alternate" hreflang="tr" href="/tr/" />
+    <title>Game Gifts</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <header class="site-header">
+      <a class="brand" href="/pt/" data-route aria-label="Game Gifts">
+        <span class="brand-mark">✦</span>
+        <span class="brand-name">GAME <em>GIFTS</em></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Menu principal">
+        <a href="/pt/" data-route data-nav="home"><span>⌂</span><b data-i18n="home">Início</b></a>
+        <a href="/pt/jogos/" data-route data-nav="games"><span>♧</span><b data-i18n="games">Jogos</b></a>
+        <a href="/pt/novidades/" data-route data-nav="news"><span>✧</span><b><span data-i18n="news">Novidades</span> <span class="news-count" data-news-count>0</span></b></a>
+        <a href="/pt/favoritos/" data-route data-nav="favorites"><span>♡</span><b data-i18n="favorites">Favoritos</b></a>
+        <a href="/pt/mais/" data-route data-nav="more"><span>•••</span><b data-i18n="more">Mais</b></a>
+      </nav>
+      <label class="search-box" aria-label="Pesquisar jogo">
+        <span>⌕</span>
+        <input id="global-search" type="search" placeholder="Pesquisar jogos..." data-i18n-placeholder="search" />
+      </label>
+      <select id="language-select" class="language-select" aria-label="Idioma">
+        <option value="pt">PT</option>
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+        <option value="de">DE</option>
+        <option value="tr">TR</option>
+      </select>
+    </header>
+
+    <main id="app" tabindex="-1"></main>
+
+    <nav class="mobile-nav" aria-label="Menu mobile">
+      <a href="/pt/" data-route data-nav="home"><span>⌂</span><b data-i18n="home">Início</b></a>
+      <a href="/pt/jogos/" data-route data-nav="games"><span>♧</span><b data-i18n="games">Jogos</b></a>
+      <a href="/pt/novidades/" data-route data-nav="news"><span>✧</span><b><span data-i18n="news">Novidades</span> <span class="news-count" data-news-count>0</span></b></a>
+      <a href="/pt/favoritos/" data-route data-nav="favorites"><span>♡</span><b data-i18n="favorites">Favoritos</b></a>
+      <a href="/pt/mais/" data-route data-nav="more"><span>•••</span><b data-i18n="more">Mais</b></a>
+    </nav>
+
+    <footer class="site-footer">
+      <div class="footer-brand"><span class="brand-mark small">✦</span><span>GAME <em>GIFTS</em></span></div>
+      <p data-i18n="disclaimer">Site independente de agregação de links. As marcas e jogos pertencem aos seus respectivos proprietários. Não somos afiliados aos desenvolvedores dos jogos.</p>
+      <a href="/pt/mais/" data-route data-i18n="faq">Sobre e FAQ</a>
+    </footer>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
