@@ -1,0 +1,14 @@
+# Public pages may be crawled. Private/personal areas stay out of search.
+User-agent: *
+Allow: /
+Disallow: /pt/admin/
+Disallow: /en/admin/
+Disallow: /es/admin/
+Disallow: /de/admin/
+Disallow: /tr/admin/
+Disallow: /pt/favoritos/
+Disallow: /en/favorites/
+Disallow: /es/favoritos/
+Disallow: /de/favoriten/
+Disallow: /tr/favoriler/
+Sitemap: /sitemap.xml
