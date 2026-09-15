@@ -1,0 +1,149 @@
+/* Game Gifts interaction layer, adapted from the proven HigienizaJá touch patterns. */
+:where(button, a, summary) {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform .16s cubic-bezier(.2,.8,.2,1), filter .16s ease,
+    color .16s ease, background-color .16s ease, border-color .16s ease,
+    box-shadow .16s ease, opacity .16s ease;
+}
+
+:where(button, a, summary):focus-visible {
+  outline: 3px solid rgba(126, 231, 255, .9);
+  outline-offset: 3px;
+}
+
+:where(button, a):active {
+  filter: brightness(1.04);
+  transform: translateY(2px) scale(.985);
+  transition-duration: .06s;
+}
+
+:where(button, a)[aria-busy="true"] { cursor: wait; filter: saturate(.72); }
+:where(button, a):disabled,
+:where(button, a).disabled,
+:where(button, a).is-disabled {
+  cursor: not-allowed;
+  filter: saturate(.45);
+  opacity: .52;
+  pointer-events: none;
+}
+
+.open-button,
+.primary-button,
+.outline-button,
+.home-redeem-button,
+.home-premium-collect,
+.game-follow-button,
+.game-primary-link,
+.tab,
+.copy-link,
+.small-button,
+.player-vote-button,
+.mm-collect-button,
+.mm-secondary-action,
+.mm-follow-action { min-height: 40px; }
+
+.open-button,
+.primary-button,
+.home-redeem-button,
+.home-premium-collect,
+.game-follow-button,
+.mm-collect-button { border-bottom-width: 3px; }
+
+.open-button:active,
+.primary-button:active,
+.home-redeem-button:active,
+.home-premium-collect:active,
+.game-follow-button:active,
+.mm-collect-button:active { box-shadow: 0 3px 0 rgba(22, 46, 105, .26); }
+
+/* Only full navigation targets get whole-card affordance. */
+a.game-card,
+a.home-game-card,
+a.home-recent-game-card,
+a.home-news-card,
+a.other-game-card,
+.mm-anchor-nav a,
+.home-premium-reward-card { cursor: pointer; }
+
+a.game-card:active,
+a.home-game-card:active,
+a.home-recent-game-card:active,
+a.home-news-card:active,
+a.other-game-card:active,
+.home-premium-reward-card:active {
+  filter: brightness(1.08);
+  transform: scale(.975);
+  transition-duration: .06s;
+}
+
+.game-card:focus-visible,
+.home-game-card:focus-visible,
+.home-recent-game-card:focus-visible,
+.home-news-card:focus-visible,
+.other-game-card:focus-visible,
+.home-premium-reward-card:focus-within {
+  outline: 3px solid rgba(126, 231, 255, .9);
+  outline-offset: 4px;
+}
+
+.tab.active,
+.game-primary-link.is-active,
+.mobile-nav a.active,
+.desktop-nav a.active,
+.drawer-links a.active { position: relative; }
+
+.tab.active::after,
+.game-primary-link.is-active::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  left: 10px;
+  height: 3px;
+  border-radius: 99px;
+  background: currentColor;
+  opacity: .6;
+}
+
+.reward-favorite.is-favorite,
+.mm-icon-action.is-favorite,
+.mm-favorite-action.is-favorite,
+.game-follow-button.is-following { animation: gg-state-pop .2s ease-out; }
+
+@keyframes gg-state-pop {
+  0% { transform: scale(.94); }
+  70% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+#toast {
+  bottom: max(22px, calc(22px + env(safe-area-inset-bottom)));
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.side-drawer, .drawer-panel { overscroll-behavior: contain; }
+
+@media (max-width: 720px) {
+  #app { padding-bottom: max(104px, calc(104px + env(safe-area-inset-bottom))); }
+  .site-footer { padding-bottom: max(95px, calc(95px + env(safe-area-inset-bottom))); }
+  .mobile-nav {
+    bottom: max(10px, env(safe-area-inset-bottom));
+    min-height: 66px;
+    padding-bottom: max(7px, env(safe-area-inset-bottom));
+  }
+  .mobile-nav a { min-height: 48px; }
+  .drawer-links a { min-height: 54px; }
+  .copy-link, .player-vote-button, .small-button { min-height: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(button, a, summary), .drawer-backdrop, .drawer-panel, #toast {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
