@@ -1,1 +1,2041 @@
-{}
+{
+  "updated_at": "2026-09-20T11:08:06.000Z",
+  "rewards": [
+    {
+      "game": "match-masters",
+      "reward_type": "perks",
+      "amount": "",
+      "image": "",
+      "name": "Free Perks",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Dy0kKAm4tWc&pcode=t21qtxizjgbsxfx3pol2",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Dy0kKAm4tWc&pcode=t21qtxizjgbsxfx3pol2",
+      "final_url": "https://launch.matchmasters.com/l/p/Dy0kKAm4tWc",
+      "code": "",
+      "found_at": "2026-09-20T00:00:00.000Z",
+      "sources": ["Enviado pelo usuário"],
+      "source_urls": [],
+      "source_kind": "user_submission",
+      "source_excerpt": "Free Perks",
+      "source_date": "2026-09-20",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Dy0kKAm4tWc&pcode=t21qtxizjgbsxfx3pol2",
+      "status": "UNCONFIRMED",
+      "link_status": "active",
+      "reward_status": "unknown",
+      "quantity_confirmed": false,
+      "verification_reason": "Link enviado pelo usuário; ainda não confirmado."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "coins",
+      "amount": "",
+      "image": "",
+      "name": "Coins + Star Race",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=pqu1uim4v2sfl66xsob0&c=yD1dkVWEaPQ",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=pqu1uim4v2sfl66xsob0&c=yD1dkVWEaPQ",
+      "final_url": "https://launch.matchmasters.com/l/p/yD1dkVWEaPQ",
+      "code": "",
+      "found_at": "2026-09-20T00:00:00.000Z",
+      "sources": ["Enviado pelo usuário"],
+      "source_urls": [],
+      "source_kind": "user_submission",
+      "source_excerpt": "Coins + Star Race",
+      "source_date": "2026-09-20",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=pqu1uim4v2sfl66xsob0&c=yD1dkVWEaPQ",
+      "status": "UNCONFIRMED",
+      "link_status": "active",
+      "reward_status": "unknown",
+      "quantity_confirmed": false,
+      "verification_reason": "Link enviado pelo usuário; ainda não confirmado."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "tokens",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=6lv2wnvsmo0mdb1ewxa5&c=IJzW-71UFu0",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=6lv2wnvsmo0mdb1ewxa5&c=IJzW-71UFu0",
+      "final_url": "https://launch.matchmasters.com/l/p/IJzW-71UFu0",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=IJzW-71UFu0&pcode=6lv2wnvsmo0mdb1ewxa5",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 19, 2026 Free Tokens Free Tokens",
+      "source_date": "2026-09-19",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "tokens",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=13qnyxa5di2rp4xvrwav%7C_%7C%7C_%7C&c=du4yIT3JlQY",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=13qnyxa5di2rp4xvrwav%7C_%7C%7C_%7C&c=du4yIT3JlQY",
+      "final_url": "https://launch.matchmasters.com/l/p/du4yIT3JlQY",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=du4yIT3JlQY&pcode=13qnyxa5di2rp4xvrwav%7C_%7C%7C_%7C",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 19, 2026 Free Tokens Free Tokens",
+      "source_date": "2026-09-19",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=yw6wimgs48ab07cyaemh&c=WZhXM72XCLA",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=yw6wimgs48ab07cyaemh&c=WZhXM72XCLA",
+      "final_url": "https://launch.matchmasters.com/l/p/WZhXM72XCLA",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=WZhXM72XCLA&pcode=yw6wimgs48ab07cyaemh",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 18, 2026 Free Stickers Free Stickers",
+      "source_date": "2026-09-18",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/ch/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=bxmajxe0nv9mi3aeqcar&c=JUS0_C00LYE",
+      "original_url": "https://matchmasters.onelink.me/ch/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=bxmajxe0nv9mi3aeqcar&c=JUS0_C00LYE",
+      "final_url": "https://launch.matchmasters.com/l/p/JUS0_C00LYE",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta",
+        "Alucare · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free",
+        "https://www.alucare.fr/en/match-masters-cadeaux-quotidiens-gratuits/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/ch/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=JUS0_C00LYE&pcode=bxmajxe0nv9mi3aeqcar",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 17, 2026 Free Stickers Free Stickers",
+      "source_date": "2026-09-17",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "tokens",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=6smqxmwvo91j1aumm5xl&c=qxQGj7ceD6o",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=6smqxmwvo91j1aumm5xl&c=qxQGj7ceD6o",
+      "final_url": "https://launch.matchmasters.com/l/p/qxQGj7ceD6o",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta",
+        "Alucare · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free",
+        "https://www.alucare.fr/en/match-masters-cadeaux-quotidiens-gratuits/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=qxQGj7ceD6o&pcode=6smqxmwvo91j1aumm5xl",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 17, 2026 Free Tokens Free Tokens",
+      "source_date": "2026-09-17",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "emotes",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=2xwd1hcoxyssiyej4866&c=GydVfWBk7P8",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=2xwd1hcoxyssiyej4866&c=GydVfWBk7P8",
+      "final_url": "https://launch.matchmasters.com/l/p/GydVfWBk7P8",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta",
+        "Alucare · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free",
+        "https://www.alucare.fr/en/match-masters-cadeaux-quotidiens-gratuits/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=GydVfWBk7P8&pcode=2xwd1hcoxyssiyej4866",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 17, 2026 Free Emote Free Emote",
+      "source_date": "2026-09-17",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "boosters",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=qhp7utp950jbfedpbc3i&c=rs7zlIifyrg",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=qhp7utp950jbfedpbc3i&c=rs7zlIifyrg",
+      "final_url": "https://launch.matchmasters.com/l/p/rs7zlIifyrg",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Alucare · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.alucare.fr/en/match-masters-cadeaux-quotidiens-gratuits/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=rs7zlIifyrg&pcode=qhp7utp950jbfedpbc3i",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 17, 2026 Free Booster Free Booster",
+      "source_date": "2026-09-17",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "coins",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=5lx98jkt1u5b7ugaspdq&c=Ek2jHZvk25E",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=5lx98jkt1u5b7ugaspdq&c=Ek2jHZvk25E",
+      "final_url": "https://launch.matchmasters.com/l/p/Ek2jHZvk25E",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Ek2jHZvk25E&pcode=5lx98jkt1u5b7ugaspdq",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 16, 2026 Free Coins Free Coins",
+      "source_date": "2026-09-16",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "perks",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=7k9ob6lrd415tnau48zn&c=CwVjSTHSs30",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=7k9ob6lrd415tnau48zn&c=CwVjSTHSs30",
+      "final_url": "https://launch.matchmasters.com/l/p/CwVjSTHSs30",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=CwVjSTHSs30&pcode=7k9ob6lrd415tnau48zn",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 16, 2026 Free Perks Free Perks",
+      "source_date": "2026-09-16",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=02y9hv6wnwgf418vgdkl&c=fTjMsHZq43w",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=02y9hv6wnwgf418vgdkl&c=fTjMsHZq43w",
+      "final_url": "https://launch.matchmasters.com/l/p/fTjMsHZq43w",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=fTjMsHZq43w&pcode=02y9hv6wnwgf418vgdkl",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 16, 2026 Free Sticker Free Sticker",
+      "source_date": "2026-09-16",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=yoovzjlz3uhtkh9e9bk1&c=IM3KNGtw0oI",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=yoovzjlz3uhtkh9e9bk1&c=IM3KNGtw0oI",
+      "final_url": "https://launch.matchmasters.com/l/p/IM3KNGtw0oI",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=IM3KNGtw0oI&pcode=yoovzjlz3uhtkh9e9bk1",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 16, 2026 Free Sticker Free Sticker",
+      "source_date": "2026-09-16",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=8a8f25e7665qzni3oxq1%7C_%7C%7C_%7C&c=hJgW8TgoOwQ",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=8a8f25e7665qzni3oxq1%7C_%7C%7C_%7C&c=hJgW8TgoOwQ",
+      "final_url": "https://launch.matchmasters.com/l/p/hJgW8TgoOwQ",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=hJgW8TgoOwQ&pcode=8a8f25e7665qzni3oxq1%7C_%7C%7C_%7C",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 16, 2026 Free Sticker Free Sticker",
+      "source_date": "2026-09-16",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "perks",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=lcsz3ejpta4bh8f1jxij&c=DFvpTSFwVvU",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=lcsz3ejpta4bh8f1jxij&c=DFvpTSFwVvU",
+      "final_url": "https://launch.matchmasters.com/l/p/DFvpTSFwVvU",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=DFvpTSFwVvU&pcode=lcsz3ejpta4bh8f1jxij",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 15, 2026 Free Perks Free Perks",
+      "source_date": "2026-09-15",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=2xsqw8t1e7eje58arsuc&c=8arL-lmeoLs",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=2xsqw8t1e7eje58arsuc&c=8arL-lmeoLs",
+      "final_url": "https://launch.matchmasters.com/l/p/8arL-lmeoLs",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=8arL-lmeoLs&pcode=2xsqw8t1e7eje58arsuc",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 15, 2026 Free Sticker Free Sticker",
+      "source_date": "2026-09-15",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "spins",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=0eofjyotwzesvt0g3uuy&c=nAPqLTCtcY8",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=0eofjyotwzesvt0g3uuy&c=nAPqLTCtcY8",
+      "final_url": "https://launch.matchmasters.com/l/p/nAPqLTCtcY8",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=nAPqLTCtcY8&pcode=0eofjyotwzesvt0g3uuy",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 14, 2026 Free Spin Free Spin",
+      "source_date": "2026-09-14",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "boosters",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=opr3pw6uaszs0o6eoff9&c=4KiQBOvMwhU",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=opr3pw6uaszs0o6eoff9&c=4KiQBOvMwhU",
+      "final_url": "https://launch.matchmasters.com/l/p/4KiQBOvMwhU",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=4KiQBOvMwhU&pcode=opr3pw6uaszs0o6eoff9",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 14, 2026 Free Booster Free Booster",
+      "source_date": "2026-09-14",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "tokens",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=688or2l1u58oksbsyrv3&c=HWA_dvrKRt8",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=688or2l1u58oksbsyrv3&c=HWA_dvrKRt8",
+      "final_url": "https://launch.matchmasters.com/l/p/HWA_dvrKRt8",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=HWA_dvrKRt8&pcode=688or2l1u58oksbsyrv3",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 14, 2026 Free Tokens Free Tokens",
+      "source_date": "2026-09-14",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "perks",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=f6ab52n5rh9fsa4b6zbr&c=Edzvcmc6Csg",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=f6ab52n5rh9fsa4b6zbr&c=Edzvcmc6Csg",
+      "final_url": "https://launch.matchmasters.com/l/p/Edzvcmc6Csg",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Edzvcmc6Csg&pcode=f6ab52n5rh9fsa4b6zbr",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 14, 2026 Free Perks Free Perks",
+      "source_date": "2026-09-14",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=4vc2hj1kr2k7y4a1nv6y&c=ObAtW6IKoZY",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=4vc2hj1kr2k7y4a1nv6y&c=ObAtW6IKoZY",
+      "final_url": "https://launch.matchmasters.com/l/p/ObAtW6IKoZY",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=ObAtW6IKoZY&pcode=4vc2hj1kr2k7y4a1nv6y",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 13, 2026 Free Sticker Free Sticker",
+      "source_date": "2026-09-13",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "perks",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=okneygzuxhaxkj7ienlp&c=uSNwVYDFiDU",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=okneygzuxhaxkj7ienlp&c=uSNwVYDFiDU",
+      "final_url": "https://launch.matchmasters.com/l/p/uSNwVYDFiDU",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=uSNwVYDFiDU&pcode=okneygzuxhaxkj7ienlp",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 13, 2026 Free Perks Free Perks",
+      "source_date": "2026-09-13",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=lztbmokcyagm8skzfu7k%7C_%7C%7C_%7C&c=8frkCn8vzrE",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=lztbmokcyagm8skzfu7k%7C_%7C%7C_%7C&c=8frkCn8vzrE",
+      "final_url": "https://launch.matchmasters.com/l/p/8frkCn8vzrE",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=8frkCn8vzrE&pcode=lztbmokcyagm8skzfu7k%7C_%7C%7C_%7C",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 13, 2026 Free Gift Free Gift",
+      "source_date": "2026-09-13",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=ccf6jv0dzxuljdy5bgjx%7C_%7C%7C_%7C&c=gZCehZX_RX8",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=ccf6jv0dzxuljdy5bgjx%7C_%7C%7C_%7C&c=gZCehZX_RX8",
+      "final_url": "https://launch.matchmasters.com/l/p/gZCehZX_RX8",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta",
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/",
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=gZCehZX_RX8&pcode=ccf6jv0dzxuljdy5bgjx%7C_%7C%7C_%7C",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 13, 2026 Free Gift Free Gift",
+      "source_date": "2026-09-13",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "coins",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=4dbud9hmvlfozyd7mckt&c=FakzU0mDPho",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=4dbud9hmvlfozyd7mckt&c=FakzU0mDPho",
+      "final_url": "https://launch.matchmasters.com/l/p/FakzU0mDPho",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:10.835Z",
+      "sources": [
+        "Destructoid · descoberta"
+      ],
+      "source_urls": [
+        "https://www.destructoid.com/match-masters-free-gifts-boosters-and-coins-links/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=FakzU0mDPho&pcode=4dbud9hmvlfozyd7mckt",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Match Master free gifts for September 13, 2026 Free Coins & Social Solo Free Coins & Social Solo",
+      "source_date": "2026-09-13",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=bo9l5lmmk7nl8yh3glku&c=TfvdlVk0fZE",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=bo9l5lmmk7nl8yh3glku&c=TfvdlVk0fZE",
+      "final_url": "https://launch.matchmasters.com/l/p/TfvdlVk0fZE",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=TfvdlVk0fZE&pcode=bo9l5lmmk7nl8yh3glku",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free sticker Free sticker",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=u1ii9wr04g2my2vfnsjp&c=SwX_RSGRkik",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=u1ii9wr04g2my2vfnsjp&c=SwX_RSGRkik",
+      "final_url": "https://launch.matchmasters.com/l/p/SwX_RSGRkik",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=SwX_RSGRkik&pcode=u1ii9wr04g2my2vfnsjp",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free tokens Free tokens",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=kvfdp7gw8tnlkxmdq5zc&c=_W8vRW17OqQ",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=kvfdp7gw8tnlkxmdq5zc&c=_W8vRW17OqQ",
+      "final_url": "https://launch.matchmasters.com/l/p/_W8vRW17OqQ",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=_W8vRW17OqQ&pcode=kvfdp7gw8tnlkxmdq5zc",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free gift Free gift",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=yknadawb3y7mrp4apryd&c=cQWWnmDpXOc",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=yknadawb3y7mrp4apryd&c=cQWWnmDpXOc",
+      "final_url": "https://launch.matchmasters.com/l/p/cQWWnmDpXOc",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=cQWWnmDpXOc&pcode=yknadawb3y7mrp4apryd",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free coins Free coins",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=fpba05vgmagu9fucyyza&c=S2iv7ghGZjA",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=fpba05vgmagu9fucyyza&c=S2iv7ghGZjA",
+      "final_url": "https://launch.matchmasters.com/l/p/S2iv7ghGZjA",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=S2iv7ghGZjA&pcode=fpba05vgmagu9fucyyza",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free coins Free coins",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=c865l04ogk8x7v77gspl&c=4f2kIu4vd6Y",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=c865l04ogk8x7v77gspl&c=4f2kIu4vd6Y",
+      "final_url": "https://launch.matchmasters.com/l/p/4f2kIu4vd6Y",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=4f2kIu4vd6Y&pcode=c865l04ogk8x7v77gspl",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free coins Free coins",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=frw4nfiyo0wz9ljpm3lw&c=jZcPB3X5coM",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=frw4nfiyo0wz9ljpm3lw&c=jZcPB3X5coM",
+      "final_url": "https://launch.matchmasters.com/l/p/jZcPB3X5coM",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=jZcPB3X5coM&pcode=frw4nfiyo0wz9ljpm3lw",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free coins Free coins",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=i16phbt6ofkdz33p1fxm&c=ZfQjWICqihQ",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=i16phbt6ofkdz33p1fxm&c=ZfQjWICqihQ",
+      "final_url": "https://launch.matchmasters.com/l/p/ZfQjWICqihQ",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=ZfQjWICqihQ&pcode=i16phbt6ofkdz33p1fxm",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free sticker Free sticker",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=egm6yvko51c1l0t1ctz4&c=CF8wU0ZWBts",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=egm6yvko51c1l0t1ctz4&c=CF8wU0ZWBts",
+      "final_url": "https://launch.matchmasters.com/l/p/CF8wU0ZWBts",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=CF8wU0ZWBts&pcode=egm6yvko51c1l0t1ctz4",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free sticker Free sticker",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=bfd3hrxltr84mjy8r2u8&c=FwQjFMM18RA",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=bfd3hrxltr84mjy8r2u8&c=FwQjFMM18RA",
+      "final_url": "https://launch.matchmasters.com/l/p/FwQjFMM18RA",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=FwQjFMM18RA&pcode=bfd3hrxltr84mjy8r2u8",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free perks Free perks",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=2b4sbwy65gl3zeli3dyt&c=zFfSQD1LnJg",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=2b4sbwy65gl3zeli3dyt&c=zFfSQD1LnJg",
+      "final_url": "https://launch.matchmasters.com/l/p/zFfSQD1LnJg",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=zFfSQD1LnJg&pcode=2b4sbwy65gl3zeli3dyt",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free perks Free perks",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=fmitj50retmkj8sovyzg&c=jB0-N118oBA",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=fmitj50retmkj8sovyzg&c=jB0-N118oBA",
+      "final_url": "https://launch.matchmasters.com/l/p/jB0-N118oBA",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=jB0-N118oBA&pcode=fmitj50retmkj8sovyzg",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free tokens Free tokens",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=mibt3cpc3gvqgwzewt04&c=2UZE2ZCIdlc",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=mibt3cpc3gvqgwzewt04&c=2UZE2ZCIdlc",
+      "final_url": "https://launch.matchmasters.com/l/p/2UZE2ZCIdlc",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=2UZE2ZCIdlc&pcode=mibt3cpc3gvqgwzewt04",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free perks Free perks",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=ygazmlpdauixdubmmfgr&c=VzeSTrBu6eA",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=ygazmlpdauixdubmmfgr&c=VzeSTrBu6eA",
+      "final_url": "https://launch.matchmasters.com/l/p/VzeSTrBu6eA",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=VzeSTrBu6eA&pcode=ygazmlpdauixdubmmfgr",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free booster Free booster",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=rzg0ksptvjdkhdner6ij%7C_%7C%7C_%7C&c=2b-j3iukYqs",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=rzg0ksptvjdkhdner6ij%7C_%7C%7C_%7C&c=2b-j3iukYqs",
+      "final_url": "https://launch.matchmasters.com/l/p/2b-j3iukYqs",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=2b-j3iukYqs&pcode=rzg0ksptvjdkhdner6ij%7C_%7C%7C_%7C",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free gift Free gift",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=609rul9tlfegii78wbb2&c=vbYQfr2himA",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=609rul9tlfegii78wbb2&c=vbYQfr2himA",
+      "final_url": "https://launch.matchmasters.com/l/p/vbYQfr2himA",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=vbYQfr2himA&pcode=609rul9tlfegii78wbb2",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free coins and rumble Free coins and rumble",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=v5rttzu9svpqdl4ysnrb&c=Sdf8ujJJr4k",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=v5rttzu9svpqdl4ysnrb&c=Sdf8ujJJr4k",
+      "final_url": "https://launch.matchmasters.com/l/p/Sdf8ujJJr4k",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.246Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Sdf8ujJJr4k&pcode=v5rttzu9svpqdl4ysnrb",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free sticker Free sticker",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=lbefet79fr65brdyasa5&c=9ixyam8pEJc",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=lbefet79fr65brdyasa5&c=9ixyam8pEJc",
+      "final_url": "https://launch.matchmasters.com/l/p/9ixyam8pEJc",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=9ixyam8pEJc&pcode=lbefet79fr65brdyasa5",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free tokens Free tokens",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=5qlg1kbp8by24z2j8pji%7C_%7C%7C_%7C&c=gI3A9_AIiLE",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=5qlg1kbp8by24z2j8pji%7C_%7C%7C_%7C&c=gI3A9_AIiLE",
+      "final_url": "https://launch.matchmasters.com/l/p/gI3A9_AIiLE",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=gI3A9_AIiLE&pcode=5qlg1kbp8by24z2j8pji%7C_%7C%7C_%7C",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free gift Free gift",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=vpa8tambbkyhsbvxpeki&c=ujw61E3ULSo",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=vpa8tambbkyhsbvxpeki&c=ujw61E3ULSo",
+      "final_url": "https://launch.matchmasters.com/l/p/ujw61E3ULSo",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=ujw61E3ULSo&pcode=vpa8tambbkyhsbvxpeki",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free gift Free gift",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=r8859gajpbpux0feuuy3&c=pBUndSD3IkQ",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=r8859gajpbpux0feuuy3&c=pBUndSD3IkQ",
+      "final_url": "https://launch.matchmasters.com/l/p/pBUndSD3IkQ",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=pBUndSD3IkQ&pcode=r8859gajpbpux0feuuy3",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free gift Free gift",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=ker7pqwnqorrlkl48663&c=Z9Igc0_0a0M",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=ker7pqwnqorrlkl48663&c=Z9Igc0_0a0M",
+      "final_url": "https://launch.matchmasters.com/l/p/Z9Igc0_0a0M",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Z9Igc0_0a0M&pcode=ker7pqwnqorrlkl48663",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free boost Free boost",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=5zxjpp3ui3l766drntgc&c=9-GrZO7tjy4",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=5zxjpp3ui3l766drntgc&c=9-GrZO7tjy4",
+      "final_url": "https://launch.matchmasters.com/l/p/9-GrZO7tjy4",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=9-GrZO7tjy4&pcode=5zxjpp3ui3l766drntgc",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free coins Free coins",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=vy6nll0hw8u2xwjz3kvo&c=cAbnNMmFSwA",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=vy6nll0hw8u2xwjz3kvo&c=cAbnNMmFSwA",
+      "final_url": "https://launch.matchmasters.com/l/p/cAbnNMmFSwA",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=cAbnNMmFSwA&pcode=vy6nll0hw8u2xwjz3kvo",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free coins Free coins",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=9oaf7oys42vlmxw5zdt6&c=VBaKJCX8kak",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=9oaf7oys42vlmxw5zdt6&c=VBaKJCX8kak",
+      "final_url": "https://launch.matchmasters.com/l/p/VBaKJCX8kak",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=VBaKJCX8kak&pcode=9oaf7oys42vlmxw5zdt6",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free sticker Free sticker",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=42io6hy3br5ofnyy38y1&c=mW3fYcOofHE",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=42io6hy3br5ofnyy38y1&c=mW3fYcOofHE",
+      "final_url": "https://launch.matchmasters.com/l/p/mW3fYcOofHE",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=mW3fYcOofHE&pcode=42io6hy3br5ofnyy38y1",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free coins Free coins",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=z3nrlwfnffzvypzcjfxd&c=dhmTl1C8-4E",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=z3nrlwfnffzvypzcjfxd&c=dhmTl1C8-4E",
+      "final_url": "https://launch.matchmasters.com/l/p/dhmTl1C8-4E",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=dhmTl1C8-4E&pcode=z3nrlwfnffzvypzcjfxd",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free coins Free coins",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=ky3gzyg7y2ytir40ue7j&c=eSXl4nrN1HE",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=ky3gzyg7y2ytir40ue7j&c=eSXl4nrN1HE",
+      "final_url": "https://launch.matchmasters.com/l/p/eSXl4nrN1HE",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=eSXl4nrN1HE&pcode=ky3gzyg7y2ytir40ue7j",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free sticker Free sticker",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=2ohe5trun8omcwp2evzb&c=lkrrEVfrtSg",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=2ohe5trun8omcwp2evzb&c=lkrrEVfrtSg",
+      "final_url": "https://launch.matchmasters.com/l/p/lkrrEVfrtSg",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=lkrrEVfrtSg&pcode=2ohe5trun8omcwp2evzb",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free coins Free coins",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=q2f8d1qicevo84iar9fy&c=RVtMvK4jWPA",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=q2f8d1qicevo84iar9fy&c=RVtMvK4jWPA",
+      "final_url": "https://launch.matchmasters.com/l/p/RVtMvK4jWPA",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=RVtMvK4jWPA&pcode=q2f8d1qicevo84iar9fy",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free coins Free coins",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=9hlzgxfudhrutphw5jka%7C_%7C%7C_%7C&c=VuIjBM8F1mo",
+      "original_url": "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=9hlzgxfudhrutphw5jka%7C_%7C%7C_%7C&c=VuIjBM8F1mo",
+      "final_url": "https://launch.matchmasters.com/l/p/VuIjBM8F1mo",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:11.247Z",
+      "sources": [
+        "Pocket Tactics · descoberta"
+      ],
+      "source_urls": [
+        "https://www.pockettactics.com/match-masters/free"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=VuIjBM8F1mo&pcode=9hlzgxfudhrutphw5jka%7C_%7C%7C_%7C",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "If you’re looking for Match Masters free gifts to get your daily gaming fix, we’ve got all the latest freebies courtesy of the developer. Free gifts Free gifts",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "HTTP 301; não prova expiração por si só."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/0aNP3KfNj2A",
+      "original_url": "https://launch.matchmasters.com/l/p/0aNP3KfNj2A",
+      "final_url": "https://launch.matchmasters.com/l/p/0aNP3KfNj2A",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/0aNP3KfNj2A",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Ontem Recompensa Surpresa Postado às 20:01 RESGATAR Fichas RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "tokens",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/IJzW-71UFu0",
+      "original_url": "https://launch.matchmasters.com/l/p/IJzW-71UFu0",
+      "final_url": "https://launch.matchmasters.com/l/p/IJzW-71UFu0",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/IJzW-71UFu0",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Ontem Fichas Postado às 20:01 RESGATAR Fichas RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "tokens",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/du4yIT3JlQY",
+      "original_url": "https://launch.matchmasters.com/l/p/du4yIT3JlQY",
+      "final_url": "https://launch.matchmasters.com/l/p/du4yIT3JlQY",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/du4yIT3JlQY",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Ontem Fichas Postado às 20:01 RESGATAR Adesivo <span class=\"text-xs text-gray-400 font-medium\" RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/nBcOb0RGras",
+      "original_url": "https://launch.matchmasters.com/l/p/nBcOb0RGras",
+      "final_url": "https://launch.matchmasters.com/l/p/nBcOb0RGras",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/nBcOb0RGras",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Ontem Adesivo Postado às 20:01 RESGATAR Adesivo <span class=\"text-xs text-gray-400 font-medium\" RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/WZhXM72XCLA",
+      "original_url": "https://launch.matchmasters.com/l/p/WZhXM72XCLA",
+      "final_url": "https://launch.matchmasters.com/l/p/WZhXM72XCLA",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/WZhXM72XCLA",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "Ontem Adesivo Postado às 04:01 RESGATAR 17/09/2026 <img src=\"/medi RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/JUS0_C00LYE",
+      "original_url": "https://launch.matchmasters.com/l/p/JUS0_C00LYE",
+      "final_url": "https://launch.matchmasters.com/l/p/JUS0_C00LYE",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/JUS0_C00LYE",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "17/09/2026 Adesivo Postado às 20:01 RESGATAR Fichas RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "tokens",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/qxQGj7ceD6o",
+      "original_url": "https://launch.matchmasters.com/l/p/qxQGj7ceD6o",
+      "final_url": "https://launch.matchmasters.com/l/p/qxQGj7ceD6o",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/qxQGj7ceD6o",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "17/09/2026 Fichas Postado às 20:01 RESGATAR Recompensa Surpresa <span class=\"text-xs text-gray-400 RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/GydVfWBk7P8",
+      "original_url": "https://launch.matchmasters.com/l/p/GydVfWBk7P8",
+      "final_url": "https://launch.matchmasters.com/l/p/GydVfWBk7P8",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/GydVfWBk7P8",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "17/09/2026 Recompensa Surpresa Postado às 20:01 RESGATAR Booster <span class=\"text-xs text-gray-400 font-medium\" RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "boosters",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/rs7zlIifyrg",
+      "original_url": "https://launch.matchmasters.com/l/p/rs7zlIifyrg",
+      "final_url": "https://launch.matchmasters.com/l/p/rs7zlIifyrg",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/rs7zlIifyrg",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "17/09/2026 Booster Postado às 12:01 RESGATAR 16/09/2026 <img src=\"/medi RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/fTjMsHZq43w",
+      "original_url": "https://launch.matchmasters.com/l/p/fTjMsHZq43w",
+      "final_url": "https://launch.matchmasters.com/l/p/fTjMsHZq43w",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/fTjMsHZq43w",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "16/09/2026 Presente Postado às 16:02 RESGATAR Adesivo <span class=\"text-xs text-gray-400 font-medium\" RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/IM3KNGtw0oI",
+      "original_url": "https://launch.matchmasters.com/l/p/IM3KNGtw0oI",
+      "final_url": "https://launch.matchmasters.com/l/p/IM3KNGtw0oI",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/IM3KNGtw0oI",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "16/09/2026 Adesivo Postado às 12:01 RESGATAR Adesivo <span class=\"text-xs text-gray-400 font-medium\" RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/hJgW8TgoOwQ",
+      "original_url": "https://launch.matchmasters.com/l/p/hJgW8TgoOwQ",
+      "final_url": "https://launch.matchmasters.com/l/p/hJgW8TgoOwQ",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/hJgW8TgoOwQ",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "16/09/2026 Adesivo Postado às 12:01 RESGATAR 15/09/2026 <img src=\"/medi RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/DFvpTSFwVvU",
+      "original_url": "https://launch.matchmasters.com/l/p/DFvpTSFwVvU",
+      "final_url": "https://launch.matchmasters.com/l/p/DFvpTSFwVvU",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/DFvpTSFwVvU",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "15/09/2026 Recompensa Surpresa Postado às 20:01 RESGATAR Adesivo <span class=\"text-xs text-gray-400 font-medium\" RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/8arL-lmeoLs",
+      "original_url": "https://launch.matchmasters.com/l/p/8arL-lmeoLs",
+      "final_url": "https://launch.matchmasters.com/l/p/8arL-lmeoLs",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/8arL-lmeoLs",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "15/09/2026 Adesivo Postado às 20:01 RESGATAR Adesivo <span class=\"text-xs text-gray-400 font-medium\" RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/nMcDW-UELLU",
+      "original_url": "https://launch.matchmasters.com/l/p/nMcDW-UELLU",
+      "final_url": "https://launch.matchmasters.com/l/p/nMcDW-UELLU",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/nMcDW-UELLU",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "15/09/2026 Adesivo Postado às 08:01 RESGATAR 14/09/2026 <img src=\"/medi RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "spins",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/nAPqLTCtcY8",
+      "original_url": "https://launch.matchmasters.com/l/p/nAPqLTCtcY8",
+      "final_url": "https://launch.matchmasters.com/l/p/nAPqLTCtcY8",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/nAPqLTCtcY8",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "14/09/2026 Giros Postado às 16:02 RESGATAR Booster <span class=\"text-xs text-gray-400 font-medium\" RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "boosters",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/4KiQBOvMwhU",
+      "original_url": "https://launch.matchmasters.com/l/p/4KiQBOvMwhU",
+      "final_url": "https://launch.matchmasters.com/l/p/4KiQBOvMwhU",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/4KiQBOvMwhU",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "14/09/2026 Booster Postado às 16:02 RESGATAR Fichas RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "tokens",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/HWA_dvrKRt8",
+      "original_url": "https://launch.matchmasters.com/l/p/HWA_dvrKRt8",
+      "final_url": "https://launch.matchmasters.com/l/p/HWA_dvrKRt8",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/HWA_dvrKRt8",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "14/09/2026 Fichas Postado às 16:02 RESGATAR Recompensa Surpresa <span class=\"text-xs text-gray-400 RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/Edzvcmc6Csg",
+      "original_url": "https://launch.matchmasters.com/l/p/Edzvcmc6Csg",
+      "final_url": "https://launch.matchmasters.com/l/p/Edzvcmc6Csg",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/Edzvcmc6Csg",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "14/09/2026 Recompensa Surpresa Postado às 08:01 RESGATAR 13/09/2026 <img src=\"/medi RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "stickers",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/ObAtW6IKoZY",
+      "original_url": "https://launch.matchmasters.com/l/p/ObAtW6IKoZY",
+      "final_url": "https://launch.matchmasters.com/l/p/ObAtW6IKoZY",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/ObAtW6IKoZY",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "13/09/2026 Adesivo Postado às 16:01 RESGATAR Recompensa Surpresa <span class=\"text-xs text-gray-400 RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/uSNwVYDFiDU",
+      "original_url": "https://launch.matchmasters.com/l/p/uSNwVYDFiDU",
+      "final_url": "https://launch.matchmasters.com/l/p/uSNwVYDFiDU",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/uSNwVYDFiDU",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "13/09/2026 Recompensa Surpresa Postado às 16:01 RESGATAR Presente <span class=\"text-xs text-gray-400 font-medium RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/8frkCn8vzrE",
+      "original_url": "https://launch.matchmasters.com/l/p/8frkCn8vzrE",
+      "final_url": "https://launch.matchmasters.com/l/p/8frkCn8vzrE",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/8frkCn8vzrE",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "13/09/2026 Presente Postado às 16:01 RESGATAR Presente <span class=\"text-xs text-gray-400 font-medium RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/gZCehZX_RX8",
+      "original_url": "https://launch.matchmasters.com/l/p/gZCehZX_RX8",
+      "final_url": "https://launch.matchmasters.com/l/p/gZCehZX_RX8",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/gZCehZX_RX8",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "13/09/2026 Presente Postado às 16:01 RESGATAR Moedas RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    },
+    {
+      "game": "match-masters",
+      "reward_type": "coins",
+      "amount": "",
+      "image": "",
+      "url": "https://launch.matchmasters.com/l/p/FakzU0mDPho",
+      "original_url": "https://launch.matchmasters.com/l/p/FakzU0mDPho",
+      "final_url": "https://launch.matchmasters.com/l/p/FakzU0mDPho",
+      "code": "",
+      "found_at": "2026-09-20T05:50:09.984Z",
+      "verified_at": "2026-09-20T05:50:12.079Z",
+      "sources": [
+        "NG+ · descoberta"
+      ],
+      "source_urls": [
+        "https://ngplus.com.br/bonus/match-masters/"
+      ],
+      "source_kind": "external_discovery",
+      "reward_key": "url:https://launch.matchmasters.com/l/p/FakzU0mDPho",
+      "status": "UNCONFIRMED",
+      "source_excerpt": "13/09/2026 Moedas Postado às 16:01 RESGATAR function markClaimed(btn) { btn.classList.remove('bg-[#1e468d]', 'hover:bg-[#163a75]', 'hover:-translate-y-0.5', 'shadow-indigo-200', 'text-white'); btn.classList.add('bg-gray-100', 'text-gray-400', 'cursor-default', 'shadow-none', 'border', 'border-gray-200'); btn.innerText = 'RESGATADO'; } Perguntas Frequentes <div class=\"bg-white rounded-xl border border-gray-2 RESGATAR",
+      "source_date": "",
+      "quantity_confirmed": false,
+      "verification_reason": "Resposta recebida, mas HTTP 200/redirecionamento não prova que o prêmio funciona."
+    }
+  ]
+}
