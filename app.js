@@ -1,12 +1,26 @@
 import { identifyMatchMastersReward } from "./match-masters-identification.js";
 
 const LANGS = ["pt", "en", "es", "de", "tr"];
+const PUBLIC_BASE_URL = "https://gleissongoncalvesmoraes-png.github.io/game-gifts";
+const SITE_PATH = new URL(PUBLIC_BASE_URL).pathname.replace(/\/$/, "");
+const runtimeUsesSitePath = () => location.hostname.endsWith("github.io") || location.pathname === SITE_PATH || location.pathname.startsWith(`${SITE_PATH}/`);
+const sitePath = (path) => `${runtimeUsesSitePath() ? SITE_PATH : ""}${String(path || "").startsWith("/") ? path : `/${path}`}`;
+const assetUrl = (path) => {
+  const value = String(path || "");
+  if (!value || /^(?:https?:|data:|blob:|#)/i.test(value)) return value;
+  return sitePath(value);
+};
+const publicUrl = (path) => {
+  const value = String(path || "/");
+  const relative = value.startsWith(SITE_PATH) ? value.slice(SITE_PATH.length) || "/" : value;
+  return `${PUBLIC_BASE_URL}${relative.startsWith("/") ? relative : `/${relative}`}`;
+};
 const SECTION_NAMES = {
-  pt: { games: "jogos", news: "novidades", favorites: "favoritos", more: "mais", admin: "admin" },
-  en: { games: "games", news: "news", favorites: "favorites", more: "more", admin: "admin" },
-  es: { games: "juegos", news: "novedades", favorites: "favoritos", more: "mas", admin: "admin" },
-  de: { games: "spiele", news: "neuigkeiten", favorites: "favoriten", more: "mehr", admin: "admin" },
-  tr: { games: "oyunlar", news: "yenilikler", favorites: "favoriler", more: "daha-fazla", admin: "admin" },
+  pt: { games: "jogos", news: "novidades", guides: "guias", codes: "codigos", events: "eventos", favorites: "favoritos", more: "mais", admin: "admin" },
+  en: { games: "games", news: "news", guides: "guides", codes: "codes", events: "events", favorites: "favorites", more: "more", admin: "admin" },
+  es: { games: "juegos", news: "novedades", guides: "guias", codes: "codigos", events: "eventos", favorites: "favoritos", more: "mas", admin: "admin" },
+  de: { games: "spiele", news: "neuigkeiten", guides: "guides", codes: "codes", events: "veranstaltungen", favorites: "favoriten", more: "mehr", admin: "admin" },
+  tr: { games: "oyunlar", news: "yenilikler", guides: "rehberler", codes: "kodlar", events: "etkinlikler", favorites: "favoriler", more: "daha-fazla", admin: "admin" },
 };
 const GAME_SEO = Object.freeze({
   "match-masters": {
@@ -43,6 +57,191 @@ const GAME_SEO = Object.freeze({
   },
 });
 const GAME_SEO_PATHS = Object.freeze(Object.fromEntries(Object.entries(GAME_SEO).map(([slug, seo]) => [seo.path, slug])));
+// This is the project's existing catalog, kept as a client-side recovery path
+// for static/public deployments where /api/data is unavailable or incomplete.
+// Every entry has a matching internal game page and an image already present
+// in the project; it is not a second or invented game catalog.
+const RECOVERED_GAME_CATALOG = Object.freeze([
+  { name: "Match Masters", slug: "match-masters", description: "Competição rápida, desafios e recompensas para colecionar.", image: "/uploads/file_00000000f940820ea01aaadff3c7df3f.png" },
+  { name: "Monopoly GO!", slug: "monopoly-go", description: "Dados grátis e links públicos de recompensa para sua próxima partida.", image: "/uploads/file_00000000ef9c820e8fb9420f35ff24fe.png" },
+  { name: "Dice Dreams", slug: "dice-dreams", description: "Giros, construções e presentes para a sua próxima aventura.", image: "/uploads/file_000000003ac0820eadfbf26969ac6696.png" },
+  { name: "Animals & Coins", slug: "animals-and-coins", description: "Energia grátis e recompensas públicas para sua ilha.", image: "/uploads/file_000000004e54820e93eb148e318275d9.png" },
+  { name: "Family Island", slug: "family-island", description: "Energia e rubis em links públicos de recompensa.", image: "/uploads/file_000000006c3c820e8473c8451f119bd6.png" },
+  { name: "Travel Town", slug: "travel-town", description: "Energia grátis e links públicos de recompensa atualizados.", image: "/uploads/file_000000003230820eb2ec324ed61264ac.png" },
+  { name: "Gossip Harbor", slug: "gossip-harbor", description: "Energia grátis e links públicos para continuar sua história.", image: "/uploads/file_0000000006dc820ea058c6bef13ceba9.png" },
+  { name: "Bingo Blitz", slug: "bingo-blitz", description: "Créditos e moedas em links públicos de recompensa.", image: "/uploads/file_000000003720820e9ce4d36eb34a5f9f-2.png" },
+  { name: "Crazy Fox", slug: "crazy-fox", description: "Recompensas públicas para suas próximas partidas.", image: "/assets/logos/crazy-fox.svg" },
+  { name: "Coin Master", slug: "coin-master", description: "Gire, construa e encontre novos links para sua vila.", image: "/uploads/file_0000000037b4820e8c10b3944507b647.png" },
+  { name: "Roblox", slug: "roblox", description: "Experiências, novidades e presentes públicos para jogar mais.", image: "/assets/logos/roblox.svg" },
+  { name: "Free Fire", slug: "free-fire", description: "Eventos e recompensas públicas para suas partidas.", image: "/assets/logos/free-fire.svg" },
+  { name: "Stumble Guys", slug: "stumble-guys", description: "Eventos e recompensas públicas para suas próximas partidas.", image: "/assets/logos/stumble-guys.svg" },
+  { name: "Lords Mobile", slug: "lords-mobile", description: "Presentes e recompensas públicas para seu reino.", image: "/assets/logos/lords-mobile.svg" },
+  { name: "Clash of Clans", slug: "clash-of-clans", description: "Recompensas e novidades públicas para sua aldeia.", image: "/assets/logos/clash-of-clans.svg" },
+  { name: "Solitaire Grand Harvest", slug: "solitaire-grand-harvest", description: "Moedas grátis e links públicos para sua coleção.", image: "/assets/logos/solitaire-grand-harvest.svg" },
+  { name: "Board Kings", slug: "board-kings", description: "Rolls grátis e recompensas públicas para o seu tabuleiro.", image: "/assets/logos/board-kings.svg" },
+  { name: "Seaside Escape", slug: "seaside-escape", description: "Energia grátis e recompensas públicas para sua aventura.", image: "/uploads/file_00000000c0f0820e8d1fe6ea7271e5cd.png" },
+  { name: "Carnival Tycoon", slug: "carnival-tycoon", description: "Eventos e recompensas públicas para sua próxima partida.", image: "/assets/logos/carnival-tycoon.svg" },
+]);
+// These public links are kept as a static recovery path because GitHub Pages
+// cannot call /api/data. User-submitted links remain unconfirmed until the
+// live collector or player feedback provides stronger evidence.
+const RECOVERED_REWARD_CATALOG = Object.freeze([
+  {
+    id: -1004,
+    game_slug: "match-masters",
+    name: "Free Perks",
+    reward_type: "perks",
+    url: "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Dy0kKAm4tWc&pcode=t21qtxizjgbsxfx3pol2",
+    original_url: "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Dy0kKAm4tWc&pcode=t21qtxizjgbsxfx3pol2",
+    final_url: "https://launch.matchmasters.com/l/p/Dy0kKAm4tWc",
+    redemption_url: "https://launch.matchmasters.com/l/p/Dy0kKAm4tWc",
+    source: "Enviado pelo usuário",
+    source_excerpt: "Free Perks",
+    source_date: "2026-09-20",
+    found_at: "2026-09-20T00:00:00.000Z",
+    discovery_method: "automatic",
+    reward_key: "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Dy0kKAm4tWc&pcode=t21qtxizjgbsxfx3pol2",
+    status: "unconfirmed",
+    link_status: "active",
+    reward_status: "unknown",
+    verification_reason: "Link enviado pelo usuário; ainda não confirmado.",
+  },
+  {
+    id: -1005,
+    game_slug: "match-masters",
+    name: "Coins + Star Race",
+    reward_type: "coins",
+    url: "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=pqu1uim4v2sfl66xsob0&c=yD1dkVWEaPQ",
+    original_url: "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=pqu1uim4v2sfl66xsob0&c=yD1dkVWEaPQ",
+    final_url: "https://launch.matchmasters.com/l/p/yD1dkVWEaPQ",
+    redemption_url: "https://launch.matchmasters.com/l/p/yD1dkVWEaPQ",
+    source: "Enviado pelo usuário",
+    source_excerpt: "Coins + Star Race",
+    source_date: "2026-09-20",
+    found_at: "2026-09-20T00:00:00.000Z",
+    discovery_method: "automatic",
+    reward_key: "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=pqu1uim4v2sfl66xsob0&c=yD1dkVWEaPQ",
+    status: "unconfirmed",
+    link_status: "active",
+    reward_status: "unknown",
+    verification_reason: "Link enviado pelo usuário; ainda não confirmado.",
+  },
+  {
+    id: -1001,
+    game_slug: "match-masters",
+    name: "Super Lucky Spin",
+    url: "https://launch.matchmasters.com/l/p/-9Wty1EuYyM",
+    original_url: "https://launch.matchmasters.com/l/p/-9Wty1EuYyM",
+    final_url: "https://launch.matchmasters.com/l/p/-9Wty1EuYyM",
+    redemption_url: "https://launch.matchmasters.com/l/p/-9Wty1EuYyM",
+    source: "Match Masters · links públicos",
+    reward_description: "Roleta Super Lucky Spin exibida no jogo; o prêmio final depende do resultado.",
+    reward_key: "url:https://launch.matchmasters.com/l/p/-9Wty1EuYyM",
+    status: "expired_invalid",
+    link_status: "expired",
+    reward_status: "expired_invalid",
+    expiry_reason: "Link de Spin informado como expirado.",
+  },
+  {
+    id: -1002,
+    game_slug: "dice-dreams",
+    name: "Link de recompensa",
+    url: "https://rewards-v2.dicedreams.com/?handler=reward&link=Community271025",
+    original_url: "https://rewards-v2.dicedreams.com/?handler=reward&link=Community271025",
+    final_url: "https://rewards-v2.dicedreams.com/?handler=reward&link=Community271025",
+    redemption_url: "https://rewards-v2.dicedreams.com/?handler=reward&link=Community271025",
+    source: "Dice Dreams · links públicos",
+    reward_key: "url:https://rewards-v2.dicedreams.com/?handler=reward&link=Community271025",
+    status: "expired_invalid",
+    link_status: "expired",
+    reward_status: "expired_invalid",
+  },
+  {
+    id: -1003,
+    game_slug: "coin-master",
+    name: "Link de recompensa",
+    url: "https://rewards.coinmaster.com/rewards/rewards.html?c=pe_CHATBCLrLbw_20260827",
+    original_url: "https://rewards.coinmaster.com/rewards/rewards.html?c=pe_CHATBCLrLbw_20260827",
+    final_url: "https://rewards.coinmaster.com/rewards/rewards.html?c=pe_CHATBCLrLbw_20260827",
+    redemption_url: "https://rewards.coinmaster.com/rewards/rewards.html?c=pe_CHATBCLrLbw_20260827",
+    source: "Coin Master · links públicos",
+    reward_key: "url:https://rewards.coinmaster.com/rewards/rewards.html?c=pe_CHATBCLrLbw_20260827",
+    status: "unconfirmed",
+    link_status: "active",
+    reward_status: "unknown",
+  },
+]);
+const GENERIC_GAME_SEO_COPY = Object.freeze({
+  pt: {
+    title: (name) => `${name} — Presentes e Recompensas | Game Gifts`,
+    h1: (name) => `${name}: presentes e recompensas`,
+    description: (name) => `Encontre links públicos de presentes e recompensas de ${name}, organizados por data no Game Gifts, com status de verificação claro.`,
+    intro: (name) => `Links públicos de presentes e recompensas de ${name}, organizados por data e apresentados com o status informado para cada link.`,
+  },
+  en: {
+    title: (name) => `${name} Gifts & Rewards | Game Gifts`,
+    h1: (name) => `${name}: gifts and rewards`,
+    description: (name) => `Find public ${name} gift and reward links organized by date on Game Gifts, with a clear verification status for each link.`,
+    intro: (name) => `Public ${name} gift and reward links organized by date, with the reported status shown for each link.`,
+  },
+  es: {
+    title: (name) => `${name} — Regalos y Recompensas | Game Gifts`,
+    h1: (name) => `${name}: regalos y recompensas`,
+    description: (name) => `Encuentra enlaces públicos de regalos y recompensas de ${name}, organizados por fecha en Game Gifts y con un estado de verificación claro.`,
+    intro: (name) => `Enlaces públicos de regalos y recompensas de ${name}, organizados por fecha con el estado informado para cada enlace.`,
+  },
+  de: {
+    title: (name) => `${name} — Geschenke und Belohnungen | Game Gifts`,
+    h1: (name) => `${name}: Geschenke und Belohnungen`,
+    description: (name) => `Finde öffentliche Geschenk- und Belohnungslinks für ${name}, nach Datum geordnet und mit klarem Prüfstatus auf Game Gifts.`,
+    intro: (name) => `Öffentliche Geschenk- und Belohnungslinks für ${name}, nach Datum geordnet und mit dem gemeldeten Status jedes Links.`,
+  },
+  tr: {
+    title: (name) => `${name} — Hediyeler ve Ödüller | Game Gifts`,
+    h1: (name) => `${name}: hediyeler ve ödüller`,
+    description: (name) => `${name} herkese açık hediye ve ödül bağlantılarını Game Gifts'te tarihe göre bulun; her bağlantının doğrulama durumu açıkça gösterilir.`,
+    intro: (name) => `${name} herkese açık hediye ve ödül bağlantıları tarihe göre düzenlenir ve her bağlantının bildirilen durumu gösterilir.`,
+  },
+});
+const HOME_SEO_DESCRIPTION = Object.freeze({
+  pt: "Game Gifts reúne links públicos de presentes e recompensas para jogos mobile, com status claro de verificação.",
+  en: "Game Gifts organizes public gift and reward links for mobile games, with a clear verification status.",
+  es: "Game Gifts reúne enlaces públicos de regalos y recompensas para juegos móviles, con un estado de verificación claro.",
+  de: "Game Gifts sammelt öffentliche Geschenk- und Belohnungslinks für Mobile Games mit klarem Prüfstatus.",
+  tr: "Game Gifts, mobil oyunlar için herkese açık hediye ve ödül bağlantılarını doğrulama durumlarıyla düzenler.",
+});
+const PAGE_SEO = Object.freeze({
+  pt: {
+    home: { title: "Game Gifts | Presentes e Recompensas", description: HOME_SEO_DESCRIPTION.pt },
+    games: { title: "Jogos com Presentes Grátis | Game Gifts", description: "Explore jogos mobile com links públicos de presentes e recompensas, organizados pelo Game Gifts." },
+    news: { title: "Novidades de Recompensas | Game Gifts", description: "Veja os links públicos e as novidades recentes de recompensas para jogos mobile no Game Gifts." },
+    more: { title: "Sobre o Game Gifts | Como Funciona", description: "Saiba como o Game Gifts organiza links públicos de presentes e recompensas para jogos mobile." },
+  },
+  en: {
+    home: { title: "Game Gifts | Free Rewards", description: HOME_SEO_DESCRIPTION.en },
+    games: { title: "Mobile Games Gifts & Rewards | Game Gifts", description: "Explore mobile games with public gift and reward links organized by Game Gifts." },
+    news: { title: "Reward Link Updates | Game Gifts", description: "See recent public reward links and updates for mobile games on Game Gifts." },
+    more: { title: "About Game Gifts | How It Works", description: "Learn how Game Gifts organizes public gift and reward links for mobile games." },
+  },
+  es: {
+    home: { title: "Game Gifts | Regalos y Recompensas", description: HOME_SEO_DESCRIPTION.es },
+    games: { title: "Juegos con Regalos Gratis | Game Gifts", description: "Explora juegos móviles con enlaces públicos de regalos y recompensas organizados por Game Gifts." },
+    news: { title: "Novedades de Recompensas | Game Gifts", description: "Consulta enlaces públicos y novedades recientes de recompensas para juegos móviles en Game Gifts." },
+    more: { title: "Sobre Game Gifts | Cómo Funciona", description: "Descubre cómo Game Gifts organiza enlaces públicos de regalos y recompensas para juegos móviles." },
+  },
+  de: {
+    home: { title: "Game Gifts | Geschenke & Belohnungen", description: HOME_SEO_DESCRIPTION.de },
+    games: { title: "Mobile Games mit Geschenken | Game Gifts", description: "Entdecke Mobile Games mit öffentlichen Geschenk- und Belohnungslinks, geordnet von Game Gifts." },
+    news: { title: "Neuigkeiten zu Belohnungen | Game Gifts", description: "Sieh aktuelle öffentliche Belohnungslinks und Neuigkeiten für Mobile Games auf Game Gifts." },
+    more: { title: "Über Game Gifts | So funktioniert es", description: "Erfahre, wie Game Gifts öffentliche Geschenk- und Belohnungslinks für Mobile Games organisiert." },
+  },
+  tr: {
+    home: { title: "Game Gifts | Hediyeler ve Ödüller", description: HOME_SEO_DESCRIPTION.tr },
+    games: { title: "Ücretsiz Hediyeli Mobil Oyunlar | Game Gifts", description: "Game Gifts tarafından düzenlenen herkese açık hediye ve ödül bağlantılarına sahip mobil oyunları keşfedin." },
+    news: { title: "Ödül Bağlantısı Yenilikleri | Game Gifts", description: "Game Gifts'te mobil oyunlar için güncel herkese açık ödül bağlantılarını ve yenilikleri görün." },
+    more: { title: "Game Gifts Hakkında | Nasıl Çalışır", description: "Game Gifts'in mobil oyunlar için herkese açık hediye ve ödül bağlantılarını nasıl düzenlediğini öğrenin." },
+  },
+});
 const COPY = {
   pt: { home: "Início", games: "Jogos", news: "Novidades", favorites: "Favoritos", more: "Mais", search: "Pesquisar jogos...", choose: "Escolha seu jogo", chooseCopy: "Encontre os links públicos verificados dos seus jogos mobile.", active: "links ativos", newToday: "novo hoje", noneToday: "Nenhum novo hoje", viewGames: "Ver jogos", today: "Presentes de hoje", recent: "Últimos dias", opened: "Já abertos", expired: "Expirados", confirmed: "CONFIRMADO", unconfirmed: "NÃO CONFIRMADO", expiredInvalid: "EXPIRADO / INVÁLIDO", unconfirmedReward: "Recompensa ainda não confirmada", unavailableReward: "Recompensa indisponível", verified: "Verificado", expiredStatus: "Expirado", pending: "Aguardando verificação", open: "ABRIR NO JOGO", openAgain: "ABRIR NOVAMENTE", copyLink: "Copiar link", alreadyOpened: "JÁ ABERTO", copied: "Link copiado", favorite: "Favoritar", unfavorite: "Remover dos favoritos", noRewards: "Nenhum presente verificado por aqui", noRewardsCopy: "Quando um link legítimo for cadastrado e verificado, ele aparecerá nesta área.", noGames: "Nenhum jogo encontrado", noGamesCopy: "Tente buscar por outro nome.", allNews: "Novidades", newsCopy: "Links verificados adicionados recentemente em todos os jogos.", noNews: "Nenhuma novidade ainda", noNewsCopy: "Os links novos aparecem aqui assim que forem cadastrados e verificados.", about: "Mais sobre o Game Gifts", aboutCopy: "Um portal independente que organiza links públicos de presentes e recompensas. O site não entrega recompensas e não pede login para abrir um link.", how: "Como funciona", howItems: ["Escolha um jogo", "Confira o presente verificado", "Toque em Abrir no jogo"], admin: "Admin central", adminCopy: "Área reservada ao proprietário do projeto para cadastrar jogos e links.", faq: "Sobre e FAQ", disclaimer: "Site independente de agregação de links. As marcas e jogos pertencem aos seus respectivos proprietários. Não somos afiliados aos desenvolvedores dos jogos.", allGames: "Todos os jogos", lastAdded: "Adicionado", dateLinks: "links", selectDate: "Escolha uma data para ver os presentes.", backHistory: "Voltar ao histórico", noOpened: "Você ainda não abriu presentes", noOpenedCopy: "Os links que você abrir neste dispositivo aparecerão aqui." },
   en: { home: "Home", games: "Games", news: "News", favorites: "Favorites", more: "More", search: "Search games...", choose: "Choose your game", chooseCopy: "Find verified public links for your favorite mobile games.", active: "active links", newToday: "new today", noneToday: "None new today", viewGames: "View games", today: "Today's gifts", recent: "Last days", opened: "Opened", expired: "Expired", confirmed: "CONFIRMED", unconfirmed: "NOT CONFIRMED", expiredInvalid: "EXPIRED / INVALID", unconfirmedReward: "Reward not confirmed", unavailableReward: "Reward unavailable", verified: "Verified", expiredStatus: "Expired", pending: "Awaiting verification", open: "OPEN IN GAME", openAgain: "OPEN AGAIN", copyLink: "Copy link", alreadyOpened: "ALREADY OPENED", copied: "Link copied", favorite: "Favorite", unfavorite: "Remove favorite", noRewards: "No verified gifts here", noRewardsCopy: "When a legitimate link is added and verified, it will appear here.", noGames: "No games found", noGamesCopy: "Try another search.", allNews: "News", newsCopy: "Recently added verified links across all games.", noNews: "No news yet", noNewsCopy: "New links appear here after they are added and verified.", about: "About Game Gifts", aboutCopy: "An independent portal that organizes public gift and reward links. The site does not deliver rewards and never requires a login to open a link.", how: "How it works", howItems: ["Choose a game", "Check the verified gift", "Tap Open in game"], admin: "Central admin", adminCopy: "Reserved for the project owner to manage games and links.", faq: "About & FAQ", disclaimer: "Independent link aggregation site. All brands and games belong to their respective owners. We are not affiliated with game developers.", allGames: "All games", lastAdded: "Added", dateLinks: "links", selectDate: "Choose a date to see its gifts.", backHistory: "Back to history", noOpened: "No gifts opened yet", noOpenedCopy: "Links you open on this device will appear here." },
@@ -50,27 +249,38 @@ const COPY = {
   tr: { home: "Ana Sayfa", games: "Oyunlar", news: "Yenilikler", favorites: "Favoriler", more: "Daha fazla", search: "Oyun ara...", choose: "Oyununuzu seçin", chooseCopy: "Favori mobil oyunlarınız için doğrulanmış herkese açık bağlantılar.", active: "aktif bağlantı", newToday: "bugün yeni", noneToday: "Bugün yeni yok", viewGames: "Oyunları gör", today: "Bugünün hediyeleri", recent: "Son günler", opened: "Açılanlar", expired: "Süresi dolanlar", confirmed: "DOĞRULANDI", unconfirmed: "DOĞRULANMADI", expiredInvalid: "SÜRESİ DOLDU / GEÇERSİZ", unconfirmedReward: "Ödül doğrulanmadı", unavailableReward: "Ödül mevcut değil", verified: "Doğrulandı", expiredStatus: "Süresi doldu", pending: "Doğrulama bekliyor", open: "OYUNDA AÇ", openAgain: "TEKRAR AÇ", copyLink: "Bağlantıyı kopyala", alreadyOpened: "ZATEN AÇILDI", copied: "Bağlantı kopyalandı", favorite: "Favorile", unfavorite: "Favoriden çıkar", noRewards: "Doğrulanmış hediye yok", noRewardsCopy: "Meşru bir bağlantı eklenip doğrulandığında burada görünür.", noGames: "Oyun bulunamadı", noGamesCopy: "Başka bir ad deneyin.", allNews: "Yenilikler", newsCopy: "Tüm oyunlarda yakın zamanda eklenen doğrulanmış bağlantılar.", noNews: "Henüz yenilik yok", noNewsCopy: "Yeni bağlantılar eklendikten ve doğrulandıktan sonra burada görünür.", about: "Game Gifts hakkında", aboutCopy: "Herkese açık hediye ve ödül bağlantılarını düzenleyen bağımsız portal. Site ödül vermez ve bağlantıyı açmak için giriş istemez.", how: "Nasıl çalışır", howItems: ["Bir oyun seç", "Doğrulanmış hediyeyi kontrol et", "Oyunda aç'a dokun"], admin: "Merkezi yönetim", adminCopy: "Proje sahibi için oyunları ve bağlantıları yönetme alanı.", faq: "Hakkında & SSS", disclaimer: "Bağımsız bağlantı toplama sitesi. Markalar ve oyunlar ilgili sahiplerine aittir. Oyun geliştiricileriyle bağlantımız yoktur.", allGames: "Tüm oyunlar", lastAdded: "Eklenme", dateLinks: "bağlantı", selectDate: "Hediyeleri görmek için bir tarih seçin.", backHistory: "Geçmişe dön", noOpened: "Henüz hediye açılmadı", noOpenedCopy: "Bu cihazda açtığınız bağlantılar burada görünür." },
 };
 COPY.es = { ...COPY.en, home: "Inicio", games: "Juegos", news: "Novedades", favorites: "Favoritos", more: "Más", search: "Buscar juegos...", choose: "Elige tu juego", chooseCopy: "Encuentra enlaces públicos verificados para tus juegos móviles.", active: "enlaces activos", newToday: "nuevo hoy", noneToday: "Ninguno nuevo hoy", viewGames: "Ver juegos", today: "Regalos de hoy", recent: "Últimos días", opened: "Ya abiertos", expired: "Expirados", confirmed: "CONFIRMADO", unconfirmed: "NO CONFIRMADO", expiredInvalid: "EXPIRADO / INVÁLIDO", unconfirmedReward: "Recompensa no confirmada", unavailableReward: "Recompensa no disponible", open: "ABRIR EN EL JUEGO", openAgain: "ABRIR DE NUEVO", copyLink: "Copiar enlace", alreadyOpened: "YA ABIERTO", copied: "Enlace copiado", noRewards: "Ningún regalo confirmado", noRewardsCopy: "Los enlaces legítimos aparecen aquí después de su confirmación.", noGames: "No se encontraron juegos", noGamesCopy: "Prueba otra búsqueda.", allNews: "Novedades", newsCopy: "Enlaces confirmados añadidos recientemente en todos los juegos.", noNews: "Aún no hay novedades", noNewsCopy: "Los enlaces nuevos aparecen después de ser añadidos y confirmados.", about: "Sobre Game Gifts", aboutCopy: "Un portal independiente que organiza enlaces públicos de regalos y recompensas.", how: "Cómo funciona", howItems: ["Elige un juego", "Revisa el regalo confirmado", "Toca Abrir en el juego"], admin: "Administración central", adminCopy: "Área reservada al propietario para gestionar juegos y enlaces.", faq: "Sobre y preguntas frecuentes", disclaimer: "Sitio independiente de recopilación de enlaces. Las marcas y juegos pertenecen a sus propietarios.", allGames: "Todos los juegos", lastAdded: "Añadido", dateLinks: "enlaces", selectDate: "Elige una fecha para ver los regalos.", backHistory: "Volver al historial", noOpened: "Aún no has abierto regalos", noOpenedCopy: "Los enlaces que abras en este dispositivo aparecerán aquí." };
+Object.assign(COPY.pt, { guides: "Guias", codes: "Códigos", events: "Eventos", search: "Buscar jogo, presente, código, guia..." });
+Object.assign(COPY.en, { guides: "Guides", codes: "Codes", events: "Events", search: "Search game, gift, code, guide..." });
+Object.assign(COPY.es, { guides: "Guías", codes: "Códigos", events: "Eventos", search: "Buscar juego, regalo, código, guía..." });
+Object.assign(COPY.de, { guides: "Guides", codes: "Codes", events: "Events", search: "Spiel, Geschenk, Code, Guide suchen..." });
+Object.assign(COPY.tr, { guides: "Rehberler", codes: "Kodlar", events: "Etkinlikler", search: "Oyun, hediye, kod, rehber ara..." });
 
 Object.assign(COPY.pt, { yesterday: "Ontem", previous: "Anteriores", source: "Fonte pública monitorada", sourceLabel: "Fonte", cadence: "Atualização", rewardTypes: "Tipos de recompensa", note: "Abrir o app não confirma o recebimento.", linksMode: "LINKS", codesMode: "CÓDIGOS", noneMode: "SEM RECOMPENSA DISPONÍVEL", noRewardNow: "Nenhuma recompensa disponível no momento.", noCodeNow: "Nenhum código confirmado no momento.", officialRedeem: "Resgatar código", copyCode: "COPIAR CÓDIGO", copiedCode: "Código copiado", codeReward: "CÓDIGO DE RECOMPENSA", unknownSource: "Fonte original ainda não identificada", code: "Código" });
+Object.assign(COPY.pt, { news: "Notícias", allNews: "Acabou de chegar", newsCopy: "Links, códigos e recompensas reais mais recentes." });
 Object.assign(COPY.en, { yesterday: "Yesterday", previous: "Earlier", source: "Public source monitored", sourceLabel: "Source", cadence: "Updates", rewardTypes: "Reward types", note: "Opening the app does not confirm delivery.", linksMode: "LINKS", codesMode: "CODES", noneMode: "NO REWARD AVAILABLE", noRewardNow: "No reward available at the moment.", noCodeNow: "No confirmed code at the moment.", officialRedeem: "REDEEM CODE", copyCode: "COPY CODE", copiedCode: "Code copied", codeReward: "REWARD CODE", unknownSource: "Original source not identified yet", code: "Code" });
 Object.assign(COPY.es, { yesterday: "Ayer", previous: "Anteriores", source: "Fuente pública monitorizada", cadence: "Actualización", rewardTypes: "Tipos de recompensa", note: "Abrir la app no confirma la recepción.", linksMode: "ENLACES", codesMode: "CÓDIGOS", noneMode: "SIN RECOMPENSA DISPONIBLE", noRewardNow: "Ninguna recompensa disponible por el momento.", noCodeNow: "Ningún código confirmado por el momento.", officialRedeem: "CANJEAR CÓDIGO", copyCode: "COPIAR CÓDIGO", codeReward: "CÓDIGO DE RECOMPENSA", unknownSource: "Fuente original aún no identificada", code: "Código" });
 Object.assign(COPY.de, { yesterday: "Gestern", previous: "Früher", source: "Öffentliche Quelle überwacht", cadence: "Aktualisierung", rewardTypes: "Belohnungstypen", note: "Das Öffnen der App bestätigt den Erhalt nicht.", linksMode: "LINKS", codesMode: "CODES", noneMode: "KEINE BELOHNUNG VERFÜGBAR", noRewardNow: "Momentan keine Belohnung verfügbar.", noCodeNow: "Momentan kein bestätigter Code.", officialRedeem: "CODE EINLÖSEN", copyCode: "CODE KOPIEREN", codeReward: "BELOHNUNGSCODE", unknownSource: "Originalquelle noch nicht identifiziert", code: "Code" });
 Object.assign(COPY.tr, { yesterday: "Dün", previous: "Öncekiler", source: "İzlenen herkese açık kaynak", cadence: "Güncelleme", rewardTypes: "Ödül türleri", note: "Uygulamayı açmak ödülün geldiğini doğrulamaz.", linksMode: "BAĞLANTILAR", codesMode: "KODLAR", noneMode: "ÖDÜL YOK", noRewardNow: "Şu anda ödül bulunmuyor.", noCodeNow: "Şu anda doğrulanmış kod yok.", officialRedeem: "KODU KULLAN", copyCode: "KODU KOPYALA", codeReward: "ÖDÜL KODU", unknownSource: "Orijinal kaynak henüz belirlenmedi", code: "Kod" });
-Object.assign(COPY.pt, { matchMastersGift: "Presente do Match Masters", identifiedType: "Tipo identificado", matchMastersPolicy: "Links recém-coletados ficam como NÃO CONFIRMADO. Abrir o jogo não confirma a recompensa; “já usado” pode depender da conta.", manualRequiresFacebook: "REQUER FACEBOOK", manualRecognized: "LINK RECONHECIDO / VÁLIDO", manualUsedNote: "Prêmio desconhecido; “já usado” pode depender da conta de teste.", manualFacebookNote: "Foi necessária conexão com o Facebook. Prêmio ainda não identificado.", manualSurprise: "RECOMPENSA SURPRESA" });
-Object.assign(COPY.en, { matchMastersGift: "Match Masters gift", identifiedType: "Identified type", matchMastersPolicy: "Newly collected links stay NOT CONFIRMED. Opening the game does not confirm a reward; “already used” may depend on the account.", manualRequiresFacebook: "REQUIRES FACEBOOK", manualRecognized: "LINK RECOGNIZED / VALID", manualUsedNote: "Prize unknown; “already used” may depend on the test account.", manualFacebookNote: "A Facebook connection was required. Prize not identified yet.", manualSurprise: "SURPRISE REWARD" });
-Object.assign(COPY.es, { matchMastersGift: "Regalo de Match Masters", identifiedType: "Tipo identificado", matchMastersPolicy: "Los enlaces recién recopilados quedan como NO CONFIRMADOS. Abrir el juego no confirma la recompensa; “ya usado” puede depender de la cuenta.", manualRequiresFacebook: "REQUIERE FACEBOOK", manualRecognized: "ENLACE RECONOCIDO / VÁLIDO", manualUsedNote: "Premio desconocido; “ya usado” puede depender de la cuenta de prueba.", manualFacebookNote: "Se requirió conexión con Facebook. Premio aún no identificado.", manualSurprise: "RECOMPENSA SORPRESA" });
-Object.assign(COPY.de, { matchMastersGift: "Match-Masters-Geschenk", identifiedType: "Erkannter Typ", matchMastersPolicy: "Neu gesammelte Links bleiben NICHT BESTÄTIGT. Das Öffnen des Spiels bestätigt keine Belohnung; „bereits verwendet“ kann vom Konto abhängen.", manualRequiresFacebook: "FACEBOOK ERFORDERLICH", manualRecognized: "LINK ERKANNT / GÜLTIG", manualUsedNote: "Belohnung unbekannt; „bereits verwendet“ kann vom Testkonto abhängen.", manualFacebookNote: "Eine Facebook-Verbindung war erforderlich. Belohnung noch nicht identifiziert.", manualSurprise: "ÜBERRASCHUNGSBELOHNUNG" });
-Object.assign(COPY.tr, { matchMastersGift: "Match Masters hediyesi", identifiedType: "Belirlenen tür", matchMastersPolicy: "Yeni toplanan bağlantılar DOĞRULANMADI olarak kalır. Oyunu açmak ödülü doğrulamaz; “zaten kullanıldı” hesapla ilgili olabilir.", manualRequiresFacebook: "FACEBOOK GEREKLİ", manualRecognized: "BAĞLANTI TANINDI / GEÇERLİ", manualUsedNote: "Ödül bilinmiyor; “zaten kullanıldı” test hesabına bağlı olabilir.", manualFacebookNote: "Facebook bağlantısı gerekti. Ödül henüz belirlenmedi.", manualSurprise: "SÜRPRİZ ÖDÜL" });
+Object.assign(COPY.pt, { matchMastersGift: "Presente do Match Masters", identifiedType: "Tipo identificado", matchMastersPolicy: "Links recém-coletados ficam como NÃO CONFIRMADO. Abrir o jogo não confirma a recompensa; “já usado” pode depender da conta.", messengerExclusive: "EXCLUSIVO DO FACEBOOK MESSENGER", messengerExclusiveNote: "Este link exige resgate dentro do Facebook Messenger; abrir o jogo sozinho não confirma o prêmio.", manualRequiresFacebook: "EXCLUSIVO DO FACEBOOK MESSENGER", manualRecognized: "LINK RECONHECIDO / VÁLIDO", manualUsedNote: "Prêmio desconhecido; “já usado” pode depender da conta de teste.", manualFacebookNote: "Este link exige resgate dentro do Facebook Messenger; o prêmio ainda não foi identificado.", manualSurprise: "RECOMPENSA SURPRESA" });
+Object.assign(COPY.en, { matchMastersGift: "Match Masters gift", identifiedType: "Identified type", matchMastersPolicy: "Newly collected links stay NOT CONFIRMED. Opening the game does not confirm a reward; “already used” may depend on the account.", messengerExclusive: "FACEBOOK MESSENGER ONLY", messengerExclusiveNote: "This link requires redemption inside Facebook Messenger; opening the game alone does not confirm delivery.", manualRequiresFacebook: "FACEBOOK MESSENGER ONLY", manualRecognized: "LINK RECOGNIZED / VALID", manualUsedNote: "Prize unknown; “already used” may depend on the test account.", manualFacebookNote: "This link requires redemption inside Facebook Messenger; the prize is not identified yet.", manualSurprise: "SURPRISE REWARD" });
+Object.assign(COPY.es, { matchMastersGift: "Regalo de Match Masters", identifiedType: "Tipo identificado", matchMastersPolicy: "Los enlaces recién recopilados quedan como NO CONFIRMADOS. Abrir el juego no confirma la recompensa; “ya usado” puede depender de la cuenta.", messengerExclusive: "EXCLUSIVO DE FACEBOOK MESSENGER", messengerExclusiveNote: "Este enlace requiere canjear dentro de Facebook Messenger; abrir el juego por sí solo no confirma el premio.", manualRequiresFacebook: "EXCLUSIVO DE FACEBOOK MESSENGER", manualRecognized: "ENLACE RECONOCIDO / VÁLIDO", manualUsedNote: "Premio desconocido; “ya usado” puede depender de la cuenta de prueba.", manualFacebookNote: "Este enlace requiere canjear dentro de Facebook Messenger; el premio aún no está identificado.", manualSurprise: "RECOMPENSA SORPRESA" });
+Object.assign(COPY.de, { matchMastersGift: "Match-Masters-Geschenk", identifiedType: "Erkannter Typ", matchMastersPolicy: "Neu gesammelte Links bleiben NICHT BESTÄTIGT. Das Öffnen des Spiels bestätigt keine Belohnung; „bereits verwendet“ kann vom Konto abhängen.", messengerExclusive: "NUR ÜBER FACEBOOK MESSENGER", messengerExclusiveNote: "Dieser Link muss in Facebook Messenger eingelöst werden; das Öffnen des Spiels allein bestätigt keine Belohnung.", manualRequiresFacebook: "NUR ÜBER FACEBOOK MESSENGER", manualRecognized: "LINK ERKANNT / GÜLTIG", manualUsedNote: "Belohnung unbekannt; „bereits verwendet“ kann vom Testkonto abhängen.", manualFacebookNote: "Dieser Link erfordert Facebook Messenger; die Belohnung ist noch nicht identifiziert.", manualSurprise: "ÜBERRASCHUNGSBELOHNUNG" });
+Object.assign(COPY.tr, { matchMastersGift: "Match Masters hediyesi", identifiedType: "Belirlenen tür", matchMastersPolicy: "Yeni toplanan bağlantılar DOĞRULANMADI olarak kalır. Oyunu açmak ödülü doğrulamaz; “zaten kullanıldı” hesapla ilgili olabilir.", messengerExclusive: "YALNIZCA FACEBOOK MESSENGER", messengerExclusiveNote: "Bu bağlantı Facebook Messenger içinde kullanılmalıdır; oyunu açmak tek başına ödülü doğrulamaz.", manualRequiresFacebook: "YALNIZCA FACEBOOK MESSENGER", manualRecognized: "BAĞLANTI TANINDI / GEÇERLİ", manualUsedNote: "Ödül bilinmiyor; “zaten kullanıldı” test hesabına bağlı olabilir.", manualFacebookNote: "Bu bağlantı Facebook Messenger gerektirir; ödül henüz belirlenmedi.", manualSurprise: "SÜRPRİZ ÖDÜL" });
 Object.assign(COPY.pt, { yesterdayCtaCopy: "Você pode ter deixado algum para trás", yesterdayCtaAction: "VER TODOS" });
 Object.assign(COPY.en, { yesterdayCtaCopy: "You may have missed one", yesterdayCtaAction: "VIEW ALL" });
 Object.assign(COPY.es, { yesterdayCtaCopy: "Puede que te hayas dejado alguno", yesterdayCtaAction: "VER TODOS" });
 Object.assign(COPY.de, { yesterdayCtaCopy: "Vielleicht hast du eines verpasst", yesterdayCtaAction: "ALLE ANSEHEN" });
 Object.assign(COPY.tr, { yesterdayCtaCopy: "Bazılarını kaçırmış olabilirsiniz", yesterdayCtaAction: "TÜMÜNÜ GÖR" });
-Object.assign(COPY.pt, { confirmed: "RECOMPENSA CONFIRMADA", expiredInvalid: "EXPIRADO", problemUnconfirmed: "LINK COM PROBLEMA / NÃO CONFIRMADO", problemAction: "Link com problema", confirmedRewards: "recompensas confirmadas", verificationLinks: "links recentes em verificação", confirmedShort: "confirmadas", verificationShort: "em verificação", newsCopy: "Links recentes; só chamamos uma recompensa de confirmada quando há evidência suficiente." });
-Object.assign(COPY.en, { confirmed: "REWARD CONFIRMED", expiredInvalid: "EXPIRED", problemUnconfirmed: "LINK WITH PROBLEM / NOT CONFIRMED", problemAction: "Problem link", confirmedRewards: "confirmed rewards", verificationLinks: "recent links in verification", confirmedShort: "confirmed", verificationShort: "in verification", newsCopy: "Recent links; a reward is called confirmed only when there is enough evidence." });
-Object.assign(COPY.es, { confirmed: "RECOMPENSA CONFIRMADA", expiredInvalid: "EXPIRADO", problemUnconfirmed: "ENLACE CON PROBLEMA / NO CONFIRMADO", problemAction: "Enlace con problema", confirmedRewards: "recompensas confirmadas", verificationLinks: "enlaces recientes en verificación", confirmedShort: "confirmadas", verificationShort: "en verificación", newsCopy: "Enlaces recientes; una recompensa solo se confirma cuando hay evidencia suficiente." });
-Object.assign(COPY.de, { confirmed: "BELOHNUNG BESTÄTIGT", expiredInvalid: "ABGELAUFEN", problemUnconfirmed: "PROBLEMLINK / NICHT BESTÄTIGT", problemAction: "Problemlink", confirmedRewards: "bestätigte Belohnungen", verificationLinks: "kürzliche Links in Prüfung", confirmedShort: "bestätigt", verificationShort: "in Prüfung", newsCopy: "Neue Links; eine Belohnung gilt nur mit ausreichenden Belegen als bestätigt." });
-Object.assign(COPY.tr, { confirmed: "ÖDÜL DOĞRULANDI", expiredInvalid: "SÜRESİ DOLDU", problemUnconfirmed: "SORUNLU BAĞLANTI / DOĞRULANMADI", problemAction: "Sorunlu bağlantı", confirmedRewards: "doğrulanmış ödül", verificationLinks: "doğrulamadaki son bağlantılar", confirmedShort: "doğrulandı", verificationShort: "doğrulamada", newsCopy: "Son bağlantılar; ödül yalnızca yeterli kanıt olduğunda doğrulanmış sayılır." });
+Object.assign(COPY.pt, { confirmed: "RECOMPENSA CONFIRMADA", expiredInvalid: "EXPIRADO", problemUnconfirmed: "LINK COM PROBLEMA / NÃO CONFIRMADO", problemAction: "Link com problema", confirmedRewards: "recompensas confirmadas", verificationLinks: "links recentes em verificação", confirmedShort: "confirmadas", verificationShort: "em verificação", newsCopy: "Eventos, temporadas e mudanças relevantes do jogo. Presentes ficam na aba Presentes." });
+Object.assign(COPY.en, { confirmed: "REWARD CONFIRMED", expiredInvalid: "EXPIRED", problemUnconfirmed: "LINK WITH PROBLEM / NOT CONFIRMED", problemAction: "Problem link", confirmedRewards: "confirmed rewards", verificationLinks: "recent links in verification", confirmedShort: "confirmed", verificationShort: "in verification", newsCopy: "Events, seasons and meaningful game changes. Gifts stay in the Gifts tab." });
+Object.assign(COPY.es, { confirmed: "RECOMPENSA CONFIRMADA", expiredInvalid: "EXPIRADO", problemUnconfirmed: "ENLACE CON PROBLEMA / NO CONFIRMADO", problemAction: "Enlace con problema", confirmedRewards: "recompensas confirmadas", verificationLinks: "enlaces recientes en verificación", confirmedShort: "confirmadas", verificationShort: "en verificación", newsCopy: "Eventos, temporadas y cambios relevantes del juego. Los regalos quedan en Regalos." });
+Object.assign(COPY.de, { confirmed: "BELOHNUNG BESTÄTIGT", expiredInvalid: "ABGELAUFEN", problemUnconfirmed: "PROBLEMLINK / NICHT BESTÄTIGT", problemAction: "Problemlink", confirmedRewards: "bestätigte Belohnungen", verificationLinks: "kürzliche Links in Prüfung", confirmedShort: "bestätigt", verificationShort: "in Prüfung", newsCopy: "Events, Saisons und wichtige Spieländerungen. Geschenke bleiben unter Geschenke." });
+Object.assign(COPY.tr, { confirmed: "ÖDÜL DOĞRULANDI", expiredInvalid: "SÜRESİ DOLDU", problemUnconfirmed: "SORUNLU BAĞLANTI / DOĞRULANMADI", problemAction: "Sorunlu bağlantı", confirmedRewards: "doğrulanmış ödül", verificationLinks: "doğrulamadaki son bağlantılar", confirmedShort: "doğrulandı", verificationShort: "doğrulamada", newsCopy: "Etkinlikler, sezonlar ve önemli oyun değişiklikleri. Hediyeler Hediyeler sekmesinde kalır." });
+Object.assign(COPY.pt, { noNews: "Nenhuma novidade real publicada", noNewsCopy: "Eventos e mudanças só aparecem aqui quando houver informação editorial confiável." });
+Object.assign(COPY.en, { noNews: "No real news published", noNewsCopy: "Events and changes appear here only when reliable editorial information is available." });
+Object.assign(COPY.es, { noNews: "No hay novedades reales publicadas", noNewsCopy: "Los eventos y cambios aparecen aquí solo con información editorial confiable." });
+Object.assign(COPY.de, { noNews: "Noch keine echten News", noNewsCopy: "Events und Änderungen erscheinen hier nur mit verlässlichen redaktionellen Informationen." });
+Object.assign(COPY.tr, { noNews: "Gerçek yenilik yayınlanmadı", noNewsCopy: "Etkinlikler ve değişiklikler yalnızca güvenilir editoryal bilgi olduğunda burada görünür." });
 Object.assign(COPY.pt, { giftItem: "Presente" });
 Object.assign(COPY.en, { giftItem: "Gift" });
 Object.assign(COPY.es, { giftItem: "Regalo" });
@@ -86,11 +296,16 @@ Object.assign(COPY.en, { lastUpdate: "Last updated", seoToday: "Today", seoYeste
 Object.assign(COPY.es, { lastUpdate: "Última actualización", seoToday: "Hoy", seoYesterday: "Ayer", seoEarlier: "Anteriores" });
 Object.assign(COPY.de, { lastUpdate: "Zuletzt aktualisiert", seoToday: "Heute", seoYesterday: "Gestern", seoEarlier: "Früher" });
 Object.assign(COPY.tr, { lastUpdate: "Son güncelleme", seoToday: "Bugün", seoYesterday: "Dün", seoEarlier: "Öncekiler" });
+Object.assign(COPY.pt, { playerUnconfirmed: "RECOMPENSA NÃO CONFIRMADA", playerConfirmed: "CONFIRMADO POR JOGADORES", playerMayExpired: "PODE ESTAR EXPIRADO", playerWorked: "FUNCIONOU", playerFailed: "NÃO FUNCIONOU", playerAlreadyVoted: "Você já votou neste jogo.", playerWorkedCount: (count) => `${count} ${count === 1 ? "pessoa disse que funcionou" : "pessoas disseram que funcionou"}`, playerFailedCount: (count) => `${count} ${count === 1 ? "pessoa disse que não funcionou" : "pessoas disseram que não funcionou"}`, voteSaved: "Voto registrado." });
+Object.assign(COPY.en, { playerUnconfirmed: "REWARD NOT CONFIRMED", playerConfirmed: "CONFIRMED BY PLAYERS", playerMayExpired: "MAY BE EXPIRED", playerWorked: "WORKED", playerFailed: "DIDN'T WORK", playerAlreadyVoted: "You already voted for this game.", playerWorkedCount: (count) => `${count} ${count === 1 ? "person said it worked" : "people said it worked"}`, playerFailedCount: (count) => `${count} ${count === 1 ? "person said it didn't work" : "people said it didn't work"}`, voteSaved: "Vote recorded." });
+Object.assign(COPY.es, { playerUnconfirmed: "RECOMPENSA NO CONFIRMADA", playerConfirmed: "CONFIRMADO POR JUGADORES", playerMayExpired: "PUEDE ESTAR CADUCADO", playerWorked: "FUNCIONÓ", playerFailed: "NO FUNCIONÓ", playerAlreadyVoted: "Ya votaste en este juego.", playerWorkedCount: (count) => `${count} ${count === 1 ? "persona dijo que funcionó" : "personas dijeron que funcionó"}`, playerFailedCount: (count) => `${count} ${count === 1 ? "persona dijo que no funcionó" : "personas dijeron que no funcionó"}`, voteSaved: "Voto registrado." });
+Object.assign(COPY.de, { playerUnconfirmed: "BELOHNUNG NICHT BESTÄTIGT", playerConfirmed: "VON SPIELERN BESTÄTIGT", playerMayExpired: "KÖNNTE ABGELAUFEN SEIN", playerWorked: "FUNKTIONIERTE", playerFailed: "FUNKTIONIERTE NICHT", playerAlreadyVoted: "Du hast für dieses Spiel bereits abgestimmt.", playerWorkedCount: (count) => `${count} ${count === 1 ? "Person sagt, es funktioniert" : "Personen sagen, es funktioniert"}`, playerFailedCount: (count) => `${count} ${count === 1 ? "Person sagt, es funktioniert nicht" : "Personen sagen, es funktioniert nicht"}`, voteSaved: "Stimme gespeichert." });
+Object.assign(COPY.tr, { playerUnconfirmed: "ÖDÜL DOĞRULANMADI", playerConfirmed: "OYUNCULAR TARAFINDAN DOĞRULANDI", playerMayExpired: "SÜRESİ DOLMUŞ OLABİLİR", playerWorked: "ÇALIŞTI", playerFailed: "ÇALIŞMADI", playerAlreadyVoted: "Bu oyun için zaten oy verdiniz.", playerWorkedCount: (count) => `${count} ${count === 1 ? "kişi çalıştığını söyledi" : "kişi çalıştığını söyledi"}`, playerFailedCount: (count) => `${count} ${count === 1 ? "kişi çalışmadığını söyledi" : "kişi çalışmadığını söyledi"}`, voteSaved: "Oy kaydedildi." });
 
 const CATALOG_PROFILE = {
   "match-masters": { source: "Mobile Game Central", sourceUrl: "https://mobilegamecentral.com/freebies/match-masters-freebies-links-updated-daily/", cadence: "diária / várias vezes por dia", types: "boosters · coins" },
   "dice-dreams": { source: "Mobile Game Central", sourceUrl: "https://mobilegamecentral.com/freebies/free-dice-dreams-rolls-links-updated-daily/", cadence: "diária / várias vezes por dia", types: "dice rolls" },
-  "coin-master": { source: "Mobile Game Central", sourceUrl: "https://mobilegamecentral.com/freebies/free-coin-master-spins-links-updated-daily/", cadence: "diária / várias vezes por dia", types: "spins · coins" },
+  "coin-master": { source: "Pocket Tactics", sourceUrl: "https://www.pockettactics.com/coin-master/free-spins", cadence: "diária / várias vezes por dia", types: "spins · coins" },
   "monopoly-go": { source: "Mobile Game Central", sourceUrl: "https://mobilegamecentral.com/freebies/free-monopoly-go-dice/", cadence: "diária", types: "dice" },
   "animals-and-coins": { source: "Mobile Game Central", sourceUrl: "https://mobilegamecentral.com/freebies/free-animals-coins-energy-updated-daily/", cadence: "diária", types: "energy" },
   "travel-town": { source: "Travel Town Card", sourceUrl: "https://traveltowncard.com/blog/how-to-get-travel-town-free-energy", cadence: "diária / várias vezes por dia", types: "energy" },
@@ -110,6 +325,73 @@ const CATALOG_PROFILE = {
   "ludo-king": { source: "Sistema público não confirmado", sourceUrl: "", cadence: "não confirmado", types: "—" },
   "mobile-legends-bang-bang": { source: "Sistema público não confirmado", sourceUrl: "", cadence: "não confirmado", types: "—" },
 };
+const CENTRAL_COPY = {
+  pt: { title: "Central do jogo", copy: "Guias curtos, dicas honestas e informações úteis.", rewards: "🎁 PRESENTES", guides: "ⓘ INFORMAÇÕES", tips: "💡 DICAS", news: "📣 NOVIDADES", howTitle: "Como resgatar", tipsTitle: "Dicas rápidas", faqTitle: "Dúvidas comuns", noNews: "Ainda não há novidades publicadas para este jogo.", noNewsCopy: "Quando houver uma atualização ou informação relevante, ela aparecerá aqui.", viewRewards: "Ver presentes de hoje", moreSoon: "Conteúdo novo aparecerá aqui quando houver informação real.", follow: "Seguir jogo", following: "Seguindo jogo", didntDrop: "O presente não caiu?", didntDropCopy: "Abrir o jogo não confirma a entrega. Confira o status e tente um link recente.", freeNow: "Grátis no jogo agora", quickNews: "Novidade rápida", dailyTip: "Dica do dia", notify: "Avise-me quando houver novos presentes", alertOn: "Aviso preparado neste dispositivo", otherGames: "Outros jogos com presentes hoje", noOtherGames: "Nenhum outro jogo tem presente novo hoje." },
+  en: { title: "Game hub", copy: "Short guides, honest tips and useful information.", rewards: "🎁 GIFTS", guides: "ⓘ INFO", tips: "💡 TIPS", news: "📣 NEWS", howTitle: "How to redeem", tipsTitle: "Quick tips", faqTitle: "Common questions", noNews: "There are no news posts for this game yet.", noNewsCopy: "Relevant updates will appear here when there is real information to share.", viewRewards: "View today's gifts", moreSoon: "New content will appear here when real information is available.", follow: "Follow game", following: "Following game", didntDrop: "The gift did not arrive?", didntDropCopy: "Opening the game does not confirm delivery. Check the status and try a recent link.", freeNow: "Free in the game now", quickNews: "Quick update", dailyTip: "Tip of the day", notify: "Notify me when new gifts appear", alertOn: "Alert prepared on this device", otherGames: "Other games with gifts today", noOtherGames: "No other game has a new gift today." },
+  es: { title: "Central del juego", copy: "Guías breves, consejos honestos e información útil.", rewards: "🎁 REGALOS", guides: "ⓘ INFORMACIÓN", tips: "💡 CONSEJOS", news: "📣 NOVEDADES", howTitle: "Cómo canjear", tipsTitle: "Consejos rápidos", faqTitle: "Dudas comunes", noNews: "Todavía no hay novedades publicadas para este juego.", noNewsCopy: "Las actualizaciones relevantes aparecerán aquí cuando haya información real.", viewRewards: "Ver regalos de hoy", moreSoon: "El contenido nuevo aparecerá cuando haya información real.", follow: "Seguir juego", following: "Siguiendo juego", didntDrop: "¿No llegó el regalo?", didntDropCopy: "Abrir el juego no confirma la entrega. Revisa el estado y prueba un enlace reciente.", freeNow: "Gratis en el juego ahora", quickNews: "Novedad rápida", dailyTip: "Consejo del día", notify: "Avísame cuando haya nuevos regalos", alertOn: "Aviso preparado en este dispositivo", otherGames: "Otros juegos con regalos hoy", noOtherGames: "Ningún otro juego tiene un regalo nuevo hoy." },
+  de: { title: "Spielzentrale", copy: "Kurze Anleitungen, ehrliche Tipps und nützliche Infos.", rewards: "🎁 GESCHENKE", guides: "ⓘ INFOS", tips: "💡 TIPPS", news: "📣 NEWS", howTitle: "So löst du ein", tipsTitle: "Schnelle Tipps", faqTitle: "Häufige Fragen", noNews: "Für dieses Spiel gibt es noch keine News.", noNewsCopy: "Relevante Updates erscheinen hier, sobald echte Informationen vorliegen.", viewRewards: "Geschenke heute ansehen", moreSoon: "Neue Inhalte erscheinen, sobald echte Informationen verfügbar sind.", follow: "Spiel folgen", following: "Spiel gefolgt", didntDrop: "Geschenk nicht angekommen?", didntDropCopy: "Das Öffnen des Spiels bestätigt keine Lieferung. Prüfe den Status und nutze einen aktuellen Link.", freeNow: "Jetzt im Spiel gratis", quickNews: "Schnelles Update", dailyTip: "Tipp des Tages", notify: "Bei neuen Geschenken benachrichtigen", alertOn: "Hinweis auf diesem Gerät vorbereitet", otherGames: "Andere Spiele mit Geschenken heute", noOtherGames: "Kein anderes Spiel hat heute ein neues Geschenk." },
+  tr: { title: "Oyun merkezi", copy: "Kısa rehberler, dürüst ipuçları ve yararlı bilgiler.", rewards: "🎁 HEDİYELER", guides: "ⓘ BİLGİ", tips: "💡 İPUÇLARI", news: "📣 YENİLİKLER", howTitle: "Nasıl alınır", tipsTitle: "Hızlı ipuçları", faqTitle: "Sık sorulanlar", noNews: "Bu oyun için henüz haber yayınlanmadı.", noNewsCopy: "Gerçek ve önemli bilgiler olduğunda burada görünecek.", viewRewards: "Bugünün hediyelerini gör", moreSoon: "Gerçek bilgi olduğunda yeni içerik burada görünecek.", follow: "Oyunu takip et", following: "Takip ediliyor", didntDrop: "Hediye gelmedi mi?", didntDropCopy: "Oyunu açmak teslimatı doğrulamaz. Durumu kontrol edip güncel bir bağlantı deneyin.", freeNow: "Şimdi oyunda ücretsiz", quickNews: "Hızlı yenilik", dailyTip: "Günün ipucu", notify: "Yeni hediyeler geldiğinde haber ver", alertOn: "Bildirim bu cihazda hazırlandı", otherGames: "Bugün hediyeli diğer oyunlar", noOtherGames: "Bugün başka oyunda yeni hediye yok." },
+};
+const GAME_CENTER_CONTENT = {
+  "coin-master": {
+    pt: { guide: "Os links públicos recentes costumam abrir uma página oficial e depois o jogo.", steps: ["Abra um link recente na aba Presentes.", "Aguarde o redirecionamento e deixe o Coin Master carregar.", "Confira no jogo se os giros ou moedas entraram antes de fechar."], tips: ["Alguns links dependem da conta e da data em que foram abertos.", "Use giros em eventos quando isso fizer sentido para sua estratégia.", "Links antigos podem deixar de funcionar sem aviso."], faq: ["Se o jogo abriu mas nada apareceu, aguarde alguns segundos e confira a caixa de presente.", "Não encontrou recompensa? Volte aos links mais recentes; não tratamos link antigo como garantia."] },
+    en: { guide: "Recent public links usually open an official page and then the game.", steps: ["Open a recent link from the Gifts tab.", "Wait for the redirect and let Coin Master load.", "Check in the game that spins or coins arrived before closing."], tips: ["Some links depend on the account and the date they were opened.", "Use spins during events when it fits your strategy.", "Older links can stop working without notice."], faq: ["If the game opened but nothing appeared, wait a few seconds and check the gift inbox.", "No reward? Try the most recent links; old links are never treated as guaranteed."] },
+    es: { guide: "Los enlaces públicos recientes suelen abrir una página oficial y después el juego.", steps: ["Abre un enlace reciente en Regalos.", "Espera la redirección y deja que Coin Master cargue.", "Comprueba en el juego que llegaron los giros o monedas."], tips: ["Algunos enlaces dependen de la cuenta y de la fecha de apertura.", "Usa los giros durante eventos cuando encaje con tu estrategia.", "Los enlaces antiguos pueden dejar de funcionar sin aviso."], faq: ["Si el juego se abrió pero no apareció nada, espera unos segundos y revisa la bandeja de regalos.", "¿No llegó la recompensa? Prueba los enlaces más recientes; los antiguos no son garantía."] },
+    de: { guide: "Aktuelle öffentliche Links öffnen meist eine offizielle Seite und danach das Spiel.", steps: ["Öffne einen aktuellen Link unter Geschenke.", "Warte auf die Weiterleitung und lass Coin Master laden.", "Prüfe im Spiel, ob Spins oder Münzen angekommen sind."], tips: ["Manche Links hängen vom Konto und vom Öffnungsdatum ab.", "Nutze Spins bei Events, wenn es zu deiner Strategie passt.", "Ältere Links können ohne Hinweis nicht mehr funktionieren."], faq: ["Wenn das Spiel geöffnet wurde, aber nichts erschien, warte kurz und prüfe das Geschenk-Postfach.", "Keine Belohnung? Nutze die neuesten Links; alte Links sind keine Garantie."] },
+    tr: { guide: "Güncel herkese açık bağlantılar genellikle resmi bir sayfayı ve ardından oyunu açar.", steps: ["Hediyeler sekmesinden güncel bir bağlantı açın.", "Yönlendirmeyi bekleyin ve Coin Master'ın yüklenmesine izin verin.", "Kapatmadan önce çevirme veya paraların geldiğini oyunda kontrol edin."], tips: ["Bazı bağlantılar hesaba ve açıldığı tarihe bağlıdır.", "Stratejinize uygunsa çevirileri etkinliklerde kullanın.", "Eski bağlantılar uyarı vermeden çalışmayı bırakabilir."], faq: ["Oyun açıldı ama bir şey gelmediyse birkaç saniye bekleyip hediye kutusunu kontrol edin.", "Ödül yok mu? En güncel bağlantıları deneyin; eski bağlantılar garanti değildir."] },
+  },
+  "match-masters": {
+    pt: { guide: "Um link público pode abrir o Match Masters diretamente. A entrega depende do estado da conta e da validade do link.", steps: ["Abra o link mais recente na aba Presentes.", "Se o jogo abrir, aguarde a tela carregar completamente.", "Veja se o presente aparece na área de recompensas do jogo."], tips: ["No Match Masters, abrir o jogo não é prova de que o prêmio foi entregue.", "Leia o status e as confirmações de jogadores antes de insistir num link.", "Não reutilize vários links antigos esperando a mesma recompensa."], faq: ["O link abriu o jogo, mas não entregou? Isso pode acontecer quando o link já foi usado, expirou ou depende da conta.", "O Game Gifts não altera a conta do jogo nem consegue garantir a entrega."] },
+    en: { guide: "A public link can open Match Masters directly. Delivery depends on the account state and link validity.", steps: ["Open the newest link from the Gifts tab.", "If the game opens, wait for the screen to finish loading.", "Check the game's reward area for the gift."], tips: ["In Match Masters, opening the game is not proof that a prize was delivered.", "Read the status and player confirmations before retrying a link.", "Do not keep reusing old links for the same reward."], faq: ["The link opened the game but gave nothing. Why? It may already be used, expired or account-dependent.", "Game Gifts cannot change a game account or guarantee delivery."] },
+    es: { guide: "Un enlace público puede abrir Match Masters directamente. La entrega depende de la cuenta y de la validez del enlace.", steps: ["Abre el enlace más reciente en Regalos.", "Si se abre el juego, espera a que termine de cargar.", "Busca el regalo en el área de recompensas."], tips: ["Abrir Match Masters no demuestra que el premio se haya entregado.", "Lee el estado y las confirmaciones de jugadores antes de repetir.", "No reutilices enlaces antiguos para la misma recompensa."], faq: ["¿Se abrió el juego pero no llegó nada? Puede estar usado, caducado o depender de la cuenta.", "Game Gifts no puede cambiar una cuenta ni garantizar la entrega."] },
+    de: { guide: "Ein öffentlicher Link kann Match Masters direkt öffnen. Die Lieferung hängt vom Konto und der Linkgültigkeit ab.", steps: ["Öffne den neuesten Link unter Geschenke.", "Warte nach dem Öffnen, bis das Spiel vollständig geladen ist.", "Prüfe den Belohnungsbereich des Spiels."], tips: ["Das Öffnen von Match Masters beweist nicht, dass eine Belohnung geliefert wurde.", "Prüfe Status und Spielerbestätigungen, bevor du einen Link erneut öffnest.", "Verwende alte Links nicht immer wieder für dieselbe Belohnung."], faq: ["Das Spiel öffnete sich, aber nichts kam an. Warum? Der Link kann benutzt, abgelaufen oder kontoabhängig sein.", "Game Gifts kann kein Spielkonto ändern und keine Lieferung garantieren."] },
+    tr: { guide: "Herkese açık bir bağlantı Match Masters'ı doğrudan açabilir. Teslimat hesap durumuna ve bağlantının geçerliliğine bağlıdır.", steps: ["Hediyeler sekmesindeki en yeni bağlantıyı açın.", "Oyun açılırsa ekranın tamamen yüklenmesini bekleyin.", "Hediyeyi oyunun ödül bölümünde kontrol edin."], tips: ["Match Masters'ın açılması ödülün geldiğini kanıtlamaz.", "Tekrar denemeden önce durumu ve oyuncu onaylarını okuyun.", "Aynı ödül için eski bağlantıları tekrar tekrar kullanmayın."], faq: ["Oyun açıldı ama ödül gelmedi. Neden? Bağlantı kullanılmış, süresi dolmuş veya hesaba bağlı olabilir.", "Game Gifts oyun hesabını değiştiremez ve teslimatı garanti edemez."] },
+  },
+  "dice-dreams": {
+    pt: { guide: "Links públicos de Dice Dreams podem abrir uma página de recompensa e encaminhar você ao jogo.", steps: ["Escolha um link recente de rolls.", "Abra-o no mesmo dispositivo em que Dice Dreams está instalado.", "Confira os rolls recebidos no jogo antes de sair."], tips: ["Rolls promocionais podem expirar ou ser limitados por conta.", "Use os rolls quando puder acompanhar o jogo e confirmar a entrega.", "Prefira links recentes e confira os votos de outros jogadores."], faq: ["Se nada aparecer, reabra o jogo e verifique a caixa de presentes.", "Um link funcionar para outra pessoa não garante que funcionará para toda conta."] },
+    en: { guide: "Public Dice Dreams links can open a reward page and send you to the game.", steps: ["Choose a recent rolls link.", "Open it on the device where Dice Dreams is installed.", "Check the rolls received in the game before leaving."], tips: ["Promotional rolls can expire or be account-limited.", "Use rolls when you can stay long enough to confirm delivery.", "Prefer recent links and check other players' votes."], faq: ["If nothing appears, reopen the game and check the gift inbox.", "A link working for someone else does not guarantee it will work for every account."] },
+    es: { guide: "Los enlaces públicos de Dice Dreams pueden abrir una página de recompensa y llevarte al juego.", steps: ["Elige un enlace reciente de tiradas.", "Ábrelo en el dispositivo donde tienes Dice Dreams.", "Comprueba las tiradas recibidas antes de salir."], tips: ["Las tiradas promocionales pueden caducar o limitarse por cuenta.", "Úsalas cuando puedas confirmar la entrega en el juego.", "Prefiere enlaces recientes y revisa los votos."], faq: ["Si no aparece nada, vuelve a abrir el juego y revisa la bandeja de regalos.", "Que funcione para otra persona no garantiza que funcione para todas las cuentas."] },
+    de: { guide: "Öffentliche Dice-Dreams-Links können eine Belohnungsseite öffnen und dich ins Spiel führen.", steps: ["Wähle einen aktuellen Rolls-Link.", "Öffne ihn auf dem Gerät mit installiertem Dice Dreams.", "Prüfe die erhaltenen Rolls im Spiel."], tips: ["Promotions-Rolls können ablaufen oder kontobeschränkt sein.", "Nutze sie, wenn du die Lieferung direkt prüfen kannst.", "Bevorzuge aktuelle Links und beachte Spieler-Stimmen."], faq: ["Wenn nichts erscheint, öffne das Spiel erneut und prüfe das Geschenk-Postfach.", "Dass ein Link bei jemandem funktioniert, ist keine Garantie für jedes Konto."] },
+    tr: { guide: "Dice Dreams herkese açık bağlantıları bir ödül sayfası açıp sizi oyuna yönlendirebilir.", steps: ["Güncel bir atış bağlantısı seçin.", "Dice Dreams'in kurulu olduğu cihazda açın.", "Çıkmadan önce oyundaki atışları kontrol edin."], tips: ["Promosyon atışlarının süresi dolabilir veya hesapla sınırlı olabilir.", "Teslimatı doğrulayabileceğiniz zaman kullanın.", "Güncel bağlantıları tercih edin ve oyuncu oylarını inceleyin."], faq: ["Bir şey görünmezse oyunu yeniden açıp hediye kutusunu kontrol edin.", "Başkasında çalışması her hesapta çalışacağı anlamına gelmez."] },
+  },
+  "travel-town": {
+    pt: { guide: "Os links de energia do Travel Town devem ser abertos no dispositivo com o jogo instalado.", steps: ["Abra um link recente de energia.", "Aceite o redirecionamento para o Travel Town.", "Confira o saldo de energia e continue suas combinações no jogo."], tips: ["Energia é usada para gerar itens e completar pedidos.", "Planeje as combinações para não gastar energia sem espaço no tabuleiro.", "Links antigos podem expirar; use a data e os votos como orientação."], faq: ["Se o app abriu sem energia, confirme que está na conta certa e atualize a tela.", "O Game Gifts apenas organiza links públicos; não adiciona energia diretamente."] },
+    en: { guide: "Travel Town energy links should be opened on the device where the game is installed.", steps: ["Open a recent energy link.", "Accept the redirect to Travel Town.", "Check your energy balance and continue merging in the game."], tips: ["Energy is used to create items and complete orders.", "Plan merges so you do not spend energy without board space.", "Older links can expire; use the date and votes as guidance."], faq: ["If the app opened without energy, confirm the right account is active and refresh the screen.", "Game Gifts only organizes public links; it does not add energy directly."] },
+    es: { guide: "Los enlaces de energía de Travel Town deben abrirse en el dispositivo donde está instalado el juego.", steps: ["Abre un enlace reciente de energía.", "Acepta la redirección a Travel Town.", "Revisa la energía y continúa combinando objetos."], tips: ["La energía se usa para crear objetos y completar pedidos.", "Planifica las combinaciones para conservar espacio en el tablero.", "Los enlaces antiguos pueden caducar; usa la fecha y los votos como guía."], faq: ["Si la app se abrió sin energía, confirma la cuenta correcta y actualiza la pantalla.", "Game Gifts solo organiza enlaces públicos; no añade energía directamente."] },
+    de: { guide: "Travel-Town-Energielinks sollten auf dem Gerät mit installiertem Spiel geöffnet werden.", steps: ["Öffne einen aktuellen Energielink.", "Bestätige die Weiterleitung zu Travel Town.", "Prüfe deine Energie und fahre im Spiel mit dem Kombinieren fort."], tips: ["Energie wird für Gegenstände und Bestellungen verwendet.", "Plane Kombinationen und lasse Platz auf dem Spielfeld.", "Ältere Links können ablaufen; Datum und Stimmen helfen bei der Einschätzung."], faq: ["Wenn die App ohne Energie geöffnet wurde, prüfe das richtige Konto und aktualisiere den Bildschirm.", "Game Gifts sammelt nur öffentliche Links und fügt keine Energie direkt hinzu."] },
+    tr: { guide: "Travel Town enerji bağlantıları oyunun kurulu olduğu cihazda açılmalıdır.", steps: ["Güncel bir enerji bağlantısı açın.", "Travel Town'a yönlendirmeyi kabul edin.", "Enerji bakiyenizi kontrol edip oyunda birleştirmeye devam edin."], tips: ["Enerji eşya üretmek ve siparişleri tamamlamak için kullanılır.", "Tahtada yer kalmadan enerji harcamamak için birleştirmeleri planlayın.", "Eski bağlantıların süresi dolabilir; tarih ve oyları rehber olarak kullanın."], faq: ["Uygulama enerji olmadan açıldıysa doğru hesabı kontrol edip ekranı yenileyin.", "Game Gifts yalnızca herkese açık bağlantıları düzenler; doğrudan enerji eklemez."] },
+  },
+};
+const GENERIC_CENTER_CONTENT = {
+  pt: { guide: "Abra um link recente na aba Presentes e confira a recompensa no próprio jogo.", steps: ["Escolha uma recompensa recente.", "Abra o link no dispositivo com o jogo instalado.", "Confirme no jogo se a recompensa foi entregue."], tips: ["Prefira links recentes e confira a data.", "Abrir o jogo não confirma a entrega.", "Use os votos de jogadores como uma orientação, não como garantia."], faq: ["Se nada aparecer, reabra o jogo e confira a área de presentes.", "Links públicos podem depender da conta e expirar."] },
+  en: { guide: "Open a recent link from the Gifts tab and check the reward inside the game.", steps: ["Choose a recent reward.", "Open the link on the device with the game installed.", "Confirm delivery inside the game."], tips: ["Prefer recent links and check the date.", "Opening the game does not confirm delivery.", "Use player votes as guidance, never as a guarantee."], faq: ["If nothing appears, reopen the game and check its gift area.", "Public links can depend on the account and expire."] },
+  es: { guide: "Abre un enlace reciente en Regalos y comprueba la recompensa dentro del juego.", steps: ["Elige una recompensa reciente.", "Abre el enlace en el dispositivo con el juego instalado.", "Confirma la entrega dentro del juego."], tips: ["Prefiere enlaces recientes y revisa la fecha.", "Abrir el juego no confirma la entrega.", "Usa los votos como orientación, no como garantía."], faq: ["Si no aparece nada, vuelve a abrir el juego y revisa su área de regalos.", "Los enlaces públicos pueden depender de la cuenta y caducar."] },
+  de: { guide: "Öffne einen aktuellen Link unter Geschenke und prüfe die Belohnung im Spiel.", steps: ["Wähle eine aktuelle Belohnung.", "Öffne den Link auf dem Gerät mit installiertem Spiel.", "Bestätige die Lieferung im Spiel."], tips: ["Bevorzuge aktuelle Links und prüfe das Datum.", "Das Öffnen des Spiels bestätigt keine Lieferung.", "Spieler-Stimmen sind eine Orientierung, keine Garantie."], faq: ["Wenn nichts erscheint, öffne das Spiel erneut und prüfe den Geschenkbereich.", "Öffentliche Links können kontobedingt sein und ablaufen."] },
+  tr: { guide: "Hediyeler sekmesinden güncel bir bağlantı açın ve ödülü oyunda kontrol edin.", steps: ["Güncel bir ödül seçin.", "Bağlantıyı oyunun kurulu olduğu cihazda açın.", "Teslimatı oyunun içinde doğrulayın."], tips: ["Güncel bağlantıları tercih edin ve tarihi kontrol edin.", "Oyunu açmak teslimatı doğrulamaz.", "Oyuncu oylarını garanti değil, rehber olarak kullanın."], faq: ["Bir şey görünmezse oyunu yeniden açıp hediye bölümünü kontrol edin.", "Herkese açık bağlantılar hesaba bağlı olabilir ve süresi dolabilir."] },
+};
+
+const GAME_INFO_LABELS = {
+  pt: { details: "Dados do jogo", officialName: "Nome oficial", publisher: "Desenvolvedora / publicadora", platforms: "Plataformas", rewards: "Tipos de recompensas", howWorks: "Como o jogo funciona", giftLinks: "Como funcionam os links de presentes", redeem: "Como resgatar", important: "Importante para novos jogadores", officialLinks: "Links oficiais", officialSite: "Portal oficial", developerPage: "Página da desenvolvedora", support: "Suporte oficial", social: "Rede oficial" },
+  en: { details: "Game details", officialName: "Official name", publisher: "Developer / publisher", platforms: "Platforms", rewards: "Reward types", howWorks: "How the game works", giftLinks: "How gift links work", redeem: "How to redeem", important: "Important for new players", officialLinks: "Official links", officialSite: "Official portal", developerPage: "Developer page", support: "Official support", social: "Official social" },
+};
+const GAME_INFO_CONTENT = {
+  "match-masters": {
+    pt: { officialName: "Match Masters", description: "Jogo competitivo de quebra-cabeça match-3 em que jogadores do mundo todo se enfrentam em partidas rápidas, usando estratégias, modos variados e power-ups.", publisher: "Candivore", platforms: "Android · iOS", rewards: ["Boosters", "moedas", "recompensas diárias", "Reward Keys"], howWorks: ["Você disputa partidas rápidas de match-3 contra outro jogador.", "Combine peças para avançar na partida e use boosters e estratégias para superar o adversário."], giftLinks: "O portal oficial do Match Masters apresenta recompensas diárias e Reward Keys. Os links publicados aqui são apenas links públicos; a disponibilidade depende do link e da conta.", redeem: ["Abra um link recente na aba Presentes.", "Aguarde o portal ou o jogo carregar no mesmo dispositivo.", "Confira a área de recompensas do Match Masters para confirmar o recebimento."], important: ["Abrir o jogo não confirma que a recompensa foi entregue.", "Um link pode já ter sido usado, expirado ou depender da conta."], links: [{ label: "Portal oficial", url: "https://matchmasters.com/", kind: "officialSite" }, { label: "Página da Candivore", url: "https://www.candivore.com/games/match-masters", kind: "developerPage" }, { label: "Suporte oficial", url: "https://candivore.zendesk.com/hc/en-us/", kind: "support" }] },
+    en: { officialName: "Match Masters", description: "A competitive match-3 puzzle game where players from around the world face off in quick matches using strategies, varied modes and power-ups.", publisher: "Candivore", platforms: "Android · iOS", rewards: ["Boosters", "coins", "daily rewards", "Reward Keys"], howWorks: ["You play quick match-3 matches against another player.", "Match pieces to progress and use boosters and strategy to outplay your opponent."], giftLinks: "The official Match Masters portal features daily rewards and Reward Keys. Links listed here are public links only; availability depends on the link and the account.", redeem: ["Open a recent link from the Gifts tab.", "Wait for the portal or game to load on the same device.", "Check the Match Masters reward area to confirm delivery."], important: ["Opening the game does not confirm that a reward was delivered.", "A link may already be used, expired or account-dependent."], links: [{ label: "Official portal", url: "https://matchmasters.com/", kind: "officialSite" }, { label: "Candivore page", url: "https://www.candivore.com/games/match-masters", kind: "developerPage" }, { label: "Official support", url: "https://candivore.zendesk.com/hc/en-us/", kind: "support" }] },
+  },
+  "coin-master": {
+    pt: { officialName: "Coin Master", description: "Jogo casual de construção e estratégia em que você gira a máquina, conquista moedas, ataca e invade vilas e avança por mundos temáticos.", publisher: "Moon Active", platforms: "Android · iOS", rewards: ["spins", "moedas", "cartas e baús", "prêmios de eventos"], howWorks: ["Use spins para jogar na máquina e obter moedas e outras ações para a sua vila.", "Construa e melhore vilas, ataque ou invada outras vilas e participe de eventos e torneios."], giftLinks: "A Central de recompensas oficial reúne presentes diários, incluindo spins e moedas. O Game Gifts apenas organiza links públicos e não entrega a recompensa diretamente.", redeem: ["Abra um link recente na aba Presentes.", "Siga o redirecionamento para a página oficial ou para o Coin Master.", "Confira o saldo de spins, moedas ou a caixa de presentes dentro do jogo."], important: ["Os eventos e recompensas podem variar de acordo com a conta.", "Links antigos podem deixar de funcionar; prefira os mais recentes e verifique a entrega no jogo."], links: [{ label: "Central oficial de recompensas", url: "https://rewards.coinmaster.com/rewards/rewards.html", kind: "officialSite" }, { label: "Suporte oficial", url: "https://support.coinmastergame.com/hc/en-us/", kind: "support" }] },
+    en: { officialName: "Coin Master", description: "A casual building and strategy game where you spin, collect coins, attack and raid villages, and progress through themed worlds.", publisher: "Moon Active", platforms: "Android · iOS", rewards: ["spins", "coins", "cards and chests", "event prizes"], howWorks: ["Use spins to play the machine and earn coins and other actions for your village.", "Build and upgrade villages, attack or raid other villages, and join events and tournaments."], giftLinks: "The official Reward Center brings together daily gifts, including spins and coins. Game Gifts only organizes public links and does not deliver rewards directly.", redeem: ["Open a recent link from the Gifts tab.", "Follow the redirect to the official page or Coin Master.", "Check your spins, coins or gift inbox inside the game."], important: ["Events and rewards can vary by account.", "Older links can stop working; prefer recent links and verify delivery in the game."], links: [{ label: "Official Reward Center", url: "https://rewards.coinmaster.com/rewards/rewards.html", kind: "officialSite" }, { label: "Official support", url: "https://support.coinmastergame.com/hc/en-us/", kind: "support" }] },
+  },
+  "dice-dreams": {
+    pt: { officialName: "Dice Dreams™", description: "Jogo casual de tabuleiro em que você rola dados, constrói um reino, ataca amigos, rouba moedas e busca vingança quando seu reino é atacado.", publisher: "SuperPlay", platforms: "Android · iOS", rewards: ["dice rolls", "moedas", "recompensas de eventos"], howWorks: ["Role os dados para avançar pelo tabuleiro e obter recursos para o seu reino.", "Use os recursos para construir, ataque e saqueie reinos de amigos e participe de atividades sociais e eventos."], giftLinks: "Os links públicos de Dice Dreams podem abrir uma página de recompensa e encaminhar para o jogo. A entrega depende da validade do link e da conta.", redeem: ["Escolha um link recente de rolls na aba Presentes.", "Abra-o no dispositivo em que Dice Dreams está instalado.", "Volte ao jogo e confirme os rolls ou moedas recebidos antes de sair."], important: ["Rolls promocionais podem expirar ou ser limitados por conta.", "Se nada aparecer, reabra o jogo e confira a caixa de presentes."], links: [{ label: "Página oficial do jogo", url: "https://www.superplay.co/games/dice-dreams/", kind: "officialSite" }, { label: "Suporte oficial", url: "https://superplay.helpshift.com/hc/en/7-superplay/section/33-dice-dreams/", kind: "support" }] },
+    en: { officialName: "Dice Dreams™", description: "A casual board game where you roll dice, build a kingdom, attack friends, steal coins and get revenge when your kingdom is attacked.", publisher: "SuperPlay", platforms: "Android · iOS", rewards: ["dice rolls", "coins", "event rewards"], howWorks: ["Roll the dice to move around the board and collect resources for your kingdom.", "Use resources to build, attack and raid friends' kingdoms, and take part in social activities and events."], giftLinks: "Public Dice Dreams links can open a reward page and send you to the game. Delivery depends on link validity and the account.", redeem: ["Choose a recent rolls link from the Gifts tab.", "Open it on the device where Dice Dreams is installed.", "Return to the game and confirm the rolls or coins before leaving."], important: ["Promotional rolls can expire or be account-limited.", "If nothing appears, reopen the game and check the gift inbox."], links: [{ label: "Official game page", url: "https://www.superplay.co/games/dice-dreams/", kind: "officialSite" }, { label: "Official support", url: "https://superplay.helpshift.com/hc/en/7-superplay/section/33-dice-dreams/", kind: "support" }] },
+  },
+  "travel-town": {
+    pt: { officialName: "Travel Town - Merge Adventure", description: "Aventura de puzzle em que você combina objetos para criar itens melhores, cumpre missões dos moradores e ajuda a reconstruir uma cidade litorânea atingida por uma tempestade.", publisher: "Moon Active (App Store) · Magmatic Games LTD (Google Play)", platforms: "Android · iOS / iPadOS", rewards: ["energia", "moedas", "itens de progressão", "recompensas de eventos"], howWorks: ["Combine dois objetos iguais para evoluí-los e descobrir novos itens.", "Cumpra missões, conheça os moradores e use moedas para restaurar e melhorar a cidade."], giftLinks: "Os links públicos de energia devem ser abertos no dispositivo com Travel Town instalado. Eles podem encaminhar para o app; a entrega deve ser conferida no saldo do jogo.", redeem: ["Abra um link recente de energia na aba Presentes.", "Aceite o redirecionamento para o Travel Town.", "Confira o saldo de energia dentro do jogo antes de continuar."], important: ["O jogo contém compras dentro do app, incluindo itens aleatórios.", "Links antigos podem expirar; a data e os votos servem apenas como orientação, não como garantia."], links: [{ label: "Página oficial na App Store", url: "https://apps.apple.com/us/app/travel-town-merge-adventure/id1521236603", kind: "officialSite" }, { label: "Suporte oficial", url: "https://support.traveltowngame.com/hc/en-us/", kind: "support" }], socials: [{ label: "Facebook oficial", url: "https://www.facebook.com/TravelTownGame/" }, { label: "Instagram oficial", url: "https://www.instagram.com/traveltowngame/" }] },
+    en: { officialName: "Travel Town - Merge Adventure", description: "A puzzle adventure where you merge objects into better items, complete villagers' missions and help rebuild a seaside town damaged by a storm.", publisher: "Moon Active (App Store) · Magmatic Games LTD (Google Play)", platforms: "Android · iOS / iPadOS", rewards: ["energy", "coins", "progression items", "event rewards"], howWorks: ["Merge two matching objects to evolve them and discover new items.", "Complete missions, meet villagers, and use coins to restore and upgrade the town."], giftLinks: "Public energy links should be opened on the device where Travel Town is installed. They may forward to the app; check delivery in the game's energy balance.", redeem: ["Open a recent energy link from the Gifts tab.", "Accept the redirect to Travel Town.", "Check your energy balance in the game before continuing."], important: ["The game contains in-app purchases, including randomized items.", "Older links can expire; dates and votes are guidance only, not a guarantee."], links: [{ label: "Official App Store page", url: "https://apps.apple.com/us/app/travel-town-merge-adventure/id1521236603", kind: "officialSite" }, { label: "Official support", url: "https://support.traveltowngame.com/hc/en-us/", kind: "support" }], socials: [{ label: "Official Facebook", url: "https://www.facebook.com/TravelTownGame/" }, { label: "Official Instagram", url: "https://www.instagram.com/traveltowngame/" }] },
+  },
+};
 
 const detectLanguage = () => {
   try {
@@ -117,11 +399,81 @@ const detectLanguage = () => {
     if (LANGS.includes(saved)) return saved;
   } catch {}
   const browser = String(navigator.language || "").toLowerCase().split("-")[0];
-  return LANGS.includes(browser) ? browser : "en";
+  return LANGS.includes(browser) ? browser : "pt";
 };
-const state = { lang: detectLanguage(), data: { games: [], rewards: [] }, search: "", tab: "today", selectedDate: "", admin: null, editGameId: null, editSourceId: null, collectionResult: null, viewerKey: "anonymous" };
+const state = { lang: detectLanguage(), data: { games: [], rewards: [], news: [] }, search: "", homeSort: "all", tab: "today", centralTab: "guides", gameSection: "rewards", selectedDate: "", admin: null, editGameId: null, editSourceId: null, collectionResult: null, viewerKey: "anonymous", websimUserId: "", noticeHydrated: false, noticeBaselineReady: false, navigationStack: [], backRequested: false };
 const app = document.querySelector("#app");
-if (!document.querySelector('link[rel="icon"]')) { const favicon = document.createElement("link"); favicon.rel = "icon"; favicon.href = "/favicon.svg"; favicon.type = "image/svg+xml"; document.head.appendChild(favicon); }
+const recoverGameCatalog = (data) => {
+  const source = data && typeof data === "object" ? data : {};
+  const apiGames = Array.isArray(source.games) ? source.games.filter((game) => game && game.slug) : [];
+  const apiRewards = Array.isArray(source.rewards) ? source.rewards.filter(Boolean) : [];
+  const rewardIds = new Map();
+  (Array.isArray(source.rewards) ? source.rewards : []).forEach((reward) => {
+    const slug = String(reward?.game_slug || reward?.game || "").trim();
+    if (slug && reward?.game_id && !rewardIds.has(slug)) rewardIds.set(slug, Number(reward.game_id));
+  });
+  const apiBySlug = new Map(apiGames.map((game) => [game.slug, game]));
+  const recovered = RECOVERED_GAME_CATALOG.map((game, index) => {
+    const existing = apiBySlug.get(game.slug);
+    if (existing?.active === false) return existing;
+    return {
+      id: existing?.id ?? rewardIds.get(game.slug) ?? -(index + 1),
+      ...game,
+      ...existing,
+      active: existing?.active !== false,
+      image: existing?.image || game.image,
+    };
+  });
+  const recoveredSlugs = new Set(RECOVERED_GAME_CATALOG.map((game) => game.slug));
+  const extraApiGames = apiGames.filter((game) => !recoveredSlugs.has(game.slug) && game.active !== false);
+  const idBySlug = new Map(recovered.map((game) => [game.slug, game.id]));
+  const existingRewardKeys = new Set(apiRewards.map((reward) => String(reward?.reward_key || reward?.final_url || reward?.original_url || reward?.url || "").trim().toLowerCase()).filter(Boolean));
+  const fallbackRewards = RECOVERED_REWARD_CATALOG
+    .filter((reward) => !existingRewardKeys.has(String(reward.reward_key || reward.url).toLowerCase()) && !existingRewardKeys.has(String(reward.url).toLowerCase()))
+    .map((reward) => ({ ...reward, game_id: idBySlug.get(reward.game_slug) ?? reward.game_id }));
+  const normalizeReward = (reward, index) => {
+    const gameSlug = String(reward?.game_slug || reward?.game || "").trim();
+    const rawUrl = String(reward?.url || reward?.original_url || reward?.final_url || "").trim();
+    const signature = rawUrl || `${gameSlug}-${index}`;
+    const stableNumericId = 100000000 + Math.abs([...signature].reduce((n, char) => (n * 31 + char.charCodeAt(0)) % 800000000, 7));
+    const stableId = reward?.id ?? -stableNumericId;
+    const sourceNames = Array.isArray(reward?.sources) ? reward.sources.filter(Boolean) : [];
+    return {
+      ...reward,
+      id: stableId,
+      game_slug: gameSlug || reward?.game_slug,
+      game_id: reward?.game_id ?? idBySlug.get(gameSlug),
+      game_name: reward?.game_name || recovered.find((game) => game.slug === gameSlug)?.name,
+      url: rawUrl || reward?.url,
+      original_url: reward?.original_url || rawUrl,
+      final_url: reward?.final_url || rawUrl,
+      reward_type: reward?.reward_type || reward?.type || "",
+      reward_amount: reward?.reward_amount ?? reward?.amount ?? reward?.quantity ?? "",
+      date_key: reward?.date_key || reward?.source_date || "",
+      source: reward?.source || sourceNames.join(" · "),
+      source_name: reward?.source_name || sourceNames[0] || "",
+      discovery_method: reward?.discovery_method || "automatic",
+      status: reward?.status || "UNCONFIRMED",
+    };
+  };
+  return { ...source, games: [...recovered, ...extraApiGames], rewards: [...apiRewards, ...fallbackRewards].map(normalizeReward) };
+};
+// Load the maintained visual layer after the legacy stylesheet on every route.
+if (!document.querySelector('link[data-game-gifts-polish]')) {
+  const polishSheet = document.createElement("link");
+  polishSheet.rel = "stylesheet";
+  polishSheet.href = sitePath("/polish.css");
+  polishSheet.dataset.gameGiftsPolish = "";
+  document.head.appendChild(polishSheet);
+}
+if (!document.querySelector('link[data-game-gifts-portal]')) {
+  const portalSheet = document.createElement("link");
+  portalSheet.rel = "stylesheet";
+  portalSheet.href = sitePath("/portal.css");
+  portalSheet.dataset.gameGiftsPortal = "";
+  document.head.appendChild(portalSheet);
+}
+if (!document.querySelector('link[rel="icon"]')) { const favicon = document.createElement("link"); favicon.rel = "icon"; favicon.href = assetUrl("/favicon.svg"); favicon.type = "image/svg+xml"; document.head.appendChild(favicon); }
 const todayKey = () => { const date = new Date(); return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`; };
 const offsetDateKey = (offset) => { const date = new Date(); date.setHours(12, 0, 0, 0); date.setDate(date.getDate() + offset); return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`; };
 const yesterdayKey = () => offsetDateKey(-1);
@@ -154,7 +506,11 @@ const rewardDateKey = (reward) => {
   }
   return reward?.date_key || "";
 };
-const isRewardToday = (reward) => isToday(rewardDateKey(reward));
+const rewardDetectedDateKey = (reward) => {
+  const detected = reward?.found_at || reward?.created_at || "";
+  return detected ? (localDateKey(detected) || rewardDateKey(reward)) : rewardDateKey(reward);
+};
+const isRewardToday = (reward) => isToday(rewardDetectedDateKey(reward));
 const timeAgo = (value) => {
   const then = new Date(value).getTime();
   if (!then) return copy().lastAdded;
@@ -167,9 +523,48 @@ const timeAgo = (value) => {
 };
 const formatRewardDate = (reward) => {
   const localTime = reward?.found_at && !Number.isNaN(new Date(reward.found_at).getTime()) ? new Intl.DateTimeFormat(state.lang === "pt" ? "pt-BR" : state.lang, { hour: "2-digit", minute: "2-digit" }).format(new Date(reward.found_at)) : reward.time_label;
-  return [dateLabel(rewardDateKey(reward)), localTime].filter(Boolean).join(" • ");
+  return [dateLabel(rewardDetectedDateKey(reward)), localTime].filter(Boolean).join(" • ");
 };
-const api = async (path, options) => { const response = await fetch(path, options); const body = await response.json().catch(() => ({})); if (!response.ok) throw new Error(body.error || "Request failed"); return body; };
+const api = async (path, options = {}) => {
+  const request = { cache: "no-store", ...options };
+  const headers = new Headers(request.headers || {});
+  if (state.viewerKey && !headers.has("x-game-gifts-voter-id")) headers.set("x-game-gifts-voter-id", state.viewerKey);
+  request.headers = headers;
+  const response = await fetch(path, request);
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const error = new Error(body.error || "Request failed");
+    error.code = body.code || "";
+    error.status = response.status;
+    throw error;
+  }
+  return body;
+};
+const isGitHubPagesDeployment = () => location.hostname.endsWith("github.io");
+const readStaticPublicData = async () => {
+  const response = await fetch(assetUrl("/data/rewards.json"), { cache: "no-store" });
+  const feed = await response.json().catch(() => null);
+  if (!response.ok) {
+    const error = new Error(`Arquivo público de dados indisponível (HTTP ${response.status}).`);
+    error.status = response.status;
+    throw error;
+  }
+  if (!feed || !Array.isArray(feed.rewards)) throw new Error("Arquivo público de dados inválido.");
+  return recoverGameCatalog({ ...state.data, rewards: feed.rewards });
+};
+const loadPublicData = () => isGitHubPagesDeployment() ? readStaticPublicData() : api("/api/data").then(recoverGameCatalog);
+const localVoterId = () => {
+  const key = "game-gifts-voter-id";
+  try {
+    const existing = localStorage.getItem(key);
+    if (existing) return existing;
+    const created = `browser-${crypto.randomUUID()}`;
+    localStorage.setItem(key, created);
+    return created;
+  } catch {
+    return `browser-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  }
+};
 const favorites = () => { try { return JSON.parse(localStorage.getItem("game-gifts-favorites") || '{"games":[],"rewards":[]}'); } catch { return { games: [], rewards: [] }; } };
 const openedStorageKey = () => `game-gifts-opened:${state.viewerKey}`;
 const opened = () => { try { return JSON.parse(localStorage.getItem(openedStorageKey()) || "{}"); } catch { return {}; } };
@@ -178,6 +573,39 @@ const claimedRewards = () => { try { return JSON.parse(localStorage.getItem(clai
 const saveFavorites = (value) => localStorage.setItem("game-gifts-favorites", JSON.stringify(value));
 const saveOpened = (value) => localStorage.setItem(openedStorageKey(), JSON.stringify(value));
 const saveClaimedRewards = (value) => localStorage.setItem(claimedStorageKey(), JSON.stringify(value));
+const SCORE_STORAGE_KEY = "game-gifts-score";
+const SCORE_PER_REWARD = 10;
+const scoreData = () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SCORE_STORAGE_KEY) || "{}");
+    return {
+      score: Number.isFinite(Number(saved.score)) ? Math.max(0, Number(saved.score)) : 0,
+      rewardedIds: Array.isArray(saved.rewardedIds) ? saved.rewardedIds.map(String) : [],
+    };
+  } catch {
+    return { score: 0, rewardedIds: [] };
+  }
+};
+const saveScoreData = (value) => {
+  try { localStorage.setItem(SCORE_STORAGE_KEY, JSON.stringify(value)); } catch {}
+};
+const scoreLabel = () => ({ pt: "Pontuação", en: "Score", es: "Puntuación", de: "Punktestand", tr: "Skor" }[state.lang] || "Pontuação");
+const updateScoreDisplay = () => {
+  const saved = scoreData();
+  document.querySelectorAll("[data-score-value]").forEach((node) => { node.textContent = saved.score.toLocaleString(state.lang === "pt" ? "pt-BR" : state.lang); });
+  document.querySelectorAll("[data-score-label]").forEach((node) => { node.textContent = scoreLabel(); });
+};
+const awardScore = (rewardId) => {
+  const id = String(rewardId || "");
+  if (!id) return false;
+  const saved = scoreData();
+  if (saved.rewardedIds.includes(id)) return false;
+  saved.score += SCORE_PER_REWARD;
+  saved.rewardedIds.push(id);
+  saveScoreData(saved);
+  updateScoreDisplay();
+  return true;
+};
 const isFavorite = (type, id) => favorites()[`${type}s`]?.includes(Number(id));
 const toggleFavorite = (type, id) => { const saved = favorites(); const key = `${type}s`; const numericId = Number(id); saved[key] = saved[key] || []; saved[key] = saved[key].includes(numericId) ? saved[key].filter((item) => item !== numericId) : [...saved[key], numericId]; saveFavorites(saved); renderPage(); };
 const markOpened = (id) => { const saved = opened(); saved[id] = new Date().toISOString(); saveOpened(saved); };
@@ -190,17 +618,18 @@ const isUnconfirmed = (reward) => rewardStatus(reward) === "unconfirmed";
 const isProblem = (reward) => String(reward?.link_status || "").toLowerCase() === "problem";
 const isExpired = (reward) => rewardStatus(reward) === "expired_invalid" || String(reward?.reward_status || "").toLowerCase() === "expired_invalid" || String(reward?.link_status || "").toLowerCase() === "expired";
 const isConfirmedReward = (reward) => isConfirmed(reward) && !isExpired(reward) && !isProblem(reward);
-const isLinkActive = (reward) => !isExpired(reward) && !isProblem(reward);
+const rewardOpenUrl = (reward) => String(reward?.url || reward?.redemption_url || reward?.final_url || reward?.original_url || "").trim();
+const isLinkActive = (reward) => !isExpired(reward) && !isProblem(reward) && (rewardIsCode(reward) || Boolean(rewardOpenUrl(reward)));
+const isAutomaticDiscoveredReward = (reward) => !["catalog_seed", "manual"].includes(String(reward?.discovery_method || "automatic").toLowerCase());
 const isInVerification = (reward) => !isConfirmedReward(reward) && !isExpired(reward) && !isProblem(reward);
-const PUBLIC_VISIBLE_GAMES = Object.freeze({ "match-masters": true, "dice-dreams": true, "travel-town": true });
-const isPublicVisibleGame = (game) => Boolean(PUBLIC_VISIBLE_GAMES[game?.slug]);
-const isPublicVisibleSlug = (slug) => Boolean(PUBLIC_VISIBLE_GAMES[slug]);
+const isPublicVisibleGame = (game) => Boolean(game?.active);
+const isPublicVisibleSlug = (slug) => Boolean(gameFor(slug)?.active);
 const publicGames = () => state.data.games.filter(isPublicVisibleGame);
 const publicRewards = () => publicGames().flatMap((game) => publicRewardsForGame(game));
 const presentationRewardKey = (reward) => String(reward?.reward_key || reward?.url || reward?.original_url || reward?.final_url || reward?.id || "").trim().replace(/\/+$/, "").toLowerCase();
 const publicTodayRewardsForGame = (game) => {
   const unique = new Map();
-  publicRewardsForGame(game).filter((reward) => isLinkActive(reward) && isRewardToday(reward)).forEach((reward) => {
+  publicRewardsForGame(game).filter((reward) => isAutomaticDiscoveredReward(reward) && isLinkActive(reward) && !(game?.slug === "match-masters" && rewardIsCode(reward)) && isRewardToday(reward)).forEach((reward) => {
     const key = presentationRewardKey(reward);
     const current = unique.get(key);
     const candidateIsBetter = !current || (isConfirmedReward(reward) && !isConfirmedReward(current)) || (isConfirmedReward(reward) === isConfirmedReward(current) && String(reward?.found_at || reward?.created_at || "") > String(current?.found_at || current?.created_at || ""));
@@ -225,7 +654,16 @@ const publicTodayStatusMarkup = (game) => {
   if (!confirmed && !verification) return `<strong class="no-new-gift-label">${esc(copy().noNewGift)}</strong><small>${esc(copy().autoSearching)}</small>`;
   return `<small>${esc(publicTodayLabel(game))}</small>`;
 };
-const newsCount = () => publicTodayRewards().length;
+const newsItems = () => Array.isArray(state.data.news) ? state.data.news : [];
+const publicNews = () => newsItems().filter((item) => {
+  const game = gameFor(item.game_slug);
+  if (!game || !isPublicVisibleGame(game)) return false;
+  if (!item.ends_at) return true;
+  const end = new Date(item.ends_at).getTime();
+  return Number.isNaN(end) || end > Date.now();
+});
+const publicNewsForGame = (game) => publicNews().filter((item) => String(item.game_slug || item.game_id) === String(game?.slug || game?.id)).sort((a, b) => new Date(b.published_at || b.created_at || 0).getTime() - new Date(a.published_at || a.created_at || 0).getTime());
+const newsCount = () => publicNews().length;
 const rewardIsCode = (reward) => Boolean(String(reward?.reward_code || "").trim());
 const rewardTypeKey = (reward) => String(reward?.reward_type || reward?.type || reward?.name || "").toLowerCase();
 const usableRewardName = (reward) => {
@@ -263,6 +701,7 @@ const matchMastersQuantity = (reward) => {
   return quantity && confirmed ? quantity : "";
 };
 const matchMastersManualOutcome = (reward) => String(reward?.reward_description || "").match(/\bGG_MANUAL:([a-z0-9-]+)/i)?.[1]?.toLowerCase() || "";
+const matchMastersMessengerExclusive = (reward) => /GG_CLASSIFICATION:messenger-exclusive|GG_MANUAL:requires-facebook/i.test(String(reward?.reward_description || reward?.source_excerpt || ""));
 const matchMastersManualLabel = (reward) => {
   const outcome = matchMastersManualOutcome(reward);
   const item = outcome.match(/^confirmed-item-(\d+)$/);
@@ -271,12 +710,14 @@ const matchMastersManualLabel = (reward) => {
   return "";
 };
 const matchMastersManualStatusText = (reward) => {
+  if (matchMastersMessengerExclusive(reward)) return copy().messengerExclusive;
   const outcome = matchMastersManualOutcome(reward);
   if (outcome === "requires-facebook") return copy().manualRequiresFacebook;
   if (outcome === "recognized-used") return copy().manualRecognized;
   return "";
 };
 const matchMastersManualNote = (reward) => {
+  if (matchMastersMessengerExclusive(reward)) return copy().messengerExclusiveNote;
   const outcome = matchMastersManualOutcome(reward);
   if (outcome === "requires-facebook") return copy().manualFacebookNote;
   if (outcome === "recognized-used") return copy().manualUsedNote;
@@ -287,7 +728,7 @@ const rewardDisplayText = (reward) => {
     const visual = matchMastersTypeVisual(reward);
     const manualLabel = matchMastersManualLabel(reward);
     if (!visual && isConfirmedReward(reward) && manualLabel) return `✅ ${copy().confirmed} 🎁 ${manualLabel}`;
-    if (!visual) return matchMastersManualStatusText(reward) || copy().matchMastersGift;
+    if (!visual) return matchMastersManualStatusText(reward) || unidentifiedRewardLabel();
     const amount = matchMastersQuantity(reward);
     if (isConfirmedReward(reward)) {
       const icon = visual.key === "tickets" ? "🎟️" : visual.key === "coins" ? "🪙" : visual.icon;
@@ -317,63 +758,98 @@ const availableLabel = (count) => count === 1 ? (state.lang === "pt" ? "link" : 
 const todayCountLabel = (count) => count ? `${count} ${state.lang === "pt" ? "HOJE" : state.lang === "en" ? "TODAY" : state.lang === "es" ? "HOY" : state.lang === "de" ? "HEUTE" : "BUGÜN"}` : copy().noneToday;
 const lastCheckedLabel = () => state.lang === "pt" ? "Última verificação" : state.lang === "en" ? "Last check" : state.lang === "es" ? "Última comprobación" : state.lang === "de" ? "Letzte Prüfung" : "Son kontrol";
 const adminStatusValue = (reward) => isProblem(reward) ? "problem_unconfirmed" : ["confirmed", "unconfirmed", "expired_invalid"].includes(rewardStatus(reward)) ? rewardStatus(reward) : "unconfirmed";
+const confirmationData = (reward) => {
+  const confirmation = reward?.confirmation || {};
+  const worked = Math.max(0, Number(confirmation.worked || 0));
+  const failed = Math.max(0, Number(confirmation.failed || 0));
+  const recentFailed = Math.max(0, Number(confirmation.recent_failed ?? failed));
+  const status = confirmation.status || (recentFailed >= 3 && recentFailed > worked ? "may_expired" : worked >= 3 && worked > failed ? "confirmed" : "unconfirmed");
+  return { worked, failed, recentFailed, status, myVote: confirmation.my_vote || null, gameMyVote: confirmation.game_my_vote || null };
+};
+const playerConfirmationMarkup = (reward) => {
+  const confirmation = confirmationData(reward);
+  const statusLabel = confirmation.status === "confirmed" ? copy().playerConfirmed : confirmation.status === "may_expired" ? copy().playerMayExpired : copy().playerUnconfirmed;
+  const statusClass = confirmation.status === "confirmed" ? "confirmed" : confirmation.status === "may_expired" ? "may-expired" : "unconfirmed";
+  const voted = Boolean(confirmation.myVote || confirmation.gameMyVote);
+  const voteLock = confirmation.gameMyVote && !confirmation.myVote ? `<span class="player-vote-note">🔒 ${esc(copy().playerAlreadyVoted)}</span>` : "";
+  return `<div class="reward-confirmation" data-reward-confirmation="${esc(reward.id)}"><strong class="player-confirmation-status ${statusClass}">${esc(statusLabel)}</strong><div class="player-confirmation-counts"><span>${esc(copy().playerWorkedCount(confirmation.worked))}</span><span>${esc(copy().playerFailedCount(confirmation.failed))}</span></div><div class="player-vote-actions" role="group" aria-label="${esc(state.lang === "pt" ? "Confirmar recompensa" : state.lang === "en" ? "Confirm reward" : state.lang === "es" ? "Confirmar recompensa" : state.lang === "de" ? "Belohnung bestätigen" : "Ödülü onayla")}"><button type="button" class="player-vote-button worked ${confirmation.myVote === "worked" ? "selected" : ""}" data-reward-vote="worked" data-reward-id="${esc(reward.id)}" ${voted ? "disabled" : ""}>👍 ${esc(copy().playerWorked)}</button><button type="button" class="player-vote-button failed ${confirmation.myVote === "failed" ? "selected" : ""}" data-reward-vote="failed" data-reward-id="${esc(reward.id)}" ${voted ? "disabled" : ""}>👎 ${esc(copy().playerFailed)}</button></div>${voteLock}</div>`;
+};
 const route = () => {
-  const parts = location.pathname.split("/").filter(Boolean);
+  const pathname = location.pathname.startsWith(SITE_PATH) ? location.pathname.slice(SITE_PATH.length) || "/" : location.pathname;
+  const parts = pathname.split("/").filter(Boolean);
   const lang = LANGS.includes(parts[0]) ? parts[0] : state.lang;
   const translated = SECTION_NAMES[lang];
   const permanentPath = `/${parts.join("/")}/`;
-  if (GAME_SEO_PATHS[permanentPath]) return isPublicVisibleSlug(GAME_SEO_PATHS[permanentPath]) ? { lang, page: "game", slug: GAME_SEO_PATHS[permanentPath], permanent: true } : { lang, page: "home" };
-  if (!LANGS.includes(parts[0])) return { lang, page: "home" };
+  if (GAME_SEO_PATHS[permanentPath]) return isPublicVisibleSlug(GAME_SEO_PATHS[permanentPath]) ? { lang, page: "game", slug: GAME_SEO_PATHS[permanentPath], permanent: true } : { lang, page: "home", noindex: true };
+  const bareAliases = { noticias: "news", news: "news", guias: "guides", guides: "guides", codigos: "codes", codes: "codes", eventos: "events", events: "events" };
+  if (!LANGS.includes(parts[0])) return bareAliases[parts[0]] ? { lang, page: bareAliases[parts[0]], slug: parts[1] || "" } : { lang, page: "home" };
   if (!parts[1]) return { lang, page: "home" };
-  if (parts[1] === translated.games) return parts[2] ? (isPublicVisibleSlug(parts[2]) ? { lang, page: "game", slug: parts[2] } : { lang, page: "home" }) : { lang, page: "games" };
-  if (parts[1] === translated.news) return { lang, page: "news" };
+  if (parts[1] === translated.games) return parts[2] ? (isPublicVisibleSlug(parts[2]) ? { lang, page: "game", slug: parts[2] } : { lang, page: "home", noindex: true }) : { lang, page: "games" };
+  if (parts[1] === translated.news) return { lang, page: "news", slug: parts[2] || "" };
+  if (parts[1] === translated.guides) return { lang, page: "guides", slug: parts[2] || "" };
+  if (parts[1] === translated.codes) return { lang, page: "codes", slug: parts[2] || "" };
+  if (parts[1] === translated.events) return { lang, page: "events", slug: parts[2] || "" };
   if (parts[1] === translated.favorites) return { lang, page: "favorites" };
   if (parts[1] === translated.more) return { lang, page: "more" };
   if (parts[1] === translated.admin) return { lang, page: "admin" };
   return { lang, page: "home" };
 };
 const pathFor = (page, slug = "", lang = state.lang) => {
-  if (page === "home") return `/${lang}/`;
-  if (page === "games" && slug && GAME_SEO[slug]) return GAME_SEO[slug].path;
+  if (page === "home") return sitePath(`/${lang}/`);
+  // Keep the permanent SEO route for English, while preserving each
+  // localized route when the visitor changes language.
+  if (page === "games" && slug && GAME_SEO[slug] && lang === "en") return sitePath(GAME_SEO[slug].path);
   const section = SECTION_NAMES[lang][page] || page;
-  return `/${lang}/${section}/${slug ? `${slug}/` : ""}`;
+  return sitePath(`/${lang}/${section}/${slug ? `${slug}/` : ""}`);
 };
-const go = (path) => { history.pushState({}, "", path); state.tab = "today"; state.selectedDate = ""; const current = route(); state.lang = current.lang; const languageSelect = document.querySelector("#language-select"); if (languageSelect) languageSelect.value = state.lang; renderPage(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+const go = (path) => { const currentPath = `${location.pathname}${location.search}`; if (currentPath !== path) { state.navigationStack.push(currentPath); if (state.navigationStack.length > 32) state.navigationStack.shift(); } history.pushState({}, "", path); state.tab = "today"; state.centralTab = "guides"; state.gameSection = "rewards"; state.selectedDate = ""; const current = route(); state.lang = current.lang; const languageSelect = document.querySelector("#language-select"); if (languageSelect) languageSelect.value = state.lang; closeDrawer(); renderPage(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+const goBack = (fallback) => { if (state.navigationStack.length) { state.navigationStack.pop(); state.backRequested = true; history.back(); return; } history.replaceState({}, "", fallback); state.tab = "today"; state.centralTab = "guides"; state.gameSection = "rewards"; state.selectedDate = ""; const current = route(); state.lang = current.lang; closeDrawer(); renderPage(); window.scrollTo({ top: 0, behavior: "smooth" }); };
 const gameFor = (slug) => state.data.games.find((game) => game.slug === slug);
 const rewardsFor = (gameId) => state.data.rewards.filter((reward) => Number(reward.game_id) === Number(gameId));
 const isMatchMastersReward = (reward) => String(reward?.game_slug || "") === "match-masters" || Number(reward?.game_id) === Number(gameFor("match-masters")?.id);
 const matchMastersOfferKey = (reward) => {
-  // The server keeps its own global deduplication. This presentation key must
-  // not merge different Match Masters URLs just because they share an offer token.
-  const url = String(reward?.original_url || reward?.url || "").trim();
-  return `url:${url || reward?.id || "unknown"}`;
+  // Keep the individual reward identity from the server. Different reward_keys
+  // remain separate; legacy copies of the same reward collapse only when their
+  // stored reward_key is the same.
+  const rewardKey = String(reward?.reward_key || "").trim();
+  if (rewardIsCode(reward)) return `code:${rewardKey || String(reward?.reward_code || "").trim()}`.toLowerCase();
+  if (rewardKey) return rewardKey.toLowerCase();
+  const url = String(reward?.final_url || reward?.original_url || reward?.url || "").trim();
+  return `url:${url || reward?.id || "unknown"}`.toLowerCase();
 };
-const freshnessScore = (reward) => new Date(`${rewardDateKey(reward)}T${reward?.time_label || "00:00"}`).getTime() || new Date(reward?.found_at || reward?.created_at || 0).getTime() || 0;
+const freshnessScore = (reward) => new Date(reward?.found_at || reward?.created_at || 0).getTime() || new Date(`${rewardDateKey(reward)}T${reward?.time_label || "00:00"}`).getTime() || 0;
 const matchMastersPublicRewards = (gameId) => {
   const unique = new Map();
-  rewardsFor(gameId).filter((reward) => !rewardIsCode(reward)).forEach((reward) => {
+  rewardsFor(gameId).forEach((reward) => {
     const key = matchMastersOfferKey(reward);
     const current = unique.get(key);
     if (!current || freshnessScore(reward) > freshnessScore(current)) unique.set(key, reward);
   });
   return [...unique.values()];
 };
-const publicRewardsForGame = (game) => game?.slug === "match-masters" ? matchMastersPublicRewards(game.id) : rewardsFor(game?.id);
+const publicRewardsForGame = (game) => (game?.slug === "match-masters" ? matchMastersPublicRewards(game.id) : rewardsFor(game?.id)).filter((reward) => rewardIsCode(reward) || Boolean(rewardOpenUrl(reward)));
 const availableRewards = (gameId) => sortRewards(publicRewardsForGame(gameFor(gameId)).filter(isLinkActive));
 const matchMastersArt = (className) => `<div class="${className} match-masters-art" aria-hidden="true"><span class="match-masters-spark spark-one">✦</span><span class="match-masters-spark spark-two">◆</span><span class="match-masters-wordmark">MATCH <b>MASTERS</b></span><span class="match-masters-gem gem-one">◆</span><span class="match-masters-gem gem-two">◆</span><span class="match-masters-gem gem-three">◆</span></div>`;
 const gameArt = (game, className = "card-art") => {
   const image = game?.image || game?.banner;
-  return image ? `<div class="${className}" ${artStyle(game?.slug)}><img src="${esc(image)}" alt="${esc(game?.name)}" /></div>` : game?.slug === "match-masters" ? matchMastersArt(className) : `<div class="${className}" ${artStyle(game?.slug)}><span class="card-art-placeholder">✦</span><span class="logo-word">${esc(game?.name)}</span></div>`;
+  return image ? `<div class="${className}" ${artStyle(game?.slug)}><img src="${esc(assetUrl(image))}" alt="${esc(game?.name)}" loading="lazy" decoding="async" /></div>` : game?.slug === "match-masters" ? matchMastersArt(className) : `<div class="${className}" ${artStyle(game?.slug)}><span class="card-art-placeholder">✦</span><span class="logo-word">${esc(game?.name)}</span></div>`;
 };
+const rewardImageUrl = (reward) => {
+  const image = String(reward?.image || "").trim();
+  // Uploaded screenshots are not reward artwork and must never represent a new gift.
+  return image && !/(?:^|\/)Screenshot_[^/]+/i.test(image) ? image : "";
+};
+const unidentifiedRewardLabel = () => ({ pt: "Recompensa não confirmada", en: "Reward not confirmed", es: "Recompensa no confirmada", de: "Belohnung nicht bestätigt", tr: "Ödül doğrulanmadı" }[state.lang] || "Reward not confirmed");
+const codeRewardVisual = () => ({ key: "code", icon: "⌘", label: state.lang === "pt" ? "CÓDIGO" : state.lang === "en" ? "CODE" : state.lang === "es" ? "CÓDIGO" : state.lang === "de" ? "CODE" : "KOD" });
 const rewardArt = (reward, game) => {
-  const visual = isMatchMastersReward(reward) ? matchMastersTypeVisual(reward) : rewardVisual(reward);
-  const image = reward?.image || (!visual ? (game?.image || game?.banner) : "");
-  if (image) return '<div class="reward-art ' + (reward?.image ? "reward-art--official" : "reward-art-neutral") + '" ' + artStyle(reward?.name || reward?.type || game?.slug) + '><img src="' + esc(image) + '" alt="' + esc(reward?.image ? (reward?.name || reward?.type || "Recompensa") : (game?.name || "Jogo")) + '" /></div>';
+  const visual = rewardIsCode(reward) ? codeRewardVisual() : (isMatchMastersReward(reward) ? matchMastersTypeVisual(reward) : rewardVisual(reward));
+  const image = rewardImageUrl(reward);
+  if (image) return '<div class="reward-art reward-art--official" ' + artStyle(reward?.name || reward?.type || "reward") + '><img src="' + esc(assetUrl(image)) + '" alt="' + esc(usableRewardName(reward) || visual?.label || "Recompensa oficial") + '" loading="lazy" decoding="async" /></div>';
   if (visual) return '<div class="reward-art reward-art-' + visual.key + '" aria-label="' + esc(visual.label) + '"><span class="reward-icon">' + visual.icon + '</span><span class="reward-art-label">' + esc(visual.label) + '</span></div>';
-  return game?.slug === "match-masters" ? matchMastersArt("reward-art reward-art-neutral") : '<div class="reward-art reward-art-neutral" ' + artStyle(game?.slug || "reward") + '><div class="card-art"><span class="card-art-placeholder">✦</span></div></div>';
+  return '<div class="reward-art reward-art-generic" ' + artStyle("reward") + ' aria-label="' + esc(unidentifiedRewardLabel()) + '"><span class="reward-icon">🎁</span><span class="reward-art-label">' + esc(unidentifiedRewardLabel()) + '</span></div>';
 };
 const emptyState = (title, message, icon = "✦") => `<div class="empty"><span class="empty-icon">${icon}</span><h3>${esc(title)}</h3><p>${esc(message)}</p></div>`;
-const filteredGames = () => { const term = state.search.trim().toLocaleLowerCase(); const games = publicGames(); return term ? games.filter((game) => game.name.toLocaleLowerCase().includes(term)) : games; };
+const filteredGames = () => { const term = state.search.trim().toLocaleLowerCase(); const games = publicGames(); return term ? games.filter((game) => `${game.name || ""} ${game.slug || ""} ${publicRewardsForGame(game).map((reward) => `${reward.reward_type || ""} ${reward.reward_code || ""} ${reward.name || ""}`).join(" ")}`.toLocaleLowerCase().includes(term)) : games; };
 const homeNewCountLabel = (count) => {
   if (state.lang === "pt") return `${count} ${count === 1 ? "novo presente" : "novos presentes"} hoje`;
   if (state.lang === "en") return `${count} new gift${count === 1 ? "" : "s"} today`;
@@ -389,29 +865,47 @@ const homeSearchingCopy = () => {
   return ["Buscando novos presentes", "Novos links são verificados automaticamente. Confira novamente em breve."];
 };
 const HOME_COPY = {
-  pt: { subtitle: "Seus presentes de jogos em um só lugar", recentTitle: "ACABOU DE CHEGAR", recentCopy: "Presentes encontrados recentemente. Seja rápido!", seeAll: "Ver todos", gamesTitle: "JOGOS DISPONÍVEIS", gamesCopy: "Escolha um jogo e veja todos os presentes disponíveis.", redeem: "RESGATAR", newBadge: "NOVO", noRecent: "Nenhum presente novo no momento. Estamos verificando novos links.", hasToday: "🟢 Tem presente hoje", noToday: "⚪ Sem presentes hoje", unknownType: "Recompensa" },
+  pt: { subtitle: "Presentes grátis dos seus jogos favoritos", recentTitle: "ACABOU DE CHEGAR", recentCopy: "Presentes encontrados recentemente. Seja rápido!", seeAll: "Ver todos", gamesTitle: "JOGOS DISPONÍVEIS", gamesCopy: "Escolha um jogo e veja todos os presentes disponíveis.", redeem: "RESGATAR", newBadge: "NOVO", noRecent: "Nenhum presente novo no momento. Estamos verificando novos links.", hasToday: "🟢 Tem presente hoje", noToday: "⚪ Sem presentes hoje", unknownType: "Recompensa" },
   en: { subtitle: "Your game gifts in one place", recentTitle: "JUST IN", recentCopy: "Recently found gifts. Be quick!", seeAll: "View all", gamesTitle: "AVAILABLE GAMES", gamesCopy: "Choose a game and see all available gifts.", redeem: "REDEEM", newBadge: "NEW", noRecent: "No new gifts right now. We are checking for new links.", hasToday: "🟢 Gift available today", noToday: "⚪ No gifts today", unknownType: "Reward" },
   es: { subtitle: "Tus regalos de juegos en un solo lugar", recentTitle: "RECIÉN LLEGADOS", recentCopy: "Regalos encontrados recientemente. ¡Date prisa!", seeAll: "Ver todos", gamesTitle: "JUEGOS DISPONIBLES", gamesCopy: "Elige un juego y consulta todos los regalos disponibles.", redeem: "CANJEAR", newBadge: "NUEVO", noRecent: "No hay regalos nuevos ahora. Estamos buscando nuevos enlaces.", hasToday: "🟢 Hay regalo hoy", noToday: "⚪ Sin regalos hoy", unknownType: "Recompensa" },
   de: { subtitle: "Deine Spielgeschenke an einem Ort", recentTitle: "GERADE EINGETROFFEN", recentCopy: "Kürzlich gefundene Geschenke. Sei schnell!", seeAll: "Alle ansehen", gamesTitle: "VERFÜGBARE SPIELE", gamesCopy: "Wähle ein Spiel und sieh dir alle verfügbaren Geschenke an.", redeem: "EINLÖSEN", newBadge: "NEU", noRecent: "Momentan keine neuen Geschenke. Wir prüfen neue Links.", hasToday: "🟢 Heute Geschenk verfügbar", noToday: "⚪ Heute keine Geschenke", unknownType: "Belohnung" },
   tr: { subtitle: "Oyun hediyeleriniz tek bir yerde", recentTitle: "AZ ÖNCE GELDİ", recentCopy: "Yakın zamanda bulunan hediyeler. Çabuk olun!", seeAll: "Tümünü gör", gamesTitle: "MEVCUT OYUNLAR", gamesCopy: "Bir oyun seçin ve tüm mevcut hediyeleri görün.", redeem: "AL", newBadge: "YENİ", noRecent: "Şu anda yeni hediye yok. Yeni bağlantıları kontrol ediyoruz.", hasToday: "🟢 Bugün hediye var", noToday: "⚪ Bugün hediye yok", unknownType: "Ödül" },
 };
+Object.assign(HOME_COPY, {
+  pt: { ...HOME_COPY.pt, recentCopy: "Links, códigos e recompensas reais mais recentes.", noRecent: "Nenhum presente novo por enquanto." },
+  en: { ...HOME_COPY.en, recentCopy: "The latest real links, codes and rewards.", noRecent: "No new gifts for now." },
+  es: { ...HOME_COPY.es, recentCopy: "Los enlaces, códigos y recompensas reales más recientes.", noRecent: "Ningún regalo nuevo por ahora." },
+  de: { ...HOME_COPY.de, recentCopy: "Die neuesten echten Links, Codes und Belohnungen.", noRecent: "Momentan keine neuen Geschenke." },
+  tr: { ...HOME_COPY.tr, recentCopy: "En yeni gerçek bağlantılar, kodlar ve ödüller.", noRecent: "Şimdilik yeni hediye yok." },
+});
 const homeCopy = () => HOME_COPY[state.lang] || HOME_COPY.en;
 const HOME_RECENT_WINDOW_MS = 48 * 60 * 60 * 1000;
 const rewardFoundAt = (reward) => reward?.found_at || reward?.created_at || "";
 const isRecentHomeReward = (reward) => {
-  if (!isLinkActive(reward) || !String(reward?.url || "").trim()) return false;
+  if (!isAutomaticDiscoveredReward(reward) || !isLinkActive(reward)) return false;
   const timestamp = new Date(rewardFoundAt(reward)).getTime();
   return Boolean(timestamp) && timestamp <= Date.now() && Date.now() - timestamp <= HOME_RECENT_WINDOW_MS;
 };
 const recentHomeRewards = () => {
   const unique = new Map();
   publicRewards().filter(isRecentHomeReward).forEach((reward) => {
-    const key = `${reward.game_slug || reward.game_id}:${String(reward.url).trim()}`;
+    const key = `${reward.game_slug || reward.game_id}:${presentationRewardKey(reward)}`;
     const current = unique.get(key);
     if (!current || new Date(rewardFoundAt(reward)).getTime() > new Date(rewardFoundAt(current)).getTime()) unique.set(key, reward);
   });
   return [...unique.values()].sort((a, b) => new Date(rewardFoundAt(b)).getTime() - new Date(rewardFoundAt(a)).getTime());
 };
+const activeRewardsForGame = (game) => publicRewardsForGame(game).filter(isLinkActive);
+const recentRewardsForGame = (game) => activeRewardsForGame(game).filter(isRecentHomeReward);
+const gameAvailabilityLabel = (count) => {
+  if (state.lang === "pt") return count === 1 ? "1 presente disponível" : `${count} presentes disponíveis`;
+  if (state.lang === "en") return count === 1 ? "1 gift available" : `${count} gifts available`;
+  if (state.lang === "es") return count === 1 ? "1 regalo disponible" : `${count} regalos disponibles`;
+  if (state.lang === "de") return count === 1 ? "1 Geschenk verfügbar" : `${count} Geschenke verfügbar`;
+  return count === 1 ? "1 hediye mevcut" : `${count} hediye mevcut`;
+};
+const noAvailableGameLabel = () => ({ pt: "Nenhum presente disponível", en: "No gifts available", es: "Sin regalos disponibles", de: "Keine Geschenke verfügbar", tr: "Mevcut hediye yok" }[state.lang] || "No gifts available");
+const newRewardLabel = () => ({ pt: "Novo", en: "New", es: "Nuevo", de: "Neu", tr: "Yeni" }[state.lang] || "New");
 const recentHomeGames = () => {
   const latestByGame = new Map();
   recentHomeRewards().forEach((reward) => {
@@ -424,8 +918,12 @@ const recentHomeGames = () => {
 };
 const recentHomeGameCard = ({ game, reward }) => `<a class="home-recent-game-card" href="${pathFor("games", game.slug)}" data-route data-analytics-game-name="${esc(game.name)}" data-analytics-game-slug="${esc(game.slug)}"><div class="home-recent-game-art">${gameArt(game, "card-art")}</div><span class="home-recent-game-badge">${esc(homeCopy().newBadge)}</span><strong>${esc(game.name)}</strong></a>`;
 const homeRewardType = (reward) => {
-  const visual = isMatchMastersReward(reward) ? matchMastersTypeVisual(reward) : rewardVisual(reward);
-  return visual?.label || usableRewardName(reward) || homeCopy().unknownType;
+  const visual = rewardIsCode(reward) ? codeRewardVisual() : (isMatchMastersReward(reward) ? matchMastersTypeVisual(reward) : rewardVisual(reward));
+  return visual?.label || usableRewardName(reward) || unidentifiedRewardLabel();
+};
+const homeArrivalStatus = (reward) => {
+  if (isConfirmedReward(reward)) return { label: state.lang === "pt" ? "✓ Verificado" : state.lang === "en" ? "✓ Verified" : state.lang === "es" ? "✓ Verificado" : state.lang === "de" ? "✓ Verifiziert" : "✓ Doğrulandı", className: "is-confirmed" };
+  return { label: state.lang === "pt" ? "Não confirmado" : state.lang === "en" ? "Not confirmed" : state.lang === "es" ? "No confirmado" : state.lang === "de" ? "Nicht bestätigt" : "Doğrulanmadı", className: "is-unconfirmed" };
 };
 const homeTimeAgo = (value) => {
   const timestamp = new Date(value).getTime();
@@ -450,9 +948,25 @@ const homeRewardCard = (reward) => {
   return `<article class="home-reward-card"><div class="home-reward-art-wrap"><div class="home-reward-topline"><span class="home-new-badge">${esc(homeCopy().newBadge)}</span><time datetime="${esc(rewardFoundAt(reward))}">◷ ${esc(homeTimeAgo(rewardFoundAt(reward)))}</time></div>${gameArt(game, "card-art home-reward-art")}</div><div class="home-reward-content"><h3>${esc(game.name)}</h3><p><span aria-hidden="true">🎁</span> ${esc(homeRewardType(reward))}</p><a class="home-redeem-button" href="${esc(reward.url)}" target="_blank" rel="noopener noreferrer" data-open-reward="${esc(reward.id)}"${analytics}>${esc(homeCopy().redeem)} <span aria-hidden="true">→</span></a></div></article>`;
 };
 const homeGameCard = (game) => {
-  const fav = isFavorite("game", game.id);
-  const hasToday = publicTodayRewardsForGame(game).length > 0;
-  return `<a class="home-game-card" href="${pathFor("games", game.slug)}" data-route data-analytics-game-name="${esc(game.name)}" data-analytics-game-slug="${esc(game.slug)}" ${artStyle(game.slug)}>${gameArt(game, "card-art home-game-art")}<div class="home-game-card-body"><div class="home-game-name-row"><h3>${esc(game.name)}</h3><span class="card-heart ${fav ? "is-favorite" : ""}">${fav ? "♥" : ""}</span></div><p class="home-game-status ${hasToday ? "has-today" : "no-today"}">${esc(hasToday ? homeCopy().hasToday : homeCopy().noToday)}</p></div></a>`;
+  return gameCard(game, true);
+};
+const homePremiumStatus = (reward) => {
+  if (isExpired(reward)) return { label: state.lang === "pt" ? "EXPIRADO" : "EXPIRED", className: "expired", icon: "" };
+  if (Boolean(opened()[reward.id]) || Boolean(claimedRewards()[reward.id])) return { label: state.lang === "pt" ? "JÁ ABERTO" : "ALREADY OPENED", className: "opened", icon: "✓" };
+  if (isProblem(reward) || !isConfirmedReward(reward)) return { label: state.lang === "pt" ? "NÃO CONFIRMADO" : "NOT CONFIRMED", className: "unconfirmed", icon: "⚠" };
+  if (isRecentHomeReward(reward)) return { label: state.lang === "pt" ? "NOVO" : "NEW", className: "new", icon: "●" };
+  return { label: state.lang === "pt" ? "DISPONÍVEL" : "AVAILABLE", className: "available", icon: "🎁" };
+};
+const homePremiumRewardCard = (reward) => {
+  const game = gameFor(reward.game_slug);
+  const openUrl = rewardOpenUrl(reward);
+  if (!game || !openUrl) return "";
+  const status = homePremiumStatus(reward);
+  const amount = String(reward?.reward_amount || reward?.quantity || "").trim();
+  const rewardLabel = homeRewardType(reward);
+  const value = amount ? `${amount} ${rewardLabel}` : rewardLabel;
+  const analytics = ` data-analytics-game-name="${esc(game.name)}" data-analytics-gift-name="${esc(rewardLabel)}" data-analytics-reward-id="${esc(reward.id)}"`;
+  return `<article class="home-premium-reward-card ${status.className}" data-home-reward-url="${esc(openUrl)}" data-home-reward-id="${esc(reward.id)}"><div class="home-premium-reward-art">${rewardArt(reward, game)}<span class="home-premium-game-pill">🎮 ${esc(game.name)}</span><time datetime="${esc(rewardFoundAt(reward))}">${esc(homeTimeAgo(rewardFoundAt(reward)))}</time></div><div class="home-premium-reward-body"><div class="home-premium-reward-status ${status.className}"><span>${status.icon}</span>${esc(status.label)}</div><h3>${esc(value)}</h3><p>${esc(usableRewardName(reward) || (state.lang === "pt" ? "Recompensa do jogo" : "Game reward"))}</p><a class="home-premium-collect" href="${esc(openUrl)}" target="_blank" rel="noopener noreferrer" data-open-reward="${esc(reward.id)}"${analytics}>🎁 ${esc(homeCopy().redeem)} <span>↗</span></a></div></article>`;
 };
 const syncHomeBrand = (isHome) => {
   document.querySelectorAll(".site-header .brand").forEach((brand) => {
@@ -467,18 +981,60 @@ const syncHomeBrand = (isHome) => {
       subtitle.textContent = homeCopy().subtitle;
     } else if (subtitle) subtitle.remove();
     const mark = brand.querySelector(".brand-mark");
-    if (mark) mark.textContent = isHome ? "🎁" : "✦";
+    if (mark) mark.textContent = isHome || route().page === "game" ? "🎁" : "✦";
   });
+};
+const mobileLabel = () => ({ pt: "Presentes", en: "Gifts", es: "Regalos", de: "Geschenke", tr: "Hediyeler" }[state.lang] || "Gifts");
+const drawerCopy = () => ({
+  pt: { title: "Menu", home: "Início", games: "Todos os jogos", gifts: "Presentes recentes", news: "Novidades", favorites: "Favoritos e seguindo", more: "Como funciona", close: "Fechar menu" },
+  en: { title: "Menu", home: "Home", games: "All games", gifts: "Recent gifts", news: "News", favorites: "Favorites & followed", more: "How it works", close: "Close menu" },
+  es: { title: "Menú", home: "Inicio", games: "Todos los juegos", gifts: "Regalos recientes", news: "Novedades", favorites: "Favoritos y seguidos", more: "Cómo funciona", close: "Cerrar menú" },
+  de: { title: "Menü", home: "Start", games: "Alle Spiele", gifts: "Aktuelle Geschenke", news: "Neuigkeiten", favorites: "Favoriten und gefolgt", more: "So funktioniert es", close: "Menü schließen" },
+  tr: { title: "Menü", home: "Ana Sayfa", games: "Tüm oyunlar", gifts: "Son hediyeler", news: "Yenilikler", favorites: "Favoriler ve takip", more: "Nasıl çalışır", close: "Menüyü kapat" },
+}[state.lang] || {});
+let drawerTrigger = null;
+const closeDrawer = () => {
+  document.body.classList.remove("drawer-open");
+  document.querySelector(".side-drawer")?.setAttribute("aria-hidden", "true");
+  document.querySelectorAll("[data-open-drawer]").forEach((button) => button.setAttribute("aria-expanded", "false"));
+  if (drawerTrigger?.isConnected) drawerTrigger.focus({ preventScroll: true });
+  drawerTrigger = null;
+};
+const ensureDrawer = () => {
+  let drawer = document.querySelector(".side-drawer");
+  if (!drawer) { drawer = document.createElement("div"); drawer.className = "side-drawer"; document.body.append(drawer); }
+  drawer.id = "game-gifts-drawer";
+  drawer.setAttribute("role", "dialog");
+  drawer.setAttribute("aria-modal", "true");
+  const ui = drawerCopy();
+  const giftsPath = `${pathFor("news")}?recent=1`;
+  drawer.innerHTML = `<div class="drawer-backdrop" data-close-drawer></div><aside class="drawer-panel" aria-label="${esc(ui.title)}"><div class="drawer-heading"><div><span class="drawer-kicker">🎁 GAME GIFTS</span><h2>${esc(ui.title)}</h2></div><button class="drawer-close" type="button" data-close-drawer aria-label="${esc(ui.close)}">×</button></div><nav class="drawer-links"><a href="${pathFor("home")}" data-route><span>🏠</span>${esc(ui.home)}</a><a href="${pathFor("games")}" data-route><span>🎮</span>${esc(ui.games)}</a><a href="${giftsPath}" data-route><span>🎁</span>${esc(ui.gifts)}</a><a href="${pathFor("news")}" data-route><span>📰</span>${esc(ui.news)}</a><a href="${pathFor("guides")}" data-route><span>📖</span>${esc(copy().guides)}</a><a href="${pathFor("codes")}" data-route><span>🎟️</span>${esc(copy().codes)}</a><a href="${pathFor("events")}" data-route><span>🔥</span>${esc(copy().events)}</a><a href="${pathFor("favorites")}" data-route><span>⭐</span>${esc(ui.favorites)}</a><a href="${pathFor("more")}" data-route><span>💡</span>${esc(ui.more)}</a></nav></aside>`;
+  drawer.setAttribute("aria-hidden", document.body.classList.contains("drawer-open") ? "false" : "true");
+  return drawer;
+};
+const openDrawer = () => {
+  const drawer = ensureDrawer();
+  drawerTrigger = document.querySelector("[data-open-drawer]");
+  drawerTrigger?.setAttribute("aria-expanded", "true");
+  drawerTrigger?.setAttribute("aria-controls", drawer.id);
+  document.body.classList.add("drawer-open");
+  drawer.setAttribute("aria-hidden", "false");
+  drawer.querySelector(".drawer-close")?.focus({ preventScroll: true });
 };
 const gameCard = (game, home = false) => {
   const fav = isFavorite("game", game.id);
   const mode = game.reward_mode || "links";
-  const modeLabel = mode === "codes" ? copy().codesMode : mode === "none" ? copy().noneMode : copy().linksMode;
-  const today = home ? publicTodayRewardsForGame(game) : [];
-  const homeStatus = today.length ? `<small class="home-new-indicator">✦ ${esc(state.lang === "pt" ? "Novo hoje" : state.lang === "en" ? "New today" : state.lang === "es" ? "Nuevo hoy" : state.lang === "de" ? "Neu heute" : "Yeni bugün")}</small>` : "";
-  return `<a class="game-card" href="${pathFor("games", game.slug)}" data-route data-analytics-game-name="${esc(game.name)}" data-analytics-game-slug="${esc(game.slug)}" ${artStyle(game.slug)}>
-    ${gameArt(game)}<div class="game-card-body"><div style="display:flex;justify-content:space-between;gap:7px;align-items:start"><h3>${esc(game.name)}</h3><span class="card-heart ${fav ? "is-favorite" : ""}">${fav ? "♥" : ""}</span></div>
-    <div class="game-meta"><span><strong class="mode-chip mode-${mode}">${esc(modeLabel)}</strong>${home ? homeStatus : publicTodayStatusMarkup(game)}</span><span class="arrow">›</span></div></div></a>`;
+  const gameRewards = publicRewardsForGame(game);
+  const activeRewards = activeRewardsForGame(game);
+  const hasCodes = gameRewards.some(rewardIsCode);
+  const hasLinks = gameRewards.some((reward) => !rewardIsCode(reward));
+  const modeLabel = mode === "none" && !hasCodes && !hasLinks ? copy().noneMode : hasCodes && hasLinks ? (state.lang === "pt" ? "🎁 PRESENTES + 🎟️ CÓDIGOS" : state.lang === "en" ? "🎁 GIFTS + 🎟️ CODES" : state.lang === "es" ? "🎁 REGALOS + 🎟️ CÓDIGOS" : state.lang === "de" ? "🎁 GESCHENKE + 🎟️ CODES" : "🎁 HEDİYELER + 🎟️ KODLAR") : hasCodes ? (state.lang === "pt" ? "🎟️ CÓDIGOS" : state.lang === "en" ? "🎟️ CODES" : state.lang === "es" ? "🎟️ CÓDIGOS" : state.lang === "de" ? "🎟️ CODES" : "🎟️ KODLAR") : copy().linksMode;
+  const hasRecent = recentRewardsForGame(game).length > 0;
+  const availability = activeRewards.length ? gameAvailabilityLabel(activeRewards.length) : noAvailableGameLabel();
+  const newBadge = hasRecent ? `<small class="home-new-indicator">${esc(newRewardLabel())}</small>` : "";
+  return `<a class="game-card ${home ? "home-game-card" : ""}" href="${pathFor("games", game.slug)}" data-route data-analytics-game-name="${esc(game.name)}" data-analytics-game-slug="${esc(game.slug)}" ${artStyle(game.slug)}>
+    ${gameArt(game)}<div class="game-card-body"><div class="game-card-title-row"><h3>${esc(game.name)}</h3><span class="card-heart ${fav ? "is-favorite" : ""}">${fav ? "♥" : ""}</span></div>
+    <div class="game-meta"><span class="game-card-details"><strong class="mode-chip mode-${mode}">${esc(modeLabel)}</strong><small class="game-availability">${esc(availability)}</small>${newBadge}</span><span class="arrow">›</span></div></div></a>`;
 };
 const rewardCard = (reward, game, index = null) => {
   const wasOpened = Boolean(opened()[reward.id]);
@@ -489,33 +1045,53 @@ const rewardCard = (reward, game, index = null) => {
   const problem = isProblem(reward);
   const expired = isExpired(reward);
   const coinMaster = game?.slug === "coin-master";
-  const isNewCoinMasterReward = coinMaster && !expired && isToday(rewardDateKey(reward));
+  const isNewCoinMasterReward = coinMaster && !expired && isRewardToday(reward);
   const favorite = isFavorite("reward", reward.id);
   const isCode = rewardIsCode(reward);
   const visual = matchMasters ? matchMastersTypeVisual(reward) : rewardVisual(reward);
-  const rewardTitle = problem ? copy().problemUnconfirmed : matchMasters ? copy().matchMastersGift : usableRewardName(reward) || (visual ? visual.label : isCode ? copy().codeReward : copy().unconfirmedReward);
+  const rewardTitle = problem ? copy().problemUnconfirmed : matchMasters ? usableRewardName(reward) || copy().matchMastersGift : usableRewardName(reward) || (visual ? visual.label : isCode ? copy().codeReward : copy().unconfirmedReward);
   const checkedAt = reward.last_checked_at || reward.verified_at;
   const sourceUrl = sourceUrlFrom(reward);
   const sourceName = sourceNameFrom(reward);
   const source = '<span class="reward-source-line">' + esc(copy().sourceLabel || "Fonte") + ': ' + (sourceUrl ? '<a href="' + esc(sourceUrl) + '" target="_blank" rel="noopener noreferrer">' + esc(sourceName) + ' ↗</a>' : '<strong>' + esc(sourceName) + '</strong>') + '</span>';
   const rewardValue = problem ? copy().unavailableReward : isCode ? "" : rewardDisplayText(reward);
-  const statusLabel = problem ? copy().problemUnconfirmed : expired ? copy().expiredInvalid : claimed ? claimedLabel() : confirmed ? copy().confirmed : unconfirmed ? copy().unconfirmed : copy().unconfirmed;
-  const statusIcon = problem ? "🟠" : expired ? "⚫" : claimed ? "🔵" : confirmed ? "🟢" : unconfirmed ? "🟡" : "🟡";
+  const codeStatusLabel = expired ? (state.lang === "pt" ? "EXPIRADO" : state.lang === "en" ? "EXPIRED" : state.lang === "es" ? "EXPIRADO" : state.lang === "de" ? "ABGELAUFEN" : "SÜRESİ DOLDU") : confirmed ? (state.lang === "pt" ? "ATIVO" : state.lang === "en" ? "ACTIVE" : state.lang === "es" ? "ACTIVO" : state.lang === "de" ? "AKTIV" : "AKTİF") : (state.lang === "pt" ? "PODE EXPIRAR" : state.lang === "en" ? "MAY EXPIRE" : state.lang === "es" ? "PUEDE CADUCAR" : state.lang === "de" ? "KANN ABLAUFEN" : "SÜRESİ DOLABİLİR");
+  const statusLabel = problem ? copy().problemUnconfirmed : isCode ? codeStatusLabel : expired ? copy().expiredInvalid : claimed ? claimedLabel() : confirmed ? copy().confirmed : unconfirmed ? copy().unconfirmed : copy().unconfirmed;
+  const statusIcon = problem ? "🟠" : expired ? "🔴" : claimed ? "🔵" : confirmed ? "🟢" : unconfirmed ? "🟡" : "🟡";
   const statusClass = problem ? "problem" : expired ? "expired" : claimed ? "claimed" : confirmed ? "confirmed" : unconfirmed ? "unconfirmed" : "unconfirmed";
   const rewardBadgeClass = matchMasters ? `reward-badge-match-${statusClass}` : problem ? "reward-badge-problem" : `reward-badge-${visual?.key || "unknown"}`;
-  const rewardBadgeText = matchMasters ? (matchMastersManualStatusText(reward) || statusLabel) : problem ? copy().problemUnconfirmed : rewardDisplayText(reward);
+  const rewardBadgeText = matchMasters ? (matchMastersManualStatusText(reward) || statusLabel) : problem ? copy().problemUnconfirmed : isCode ? statusLabel : rewardDisplayText(reward);
   const rewardBadge = `<span class="reward-badge ${rewardBadgeClass}">${esc(rewardBadgeText)}</span>`;
   const analyticsContext = ' data-analytics-game-name="' + esc(game?.name || reward.game_name || '') + '" data-analytics-gift-name="' + esc(rewardTitle) + '" data-analytics-reward-id="' + esc(reward.id) + '"';
   const travelRedeemLabel = state.lang === "pt" ? "RESGATAR" : state.lang === "en" ? "REDEEM" : state.lang === "es" ? "CANJEAR" : state.lang === "de" ? "EINLÖSEN" : "AL";
-  const action = problem ? '<span class="open-button disabled">' + esc(copy().problemAction) + '</span>' : expired ? '<span class="open-button disabled">' + esc(copy().expiredStatus || copy().expired) + '</span>' : isCode ? (reward.redemption_url || reward.url ? '<a class="open-button redeem-button" href="' + esc(reward.redemption_url || reward.url) + '" target="_blank" rel="noopener noreferrer" data-redeem-reward="' + esc(reward.id) + '"' + analyticsContext + '>' + esc(copy().officialRedeem) + ' ↗</a>' : '') : (reward.url ? '<a class="open-button" href="' + esc(reward.url) + '" target="_blank" rel="noopener noreferrer" data-open-reward="' + esc(reward.id) + '"' + analyticsContext + '>' + esc(game?.slug === "travel-town" ? travelRedeemLabel : wasOpened ? copy().openAgain : copy().open) + ' ↗</a>' : '<span class="open-button disabled">' + esc(copy().open) + '</span>');
-  const copyAction = problem || expired ? '' : isCode ? '<button class="copy-link copy-code" type="button" data-copy-code="' + esc(reward.reward_code) + '">' + esc(copy().copyCode) + '</button>' : (reward.url ? '<button class="copy-link" type="button" data-copy-url="' + esc(reward.url) + '"' + analyticsContext + '>' + esc(copy().copyLink) + '</button>' : '');
+  const destination = rewardOpenUrl(reward);
+  const action = problem ? '<span class="open-button disabled">' + esc(copy().problemAction) + '</span>' : expired ? '<span class="open-button disabled">' + esc(copy().expiredStatus || copy().expired) + '</span>' : isCode ? (destination ? '<a class="open-button redeem-button" href="' + esc(destination) + '" target="_blank" rel="noopener noreferrer" data-redeem-reward="' + esc(reward.id) + '"' + analyticsContext + '>' + esc(copy().officialRedeem) + ' ↗</a>' : '') : (destination ? '<a class="open-button" href="' + esc(destination) + '" target="_blank" rel="noopener noreferrer" data-open-reward="' + esc(reward.id) + '"' + analyticsContext + '>' + esc(game?.slug === "travel-town" ? travelRedeemLabel : wasOpened ? copy().openAgain : copy().open) + ' ↗</a>' : '<span class="open-button disabled">' + esc(copy().open) + '</span>');
+  const copyAction = problem || expired ? '' : isCode ? '<button class="copy-link copy-code" type="button" data-copy-code="' + esc(reward.reward_code) + '">' + esc(copy().copyCode) + '</button>' : (destination ? '<button class="copy-link" type="button" data-copy-url="' + esc(destination) + '"' + analyticsContext + '>' + esc(copy().copyLink) + '</button>' : '');
   const claimedAction = !problem && !expired ? '<button class="copy-link" type="button" data-mark-claimed="' + reward.id + '">' + esc(claimed ? '✓ ' + claimedLabel() : markClaimedLabel()) + '</button>' : '';
-  const value = isCode ? '<span class="reward-code-label">' + esc(copy().codeReward) + '</span><strong class="reward-code">' + esc(reward.reward_code) + '</strong>' : '<strong>' + esc(rewardValue) + '</strong>';
+  const codeDescription = isCode ? String(reward?.reward_description || reward?.source_excerpt || "").trim() : "";
+  const codeRegion = isCode ? String(reward?.region || reward?.redeem_region || "").trim() : "";
+  const codeExpiry = isCode ? String(reward?.expires_at || reward?.expires_on || "").trim() : "";
+  const value = isCode ? '<span class="reward-code-label">' + esc(copy().codeReward) + '</span><strong class="reward-code">' + esc(reward.reward_code) + '</strong>' + (codeDescription ? '<span class="code-reward-description"><b>' + esc(state.lang === "pt" ? "Recompensa:" : state.lang === "en" ? "Reward:" : state.lang === "es" ? "Recompensa:" : state.lang === "de" ? "Belohnung:" : "Ödül:") + '</b> ' + esc(codeDescription) + '</span>' : '') : '<strong>' + esc(rewardValue) + '</strong>';
+  const codeDetails = isCode ? (codeRegion ? '<span>' + esc(state.lang === "pt" ? "Região: " : state.lang === "en" ? "Region: " : state.lang === "es" ? "Región: " : state.lang === "de" ? "Region: " : "Bölge: ") + esc(codeRegion) + '</span>' : '') + (codeExpiry ? '<span>' + esc(state.lang === "pt" ? "Expira: " : state.lang === "en" ? "Expires: " : state.lang === "es" ? "Caduca: " : state.lang === "de" ? "Läuft ab: " : "Son kullanma: ") + esc(codeExpiry) + '</span>' : '') : '';
   const verificationNote = unconfirmed && !problem ? '<span class="verification-note">' + esc([game?.slug === "travel-town" ? "Recompensa não confirmada" : copy().unconfirmedReward, matchMasters ? matchMastersManualNote(reward) : ""].filter(Boolean).join(" · ")) + '</span>' : '';
   const itemLabel = Number.isInteger(index) ? '<span class="reward-index">' + esc(copy().giftItem) + ' ' + index + '</span>' : '';
-  return '<article class="reward-card ' + (matchMasters ? 'reward-card-match-masters ' : '') + (isCode ? 'reward-card-code ' : '') + (problem ? 'reward-card-problem' : '') + '"><div>' + rewardArt(reward, game) + '</div><div class="reward-copy"><h3>' + esc(rewardTitle) + (isNewCoinMasterReward ? '<span class="coin-master-new-badge">NOVO</span>' : '') + '</h3><p class="reward-value ' + (confirmed && !problem ? '' : 'is-unconfirmed') + '">' + value + '</p><div class="reward-details">' + itemLabel + '<span class="reward-status ' + statusClass + '">' + statusIcon + ' ' + esc(statusLabel) + '</span>' + verificationNote + '<span>' + esc(formatRewardDate(reward)) + '</span>' + (checkedAt ? '<span>' + esc(lastCheckedLabel()) + ': ' + esc(timeAgo(checkedAt)) + '</span>' : '') + source + (wasOpened ? '<span class="opened-status">✓ ' + esc(copy().alreadyOpened) + '</span>' : '') + '</div></div><div class="reward-actions">' + rewardBadge + action + copyAction + claimedAction + '<button class="icon-button reward-favorite ' + (favorite ? 'is-favorite' : '') + '" type="button" title="' + esc(favorite ? copy().unfavorite : copy().favorite) + '" data-favorite-type="reward" data-favorite-id="' + reward.id + '">' + (favorite ? '♥' : '♡') + '</button></div></article>';
+  const rewardAnchor = String(reward.id).replace(/[^a-zA-Z0-9_-]/g, "");
+  return '<article id="reward-' + rewardAnchor + '" class="reward-card ' + (matchMasters ? 'reward-card-match-masters ' : '') + (isCode ? 'reward-card-code ' : '') + (problem ? 'reward-card-problem' : '') + '"><div>' + rewardArt(reward, game) + '</div><div class="reward-copy"><h3>' + esc(rewardTitle) + (isNewCoinMasterReward ? '<span class="coin-master-new-badge">NOVO</span>' : '') + '</h3><p class="reward-value ' + (confirmed && !problem ? '' : 'is-unconfirmed') + '">' + value + '</p><div class="reward-details">' + itemLabel + '<span class="reward-status ' + statusClass + '">' + statusIcon + ' ' + esc(statusLabel) + '</span>' + verificationNote + codeDetails + '<span>' + esc(formatRewardDate(reward)) + '</span>' + (checkedAt ? '<span>' + esc(lastCheckedLabel()) + ': ' + esc(timeAgo(checkedAt)) + '</span>' : '') + source + (wasOpened ? '<span class="opened-status">✓ ' + esc(copy().alreadyOpened) + '</span>' : '') + '</div></div><div class="reward-actions">' + rewardBadge + action + copyAction + claimedAction + '<button class="icon-button reward-favorite ' + (favorite ? 'is-favorite' : '') + '" type="button" title="' + esc(favorite ? copy().unfavorite : copy().favorite) + '" data-favorite-type="reward" data-favorite-id="' + reward.id + '">' + (favorite ? '♥' : '♡') + '</button></div>' + playerConfirmationMarkup(reward) + '</article>';
 };
-const seoForGame = (slug) => GAME_SEO[slug]?.[state.lang] || GAME_SEO[slug]?.en || null;
+const seoForGame = (slug) => {
+  const known = GAME_SEO[slug]?.[state.lang] || GAME_SEO[slug]?.en;
+  if (known) return known;
+  const game = gameFor(slug);
+  const name = game?.name || String(slug || "").split("-").filter(Boolean).map((part) => part[0].toUpperCase() + part.slice(1)).join(" ") || "Game Gifts";
+  const localized = GENERIC_GAME_SEO_COPY[state.lang] || GENERIC_GAME_SEO_COPY.en;
+  return {
+    path: `/${state.lang}/${SECTION_NAMES[state.lang]?.games || "games"}/${slug}/`,
+    title: localized.title(name),
+    h1: localized.h1(name),
+    description: localized.description(name),
+    intro: localized.intro(name),
+  };
+};
 const setMetaContent = (selector, content) => {
   let node = document.querySelector(selector);
   if (!node) {
@@ -528,26 +1104,53 @@ const setMetaContent = (selector, content) => {
 };
 const updateSeo = (current) => {
   const gameSeo = current.page === "game" ? seoForGame(current.slug) : null;
-  const canonicalPath = gameSeo ? GAME_SEO[current.slug].path : (location.pathname || "/");
-  const canonical = `${location.origin}${canonicalPath}`;
+  const currentGame = current.page === "game" ? gameFor(current.slug) : null;
+  const canonicalPath = gameSeo
+    ? (GAME_SEO[current.slug]?.path || pathFor("games", current.slug, current.lang))
+    : current.page === "home" ? pathFor("home", "", current.lang) : (location.pathname || "/");
+  const canonical = publicUrl(canonicalPath);
+  const portalSeo = {
+    news: { title: state.lang === "pt" ? "Notícias de Jogos e Recompensas | Game Gifts" : "Game News and Rewards | Game Gifts", description: state.lang === "pt" ? "Atualizações reais, anúncios e novidades de jogos com fontes identificadas no Game Gifts." : "Real game updates, announcements and news with identified sources on Game Gifts." },
+    guides: { title: state.lang === "pt" ? "Guias de Jogos e Presentes | Game Gifts" : "Game Guides and Gifts | Game Gifts", description: state.lang === "pt" ? "Guias úteis para resgatar presentes, códigos e aproveitar seus jogos no Game Gifts." : "Useful guides for redeeming gifts, codes and getting more from your games on Game Gifts." },
+    codes: { title: state.lang === "pt" ? "Códigos de Jogos | Game Gifts" : "Game Codes | Game Gifts", description: state.lang === "pt" ? "Códigos reais de jogos publicados com data, fonte e status no Game Gifts." : "Real game codes published with date, source and status on Game Gifts." },
+    events: { title: state.lang === "pt" ? "Eventos de Jogos | Game Gifts" : "Game Events | Game Gifts", description: state.lang === "pt" ? "Eventos reais de jogos quando houver dados publicados e fonte identificada." : "Real game events when published data and an identified source are available." },
+  };
+  const pageSeo = portalSeo[current.page] || PAGE_SEO[current.lang]?.[current.page] || PAGE_SEO.en.home;
+  const shouldIndex = !current.noindex && current.page !== "admin" && current.page !== "favorites";
   const canonicalLink = document.querySelector('link[rel="canonical"]');
   if (canonicalLink) canonicalLink.href = canonical;
   document.documentElement.lang = state.lang === "pt" ? "pt-BR" : state.lang;
-  const title = gameSeo?.title || (current.page === "admin" ? "Admin · Game Gifts" : "Game Gifts");
-  const description = gameSeo?.description || COPY[state.lang].chooseCopy;
+  const title = gameSeo?.title || (current.page === "admin" ? "Admin · Game Gifts" : current.page === "favorites" ? "Favoritos · Game Gifts" : pageSeo.title);
+  const description = gameSeo?.description || (current.page === "admin" ? "Área administrativa do Game Gifts." : current.page === "favorites" ? "Seus jogos e presentes favoritos no Game Gifts." : pageSeo.description || HOME_SEO_DESCRIPTION[state.lang] || COPY[state.lang].chooseCopy);
   document.title = title;
+  setMetaContent('meta[name="robots"]', shouldIndex ? "index, follow" : "noindex, nofollow");
   setMetaContent('meta[name="description"]', description);
   setMetaContent('meta[property="og:title"]', title);
   setMetaContent('meta[property="og:description"]', description);
   setMetaContent('meta[property="og:url"]', canonical);
   setMetaContent('meta[property="og:type"]', "website");
-  let structured = document.querySelector("#game-structured-data");
-  if (gameSeo) {
-    if (!structured) { structured = document.createElement("script"); structured.id = "game-structured-data"; structured.type = "application/ld+json"; document.head.appendChild(structured); }
-    structured.textContent = JSON.stringify({ "@context": "https://schema.org", "@type": "WebPage", name: gameSeo.h1, url: canonical, description: gameSeo.description, isPartOf: { "@type": "WebSite", name: "Game Gifts", url: `${location.origin}/` } });
+  const image = currentGame?.image || "/favicon.svg";
+  let imageUrl = publicUrl(image);
+  try { imageUrl = /^(?:https?:|data:|blob:)/i.test(image) ? image : new URL(assetUrl(image), location.origin).href; } catch {}
+  setMetaContent('meta[property="og:image"]', imageUrl);
+  setMetaContent('meta[property="og:image:alt"]', currentGame ? `${currentGame.name} · Game Gifts` : "Game Gifts");
+  setMetaContent('meta[property="og:site_name"]', "Game Gifts");
+  setMetaContent('meta[name="twitter:card"]', "summary_large_image");
+  setMetaContent('meta[name="twitter:title"]', title);
+  setMetaContent('meta[name="twitter:description"]', description);
+  setMetaContent('meta[name="twitter:image"]', imageUrl);
+  let structured = document.querySelector("#page-structured-data");
+  if (shouldIndex) {
+    if (!structured) { structured = document.createElement("script"); structured.id = "page-structured-data"; structured.type = "application/ld+json"; document.head.appendChild(structured); }
+    structured.textContent = JSON.stringify(gameSeo
+      ? { "@context": "https://schema.org", "@type": "WebPage", name: gameSeo.h1, url: canonical, description: gameSeo.description, inLanguage: state.lang, mainEntity: { "@type": "VideoGame", name: currentGame?.name || gameSeo.h1 }, isPartOf: { "@type": "WebSite", name: "Game Gifts", url: `${PUBLIC_BASE_URL}/` } }
+      : { "@context": "https://schema.org", "@type": "WebPage", name: title, url: canonical, description, inLanguage: state.lang, isPartOf: { "@type": "WebSite", name: "Game Gifts", url: `${PUBLIC_BASE_URL}/` } });
   } else if (structured) structured.remove();
   document.querySelectorAll('link[data-hreflang]').forEach((link) => link.remove());
-  LANGS.forEach((lang) => { const alternate = document.createElement("link"); alternate.rel = "alternate"; alternate.hreflang = lang; alternate.href = `${location.origin}${pathFor(current.page === "game" ? "games" : current.page, current.slug || "", lang)}`; alternate.dataset.hreflang = lang; document.head.appendChild(alternate); });
+  if (shouldIndex && !(current.page === "game" && GAME_SEO[current.slug])) {
+    LANGS.forEach((lang) => { const alternate = document.createElement("link"); alternate.rel = "alternate"; alternate.hreflang = lang; alternate.href = publicUrl(pathFor(current.page === "game" ? "games" : current.page, current.slug || "", lang)); alternate.dataset.hreflang = lang; document.head.appendChild(alternate); });
+    const xDefault = document.createElement("link"); xDefault.rel = "alternate"; xDefault.hreflang = "x-default"; xDefault.href = publicUrl(pathFor(current.page === "game" ? "games" : current.page, current.slug || "", "pt")); xDefault.dataset.hreflang = "x-default"; document.head.appendChild(xDefault);
+  }
 };
 const formatLastUpdate = (value) => {
   const date = new Date(value);
@@ -572,12 +1175,64 @@ const decorateGamePage = (game) => {
     proof.insertBefore(item, proof.lastElementChild);
   }
 };
+const ensurePortalShell = () => {
+  const header = document.querySelector(".site-header");
+  if (header) {
+    header.classList.add("portal-header");
+    const brand = header.querySelector(".brand");
+    const name = brand?.querySelector(".brand-name");
+    if (brand && name && !brand.querySelector(".brand-lockup")) {
+      const lockup = document.createElement("span");
+      lockup.className = "brand-lockup";
+      name.replaceWith(lockup);
+      lockup.append(name);
+      const tagline = document.createElement("small");
+      tagline.textContent = portalCopy().tagline;
+      lockup.append(tagline);
+    }
+    const desktop = header.querySelector(".desktop-nav");
+    if (desktop && !desktop.querySelector('[data-nav="guides"]')) {
+      const links = [
+        ["guides", "▤", copy().guides], ["codes", "⌘", copy().codes], ["events", "◈", copy().events],
+      ];
+      const anchor = desktop.querySelector('[data-nav="favorites"]');
+      links.forEach(([nav, icon, label]) => { const link = document.createElement("a"); link.href = pathFor(nav); link.dataset.route = ""; link.dataset.nav = nav; link.innerHTML = `<span>${icon}</span><b>${esc(label)}</b>`; desktop.insertBefore(link, anchor || null); });
+    }
+  }
+  const footer = document.querySelector(".site-footer");
+  if (footer) {
+    footer.classList.add("portal-footer");
+    if (!footer.querySelector(".portal-footer-columns")) {
+      footer.insertAdjacentHTML("beforeend", `<div class="portal-footer-columns"><div><strong>JOGOS</strong><a href="${pathFor("games")}" data-route>Todos os jogos</a><a href="${pathFor("news")}?recent=1" data-route>Presentes</a><a href="${pathFor("codes")}" data-route>${esc(copy().codes)}</a><a href="${pathFor("events")}" data-route>${esc(copy().events)}</a></div><div><strong>CONTEÚDO</strong><a href="${pathFor("news")}" data-route>${esc(copy().news)}</a><a href="${pathFor("guides")}" data-route>${esc(copy().guides)}</a><a href="${pathFor("more")}" data-route>Dicas</a></div><div><strong>SOBRE</strong><a href="${pathFor("more")}" data-route>Quem somos</a><a href="${pathFor("more")}" data-route>Política de Privacidade</a><a href="${pathFor("more")}" data-route>Termos de Uso</a></div><div><strong>AJUDA</strong><a href="${pathFor("more")}" data-route>Dúvidas frequentes</a><a href="${pathFor("more")}" data-route>Fale conosco</a></div></div><div class="portal-footer-bottom"><span>© 2026 Game Gifts.</span><a href="${pathFor("more")}" data-route>${esc(copy().faq)}</a></div>`);
+    }
+  }
+};
 const renderChrome = () => {
+  ensurePortalShell();
+  syncHomeMobileNav();
   syncHomeBrand(route().page === "home");
+  const header = document.querySelector(".site-header");
+  if (header && !header.querySelector("[data-open-drawer]")) {
+    const menuButton = document.createElement("button"); menuButton.className = "header-menu-button"; menuButton.type = "button"; menuButton.dataset.openDrawer = ""; menuButton.setAttribute("aria-label", drawerCopy().title); menuButton.setAttribute("aria-expanded", "false"); menuButton.setAttribute("aria-controls", "game-gifts-drawer"); menuButton.innerHTML = "<span></span><span></span><span></span>"; header.prepend(menuButton);
+  }
+  if (header && !header.querySelector(".header-notify")) { const notify = document.createElement("a"); notify.className = "header-notify"; notify.dataset.route = ""; notify.innerHTML = `<span aria-hidden="true">🔔</span><b class="header-notify-dot" data-news-count>0</b>`; header.insertBefore(notify, header.querySelector(".language-select") || null); }
+  ensureDrawer();
   document.querySelectorAll("[data-i18n]").forEach((node) => { const key = node.dataset.i18n; if (copy()[key]) node.textContent = copy()[key]; });
   document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => { node.placeholder = copy()[node.dataset.i18nPlaceholder]; });
-  document.querySelectorAll("[data-news-count]").forEach((node) => { node.textContent = newsCount(); });
-  document.querySelectorAll("[data-nav]").forEach((node) => { const nav = node.dataset.nav; node.href = pathFor(nav === "home" ? "home" : nav); node.classList.toggle("active", route().page === nav || (nav === "games" && route().page === "game")); });
+  const latestLocalNotice = readNoticeAlerts().find((item) => !item.read && state.data.rewards.some((reward) => String(reward.id) === String(item.rewardId)) && gameFor(item.gameSlug));
+  document.querySelectorAll("[data-news-count]").forEach((node) => { const count = noticeUnreadCount() || newsCount(); node.textContent = count; node.hidden = !count; });
+  document.querySelectorAll("[data-nav]").forEach((node) => { const nav = node.dataset.nav; const isMobileGifts = node.closest(".mobile-nav") && nav === "news"; node.href = isMobileGifts ? `${pathFor("news")}?recent=1` : pathFor(nav === "home" ? "home" : nav); node.classList.toggle("active", route().page === nav || (nav === "games" && route().page === "game")); if (isMobileGifts) { const label = node.querySelector("[data-i18n='news']"); if (label) label.textContent = mobileLabel(); } });
+  document.querySelectorAll(".header-notify").forEach((node) => {
+    if (latestLocalNotice) {
+      node.href = pathFor("games", latestLocalNotice.gameSlug);
+      node.dataset.noticeAlert = latestLocalNotice.rewardId;
+      node.setAttribute("aria-label", `${copy().news} · ${noticeUnreadCount()}`);
+    } else {
+      node.href = pathFor("news");
+      delete node.dataset.noticeAlert;
+      node.setAttribute("aria-label", `${copy().news} · ${newsCount()}`);
+    }
+  });
   const languageSelect = document.querySelector("#language-select");
   if (languageSelect) {
     languageSelect.innerHTML = LANGS.map((lang) => `<option value="${lang}">${lang.toUpperCase()}</option>`).join("");
@@ -585,13 +1240,58 @@ const renderChrome = () => {
   }
   const searchInput = document.querySelector("#global-search");
   if (searchInput) searchInput.value = state.search;
+  updateScoreDisplay();
+};
+const homeFeaturedGameCard = (game, index) => {
+  const today = publicTodayRewardsForGame(game).filter((reward) => isLinkActive(reward));
+  const reward = today[0] || publicRewardsForGame(game).find((item) => !isExpired(item));
+  const label = reward ? homeRewardType(reward) : homeCopy().unknownType;
+  const badge = index === 0 ? "NOVO" : index === 1 ? "ATUALIZADO" : index === 2 ? "POPULAR" : "HOJE";
+  const badgeClass = index === 0 ? "is-new" : index === 1 ? "is-updated" : index === 2 ? "is-popular" : "is-today";
+  return `<article class="home-featured-game-card"><a class="home-featured-game-link" href="${pathFor("games", game.slug)}" data-route data-analytics-game-name="${esc(game.name)}" data-analytics-game-slug="${esc(game.slug)}"><div class="home-featured-game-art">${gameArt(game, "card-art") }<span class="home-featured-badge ${badgeClass}">${badge}</span></div><div class="home-featured-game-copy"><h3>${esc(game.name)}</h3><span class="home-featured-reward">🎁 ${esc(label)}</span></div></a><a class="home-featured-redeem" href="${pathFor("games", game.slug)}" data-route>🎁 ${esc(homeCopy().redeem)} <b>→</b></a></article>`;
+};
+const homeArrivalCard = (reward) => {
+  const game = gameFor(reward.game_slug);
+  const openUrl = rewardOpenUrl(reward);
+  if (!game || (!openUrl && !rewardIsCode(reward))) return "";
+  const label = homeRewardType(reward);
+  const analytics = ` data-analytics-game-name="${esc(game.name)}" data-analytics-gift-name="${esc(label)}" data-analytics-reward-id="${esc(reward.id)}"`;
+  const amount = String(reward?.reward_amount || reward?.quantity || "").trim();
+  const rewardText = amount ? `${amount} ${label}` : (usableRewardName(reward) || label);
+  const status = homeArrivalStatus(reward);
+  const action = rewardIsCode(reward) && reward.reward_code
+    ? `<button type="button" class="home-arrival-action" data-copy-code="${esc(reward.reward_code)}"${analytics}>${state.lang === "pt" ? "COPIAR CÓDIGO" : state.lang === "en" ? "COPY CODE" : state.lang === "es" ? "COPIAR CÓDIGO" : state.lang === "de" ? "CODE KOPIEREN" : "KODU KOPYALA"}</button>`
+    : `<a class="home-arrival-action" href="${esc(openUrl)}" target="_blank" rel="noopener noreferrer" data-open-reward="${esc(reward.id)}"${analytics}>${state.lang === "pt" ? "ABRIR PRESENTE" : state.lang === "en" ? "OPEN GIFT" : state.lang === "es" ? "ABRIR REGALO" : state.lang === "de" ? "GESCHENK ÖFFNEN" : "HEDİYEYİ AÇ"}</a>`;
+  const arrivedAt = formatRewardDate(reward) || homeTimeAgo(rewardFoundAt(reward));
+  return `<article class="home-arrival-card"><div class="home-arrival-topline"><div class="home-arrival-game"><span class="home-arrival-game-logo">${gameArt(game, "card-art")}</span><strong>${esc(game.name)}</strong></div><span class="home-arrival-new-label">${esc(newRewardLabel())}</span><time datetime="${esc(rewardFoundAt(reward))}">◷ ${esc(arrivedAt)}</time></div><div class="home-arrival-art">${rewardArt(reward, game)}</div><div class="home-arrival-copy"><strong class="home-arrival-reward">${esc(rewardText)}</strong><small class="home-arrival-status ${status.className}">${esc(status.label)}</small>${action}</div></article>`;
+};
+const sortHomeGames = (games) => {
+  const list = [...games];
+  if (state.homeSort === "az") return list.sort((a, b) => a.name.localeCompare(b.name));
+  if (state.homeSort === "popular") return list.sort((a, b) => activeRewardsForGame(b).length - activeRewardsForGame(a).length || a.name.localeCompare(b.name));
+  if (state.homeSort === "new") return list.sort((a, b) => freshnessScore(recentRewardsForGame(b).sort((x, y) => freshnessScore(y) - freshnessScore(x))[0]) - freshnessScore(recentRewardsForGame(a).sort((x, y) => freshnessScore(y) - freshnessScore(x))[0]) || a.name.localeCompare(b.name));
+  return list.sort((a, b) => activeRewardsForGame(b).length - activeRewardsForGame(a).length || freshnessScore(recentRewardsForGame(b).sort((x, y) => freshnessScore(y) - freshnessScore(x))[0]) - freshnessScore(recentRewardsForGame(a).sort((x, y) => freshnessScore(y) - freshnessScore(x))[0]) || a.name.localeCompare(b.name));
 };
 const renderHome = () => {
-  const recentGames = recentHomeGames();
-  const games = filteredGames();
-  return `<div class="home-page-content"><section class="home-section home-recent-section"><div class="home-section-heading"><div class="home-heading-main"><span class="home-section-icon" aria-hidden="true">⚡</span><div><h2 class="home-section-kicker">${esc(homeCopy().recentTitle)}</h2><p class="home-section-copy">${esc(homeCopy().recentCopy)}</p></div></div><a class="home-see-all" href="${pathFor("news")}?recent=1" data-route>${esc(homeCopy().seeAll)} <span aria-hidden="true">→</span></a></div>${recentGames.length ? `<div class="home-recent-games-grid">${recentGames.map(recentHomeGameCard).join("")}</div>` : `<p class="home-empty-recent" role="status">${esc(homeCopy().noRecent)}</p>`}</section><section class="home-section home-games-section"><div class="home-section-heading"><div class="home-heading-main"><span class="home-section-icon" aria-hidden="true">🎮</span><div><h2 class="home-section-kicker">${esc(homeCopy().gamesTitle)}</h2><p class="home-section-copy">${esc(homeCopy().gamesCopy)}</p></div></div></div><div class="home-games-grid">${games.map(homeGameCard).join("") || emptyState(copy().noGames, copy().noGamesCopy)}</div></section></div>`;
+  const games = sortHomeGames(filteredGames());
+  const visibleGames = sortHomeGames(publicGames());
+  const featuredGames = [];
+  const todayGifts = publicTodayRewards().filter((reward) => isLinkActive(reward) && !rewardIsCode(reward)).length;
+  const recentRewards = recentHomeRewards().slice(0, 12);
+  const arrivalRewards = recentRewards;
+  const heroTiles = visibleGames.slice(0, 5).map((game, index) => `<div class="home-hero-tile home-hero-tile-${index}" aria-hidden="true">${gameArt(game, "home-hero-art")}</div>`).join("");
+  const newsCards = publicNews().slice(0, 4).map((item) => {
+    const game = gameFor(item.game_slug);
+    const image = item.image ? `<img src="${esc(assetUrl(item.image))}" alt="" loading="lazy" />` : game ? gameArt(game, "home-news-art") : "";
+    return `<a class="home-news-card" href="${pathFor("news")}" data-route><div class="home-news-image">${image || "✦"}</div><div class="home-news-copy"><span>${esc(game?.name || item.game_name || "Game Gifts")}</span><h3>${esc(item.title || "Novidade")}</h3><time>${esc(newsDateLabel(item.published_at || item.created_at))}</time><strong>${esc(state.lang === "pt" ? "VER NOVIDADE" : "VIEW UPDATE")} <b>→</b></strong></div></a>`;
+  }).join("");
+  const giftsContent = recentRewards.length ? recentRewards.map(homePremiumRewardCard).join("") : `<div class="home-empty-state"><span>🎁</span><strong>${esc(homeCopy().noRecent)}</strong><p>${esc(homeSearchingCopy()[1])}</p></div>`;
+  const newsContent = newsCards || `<div class="home-empty-state home-empty-news"><span>🔥</span><strong>${state.lang === "pt" ? "Nenhuma novidade encontrada agora." : "No updates found right now."}</strong><p>${esc(copy().noNewsCopy)}</p></div>`;
+  const sortLabel = state.lang === "pt" ? { all: "Todos", popular: "Mais populares", az: "A-Z", new: "Novos" } : { all: "All", popular: "Most popular", az: "A-Z", new: "New" };
+  const trustItems = state.lang === "pt" ? [["🛡️", "Links verificados", "Seguros e atualizados"], ["⚡", "Novos presentes todos os dias", "Fique por dentro e não perca nada"], ["👥", "Comunidade global", "Milhares de jogadores"], ["🔒", "100% Grátis", "Sem cadastro"]] : [["🛡️", "Verified links", "Safe and updated"], ["⚡", "New gifts every day", "Never miss an update"], ["👥", "Global community", "Thousands of players"], ["🔒", "100% Free", "No sign-up"]];
+  return `<div class="home-dashboard"><section class="home-dashboard-hero" aria-label="GAME GIFTS"><div class="home-hero-backdrop">${heroTiles}<span class="home-hero-glow home-hero-glow-one"></span><span class="home-hero-glow home-hero-glow-two"></span></div><div class="home-dashboard-hero-copy"><span class="home-hero-kicker">🎮 GAME GIFTS · ${todayGifts || 0} ${state.lang === "pt" ? "ATIVOS HOJE" : "ACTIVE TODAY"}</span><h1>${state.lang === "pt" ? "SEUS JOGOS" : "YOUR GAMES"}<br><em>${state.lang === "pt" ? "SEUS PRESENTES" : "YOUR GIFTS"}</em></h1><p>${state.lang === "pt" ? "Descubra, resgate e jogue mais!" : "Discover, redeem and play more!"}</p></div></section><nav class="home-quick-links" aria-label="Atalhos"><a href="${pathFor("news")}?recent=1" data-route><span>🎁</span>${state.lang === "pt" ? "Presentes Grátis" : "Free Gifts"}</a><a href="${pathFor("games")}" data-route><span>⚡</span>${state.lang === "pt" ? "Links Diários" : "Daily Links"}</a><a href="${pathFor("games")}?codes=1" data-route><span>⭐</span>${state.lang === "pt" ? "Códigos" : "Codes"}</a><a href="${pathFor("news")}" data-route><span>🔥</span>${state.lang === "pt" ? "Novidades" : "News"}</a></nav><section class="home-dashboard-section home-arrival-section"><div class="home-dashboard-heading"><div><span class="home-dashboard-kicker">⚡ ${state.lang === "pt" ? "ACABOU DE CHEGAR" : "JUST IN"}</span><p>${state.lang === "pt" ? "Presentes encontrados recentemente. Seja rápido!" : "Recently found gifts. Be quick!"}</p></div><a href="${pathFor("news")}?recent=1" data-route>${state.lang === "pt" ? "Ver todos" : "View all"} <b>→</b></a></div><div class="home-arrival-grid">${arrivalRewards.map(homeArrivalCard).join("") || `<div class="home-empty-state"><span>🎁</span><strong>${esc(homeCopy().noRecent)}</strong></div>`}</div></section><section class="home-dashboard-section home-featured-section"><div class="home-dashboard-heading"><div><span class="home-dashboard-kicker">⭐ ${state.lang === "pt" ? "DESTAQUES DA SEMANA" : "WEEKLY HIGHLIGHTS"}</span></div><a href="${pathFor("games")}" data-route>${state.lang === "pt" ? "Ver todos" : "View all"} <b>→</b></a></div><div class="home-featured-games-grid">${featuredGames.map(homeFeaturedGameCard).join("") || emptyState(copy().noGames, copy().noGamesCopy)}</div></section><section class="home-dashboard-section home-all-games-section"><div class="home-dashboard-heading home-all-games-heading"><div><span class="home-dashboard-kicker">🎮 ${state.lang === "pt" ? "TODOS OS JOGOS" : "ALL GAMES"}</span><p>${state.lang === "pt" ? "Escolha um jogo e veja todos os presentes disponíveis." : "Choose a game and see all available gifts."}</p></div><div class="home-game-filters"><button type="button" class="home-filter-icon" data-home-sort="all" aria-label="${sortLabel.all}">▦</button><button type="button" class="${state.homeSort === "all" ? "is-active" : ""}" data-home-sort="all">${sortLabel.all}</button><button type="button" class="${state.homeSort === "popular" ? "is-active" : ""}" data-home-sort="popular">♡ ${sortLabel.popular}</button><button type="button" class="${state.homeSort === "az" ? "is-active" : ""}" data-home-sort="az">${sortLabel.az}</button><button type="button" class="${state.homeSort === "new" ? "is-active" : ""}" data-home-sort="new">🔥 ${sortLabel.new}</button></div></div><div class="home-premium-games-grid home-all-games-grid">${games.map((game) => homeGameCard(game)).join("") || emptyState(copy().noGames, copy().noGamesCopy)}</div></section><section class="home-dashboard-section home-news-section"><div class="home-dashboard-heading"><div><span class="home-dashboard-kicker">📣 ${state.lang === "pt" ? "NOVIDADES DOS JOGOS" : "GAME NEWS"}</span><p>${state.lang === "pt" ? "Eventos, temporadas e mudanças relevantes dos jogos." : "Events, seasons and relevant game updates."}</p></div><a href="${pathFor("news")}" data-route>${state.lang === "pt" ? "Ver todas" : "View all"} <b>→</b></a></div><div class="home-news-grid">${newsContent}</div></section><section class="home-trust-strip" aria-label="Game Gifts"><div>${trustItems.map(([icon,title,desc]) => `<article><span>${icon}</span><div><strong>${esc(title)}</strong><small>${esc(desc)}</small></div></article>`).join("")}</div></section></div>`;
 };
-const renderGames = () => `<div class="page-top"><a href="${pathFor("home")}" data-route class="back-link">‹ ${esc(copy().home)}</a></div><div class="section-head" style="margin-top:0"><div><p class="eyebrow">✦ GAME GIFTS</p><h1 style="font-size:clamp(30px,5vw,52px)">${esc(copy().allGames)}</h1></div></div><div class="games-grid">${filteredGames().map(gameCard).join("") || emptyState(copy().noGames, copy().noGamesCopy)}</div>`;
+const renderGames = () => { const codesOnly = new URLSearchParams(location.search).get("codes") === "1"; const filtered = filteredGames(); const list = codesOnly ? filtered.filter((game) => activeRewardsForGame(game).some((reward) => rewardIsCode(reward))) : sortHomeGames(filtered); const title = codesOnly ? (state.lang === "pt" ? "Códigos reais" : state.lang === "en" ? "Real codes" : state.lang === "es" ? "Códigos reales" : state.lang === "de" ? "Echte Codes" : "Gerçek kodlar") : (state.lang === "pt" ? "Jogos" : copy().allGames); return `<div class="page-top"><button type="button" data-go-back="${pathFor("home")}" class="back-link">← ${esc(copy().home)}</button></div><div class="section-head" style="margin-top:0"><div><p class="eyebrow">🎮 GAME GIFTS</p><h1 style="font-size:clamp(30px,5vw,52px)">${esc(title)}</h1><p>${esc(state.lang === "pt" ? "Jogos com presentes reais disponíveis aparecem primeiro." : "Games with real available gifts appear first.")}</p></div></div><div class="games-grid">${list.map((game) => gameCard(game)).join("") || emptyState(codesOnly ? (state.lang === "pt" ? "Nenhum código real disponível" : "No real codes available") : copy().noGames, codesOnly ? (state.lang === "pt" ? "Os códigos publicados aparecerão aqui quando existirem." : "Published codes will appear here when available.") : copy().noGamesCopy, "🎟️")}</div>`; };
 const groupByDate = (items) => items.reduce((groups, item) => { const date = rewardDateKey(item); if (date) (groups[date] ||= []).push(item); return groups; }, {});
 const todayEmptyState = () => {
   const title = state.lang === "pt" ? "0 disponíveis" : state.lang === "en" ? "0 available" : state.lang === "es" ? "0 disponibles" : state.lang === "de" ? "0 verfügbar" : "0 mevcut";
@@ -604,6 +1304,52 @@ const renderHistory = (game, rewards) => {
   if (state.selectedDate) { const chosen = rewards.filter((reward) => rewardDateKey(reward) === state.selectedDate); return `<button class="back-link" data-date="">‹ ${esc(copy().backHistory)}</button><div class="section-head" style="margin-top:19px"><div><p class="eyebrow">${esc(dateLabel(state.selectedDate, { full: true }))}</p><h2>${chosen.length} ${esc(copy().dateLinks)}</h2></div></div><div class="reward-list">${sortRewards(chosen).map((reward, index) => rewardCard(reward, game, index + 1)).join("") || emptyState(copy().noRewards, copy().noRewardsCopy)}</div>`; }
   return groups.length ? `<div class="date-list">${groups.map(([date, list]) => `<div class="date-group"><div><h3>${esc(dateLabel(date, { full: true }))}</h3><p>${list.length} ${esc(copy().dateLinks)}</p></div><button type="button" data-date="${esc(date)}">›</button></div>`).join("")}</div>` : emptyState(copy().noRewards, copy().noRewardsCopy, "◷");
 };
+const centralCopy = () => CENTRAL_COPY[state.lang] || CENTRAL_COPY.en;
+const centerContent = (game) => GAME_CENTER_CONTENT[game.slug]?.[state.lang] || GAME_CENTER_CONTENT[game.slug]?.en || GENERIC_CENTER_CONTENT[state.lang] || GENERIC_CENTER_CONTENT.en;
+const GENERIC_GAME_INFO_COPY = {
+  pt: { platform: "Mobile", reward: "recompensas por links", how: "Jogue normalmente e consulte esta página quando quiser encontrar novos links públicos do jogo.", redeem: ["Abra um link recente na seção de presentes.", "Siga o redirecionamento até o jogo.", "Confira a recompensa dentro do jogo antes de sair."] },
+  en: { platform: "Mobile", reward: "link rewards", how: "Play normally and return here whenever you want to find new public links for the game.", redeem: ["Open a recent link in the gifts section.", "Follow the redirect to the game.", "Check the reward inside the game before leaving."] },
+  es: { platform: "Móvil", reward: "recompensas por enlaces", how: "Juega normalmente y vuelve aquí para encontrar nuevos enlaces públicos del juego.", redeem: ["Abre un enlace reciente en la sección de regalos.", "Sigue la redirección hasta el juego.", "Comprueba la recompensa dentro del juego."] },
+  de: { platform: "Mobil", reward: "Belohnungen über Links", how: "Spiele normal und komm zurück, wenn du neue öffentliche Links finden möchtest.", redeem: ["Öffne einen aktuellen Link im Geschenkbereich.", "Folge der Weiterleitung zum Spiel.", "Prüfe die Belohnung im Spiel."] },
+  tr: { platform: "Mobil", reward: "bağlantı ödülleri", how: "Oyunu normal oynayın ve yeni herkese açık bağlantılar için buraya dönün.", redeem: ["Hediyeler bölümünden güncel bir bağlantı açın.", "Oyuna yönlendirmeyi takip edin.", "Ödülü oyunun içinde kontrol edin."] },
+};
+const gameInfoFor = (game) => GAME_INFO_CONTENT[game.slug]?.[state.lang] || GAME_INFO_CONTENT[game.slug]?.en || GAME_INFO_CONTENT[game.slug]?.pt || (() => { const generic = GENERIC_GAME_INFO_COPY[state.lang] || GENERIC_GAME_INFO_COPY.en; return { officialName: game.name, description: game.description || copy().chooseCopy, publisher: "", platforms: generic.platform, rewards: [generic.reward], howWorks: [generic.how], giftLinks: "", redeem: generic.redeem, important: [], links: [] }; })();
+const gameInfoLabels = () => GAME_INFO_LABELS[state.lang] || GAME_INFO_LABELS.en;
+const renderInfoList = (items, className = "") => items?.length ? `<ul class="game-info-list ${className}">${items.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>` : "";
+const renderGameInfoPanel = (game) => {
+  const info = gameInfoFor(game);
+  if (!info) return "";
+  const labels = gameInfoLabels();
+  const detail = (label, value) => value ? `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>` : "";
+  const links = info.links?.length ? `<section class="game-info-block game-info-links"><p class="eyebrow">↗ ${esc(labels.officialLinks)}</p><div class="game-info-link-list">${info.links.map((link) => `<a class="outline-button" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.label)} ↗</a>`).join("")}</div>${info.socials?.length ? `<p class="game-info-subtitle">${esc(labels.social)}</p><div class="game-info-link-list">${info.socials.map((link) => `<a class="outline-button" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.label)} ↗</a>`).join("")}</div>` : ""}</section>` : "";
+  return `<article class="game-central-card game-info-shell game-central-wide"><div class="game-info-overview"><div class="game-info-logo">${gameArt(game, "card-art")}</div><div><p class="eyebrow">ⓘ ${esc(labels.details)}</p><h3>${esc(info.officialName)}</h3><p>${esc(info.description)}</p></div></div><dl class="game-info-details">${detail(labels.officialName, info.officialName)}${detail(labels.publisher, info.publisher)}${detail(labels.platforms, info.platforms)}${info.rewards?.length ? `<div><dt>${esc(labels.rewards)}</dt><dd><div class="game-info-chips">${info.rewards.map((reward) => `<span>${esc(reward)}</span>`).join("")}</div></dd></div>` : ""}</dl><div class="game-info-sections"><section class="game-info-block"><p class="eyebrow">✦ ${esc(labels.howWorks)}</p>${renderInfoList(info.howWorks)}</section><section class="game-info-block"><p class="eyebrow">🎁 ${esc(labels.giftLinks)}</p><p>${esc(info.giftLinks)}</p></section><section class="game-info-block"><p class="eyebrow">✓ ${esc(labels.redeem)}</p>${renderInfoList(info.redeem)}</section><section class="game-info-block"><p class="eyebrow">! ${esc(labels.important)}</p>${renderInfoList(info.important, "game-info-important")}</section></div>${links}</article>`;
+};
+const renderGamePrimaryNav = () => {
+  const ui = centralCopy();
+  const tab = ["guides", "tips", "news"].includes(state.centralTab) ? state.centralTab : "guides";
+  const section = state.gameSection || "rewards";
+  return `<nav class="game-primary-nav" aria-label="${esc(ui.title)}"><a class="game-primary-link ${section === "rewards" ? "is-active" : ""}" href="#game-rewards" ${section === "rewards" ? 'aria-current="page"' : ""}>${esc(ui.rewards)}</a><button class="game-primary-link ${section === "guides" ? "is-active" : ""}" type="button" data-central-tab="guides" ${section === "guides" ? 'aria-current="page"' : ""}>${esc(ui.guides)}</button><button class="game-primary-link ${section === "news" ? "is-active" : ""}" type="button" data-central-tab="news" ${section === "news" ? 'aria-current="page"' : ""}>${esc(ui.news)}</button><button class="game-primary-link ${section === "tips" ? "is-active" : ""}" type="button" data-central-tab="tips" ${section === "tips" ? 'aria-current="page"' : ""}>${esc(ui.tips)}</button></nav>`;
+};
+const renderGameCentral = (game, todayList = publicTodayRewardsForGame(game)) => {
+  const ui = centralCopy();
+  const content = centerContent(game);
+  const tab = ["guides", "tips", "news"].includes(state.centralTab) ? state.centralTab : "guides";
+  const otherGames = publicGames().filter((item) => Number(item.id) !== Number(game.id) && publicTodayRewardsForGame(item).length).slice(0, 4);
+  const todayCount = todayList.length;
+  const availableNow = state.lang === "pt" ? `${todayCount} ${todayCount === 1 ? "presente real disponível" : "presentes reais disponíveis"} hoje` : state.lang === "en" ? `${todayCount} real ${todayCount === 1 ? "gift is" : "gifts are"} available today` : state.lang === "es" ? `${todayCount} ${todayCount === 1 ? "regalo real disponible" : "regalos reales disponibles"} hoy` : state.lang === "de" ? `${todayCount} echte ${todayCount === 1 ? "Geschenk ist" : "Geschenke sind"} heute verfügbar` : `${todayCount} gerçek hediye bugün mevcut`;
+  const gameNews = publicNewsForGame(game);
+  const latestNews = gameNews[0] || null;
+  const quickUpdate = latestNews?.title || ui.noNews;
+  const quickUpdateCopy = latestNews?.summary || ui.noNewsCopy;
+  const fav = isFavorite("game", game.id);
+  const following = noticePrefs().games.includes(String(game.slug));
+  let panel = "";
+  if (tab === "guides") panel = renderGameInfoPanel(game);
+  if (tab === "tips") panel = `<div class="game-central-card game-central-wide"><p class="eyebrow">✦ ${esc(ui.tips)}</p><h3>${esc(ui.tipsTitle)}</h3><ul>${content.tips.map((tip) => `<li>${esc(tip)}</li>`).join("")}</ul><p class="game-central-note">${esc(ui.moreSoon)}</p></div>`;
+  if (tab === "news") panel = `<div class="game-central-card game-central-wide game-central-empty"><p class="eyebrow">✧ ${esc(ui.news)}</p><h3>${esc(ui.noNews)}</h3><p>${esc(ui.noNewsCopy)}</p><a class="outline-button" href="#game-rewards">${esc(ui.viewRewards)} ↗</a></div>`;
+  const otherGamesMarkup = otherGames.length ? otherGames.map((item) => `<a class="other-game-card" href="${pathFor("games", item.slug)}" data-route>${gameArt(item, "card-art other-game-art")}<span>${esc(item.name)}</span><small>${esc(publicTodayLabel(item))}</small></a>`).join("") : `<p class="other-games-empty">${esc(ui.noOtherGames)}</p>`;
+  return `<section class="game-central" id="game-central"><div class="game-central-heading"><div><p class="eyebrow">✦ ${esc(ui.title)}</p><h2>${esc(game.name)}</h2><p>${esc(ui.copy)}</p></div></div><div class="game-highlight-grid"><article class="game-highlight game-highlight-gift"><span class="game-highlight-icon">🎁</span><div><small>${esc(ui.freeNow)}</small><strong>${todayCount}</strong><p>${esc(availableNow)}</p></div></article><article class="game-highlight game-highlight-news"><span class="game-highlight-icon">📣</span><div><small>${esc(ui.quickNews)}</small><strong>${esc(quickUpdate)}</strong><p>${esc(quickUpdateCopy)}</p>${latestNews?.source_name ? `<small class="highlight-source">${esc(latestNews.source_name)}</small>` : ""}</div></article><article class="game-highlight"><span class="game-highlight-icon">💡</span><div><small>${esc(ui.dailyTip)}</small><strong>${esc(content.tips[0])}</strong></div></article></div><div class="game-central-panel">${panel}</div><div class="game-alert-card"><div><span class="game-alert-icon">🔔</span><div><strong>${esc(ui.notify)}</strong><p>${esc(following ? ui.alertOn : ui.follow)}</p></div></div><button type="button" class="game-follow-button ${following ? "is-following" : ""}" data-notice-toggle="${esc(game.slug)}">${following ? "✓ " + esc(ui.following) : esc(ui.follow)}</button></div><section class="other-games-section"><div class="other-games-heading"><div><p class="eyebrow">🎮 GAME GIFTS</p><h3>${esc(ui.otherGames)}</h3></div></div><div class="other-games-grid">${otherGamesMarkup}</div></section></section>`;
+};
 const noNewRewardState = () => emptyState(copy().noNewGiftTitle, copy().noNewGiftCopy, "🎁");
 const yesterdayCountLabel = (count) => {
   if (state.lang === "pt") return `${count} ${count === 1 ? "presente" : "presentes"} de ontem`;
@@ -613,41 +1359,328 @@ const yesterdayCountLabel = (count) => {
   return `${count} ${count === 1 ? "dünkü hediye" : "dünkü hediye"}`;
 };
 const yesterdayCallout = (count, priority = false) => `<button type="button" class="yesterday-callout ${priority ? "is-priority" : ""}" data-tab="yesterday" aria-label="${esc(`${yesterdayCountLabel(count)} · ${copy().yesterdayCtaAction}`)}"><span class="yesterday-callout-icon" aria-hidden="true">🎁</span><span class="yesterday-callout-copy"><strong>${esc(yesterdayCountLabel(count))}</strong><span>${esc(copy().yesterdayCtaCopy)}</span></span><span class="yesterday-callout-action">${esc(copy().yesterdayCtaAction)} <b aria-hidden="true">→</b></span></button>`;
+const GAME_PAGE_COPY = {
+  pt: { cover: "UNIVERSO DO JOGO", today: "PRESENTES DE HOJE", todayCopy: "Links públicos encontrados e organizados por data.", codes: "CÓDIGOS GRÁTIS", codesCopy: "Use somente códigos publicados por fontes legítimas.", previous: "PRESENTES ANTERIORES", previousCopy: "Recompensas recentes que continuam no histórico.", news: "NOVIDADES", newsCopy: "Atualizações reais e informações relevantes do jogo.", tips: "DICAS", tipsCopy: "Pequenas estratégias para aproveitar melhor o jogo.", redeem: "COMO RESGATAR", redeemCopy: "Siga os passos abaixo e confirme a recompensa dentro do jogo.", info: "INFORMAÇÕES DO JOGO", infoCopy: "Detalhes oficiais, plataformas e links confiáveis.", other: "OUTROS JOGOS", otherCopy: "Explore mais presentes e códigos no Game Gifts.", follow: "Receba um aviso quando aparecerem novos presentes." },
+  en: { cover: "GAME UNIVERSE", today: "TODAY'S GIFTS", todayCopy: "Public links found and organized by date.", codes: "FREE CODES", codesCopy: "Only use codes published by legitimate sources.", previous: "PREVIOUS GIFTS", previousCopy: "Recent rewards that remain in the history.", news: "NEWS", newsCopy: "Real updates and useful information about the game.", tips: "TIPS", tipsCopy: "Small strategies to get more from the game.", redeem: "HOW TO REDEEM", redeemCopy: "Follow the steps and confirm the reward inside the game.", info: "GAME INFORMATION", infoCopy: "Official details, platforms and trusted links.", other: "OTHER GAMES", otherCopy: "Explore more gifts and codes on Game Gifts.", follow: "Get an alert when new gifts appear." },
+  es: { cover: "UNIVERSO DEL JUEGO", today: "REGALOS DE HOY", todayCopy: "Enlaces públicos encontrados y ordenados por fecha.", codes: "CÓDIGOS GRATIS", codesCopy: "Usa solo códigos publicados por fuentes legítimas.", previous: "REGALOS ANTERIORES", previousCopy: "Recompensas recientes que permanecen en el historial.", news: "NOVEDADES", newsCopy: "Actualizaciones reales e información útil del juego.", tips: "CONSEJOS", tipsCopy: "Pequeñas estrategias para aprovechar mejor el juego.", redeem: "CÓMO CANJEAR", redeemCopy: "Sigue los pasos y confirma la recompensa dentro del juego.", info: "INFORMACIÓN DEL JUEGO", infoCopy: "Detalles oficiales, plataformas y enlaces confiables.", other: "OTROS JUEGOS", otherCopy: "Explora más regalos y códigos en Game Gifts.", follow: "Recibe un aviso cuando aparezcan nuevos regalos." },
+  de: { cover: "SPIEL-UNIVERSUM", today: "GESCHENKE HEUTE", todayCopy: "Öffentliche Links nach Datum geordnet.", codes: "KOSTENLOSE CODES", codesCopy: "Nutze nur Codes aus legitimen Quellen.", previous: "FRÜHERE GESCHENKE", previousCopy: "Aktuelle Belohnungen im Verlauf.", news: "NEUIGKEITEN", newsCopy: "Echte Updates und nützliche Spielinformationen.", tips: "TIPPS", tipsCopy: "Kleine Strategien für mehr Spielspaß.", redeem: "SO LÖST DU EIN", redeemCopy: "Folge den Schritten und prüfe die Belohnung im Spiel.", info: "SPIELINFORMATIONEN", infoCopy: "Offizielle Details, Plattformen und vertrauenswürdige Links.", other: "ANDERE SPIELE", otherCopy: "Entdecke weitere Geschenke und Codes.", follow: "Erhalte einen Hinweis bei neuen Geschenken." },
+  tr: { cover: "OYUN EVRENİ", today: "BUGÜNÜN HEDİYELERİ", todayCopy: "Tarihe göre düzenlenmiş herkese açık bağlantılar.", codes: "ÜCRETSİZ KODLAR", codesCopy: "Yalnızca güvenilir kaynaklardan gelen kodları kullanın.", previous: "ÖNCEKİ HEDİYELER", previousCopy: "Geçmişte kalan güncel ödüller.", news: "YENİLİKLER", newsCopy: "Gerçek güncellemeler ve yararlı oyun bilgileri.", tips: "İPUÇLARI", tipsCopy: "Oyundan daha iyi yararlanmak için küçük stratejiler.", redeem: "NASIL ALINIR", redeemCopy: "Adımları izleyin ve ödülü oyunda kontrol edin.", info: "OYUN BİLGİLERİ", infoCopy: "Resmi ayrıntılar, platformlar ve güvenilir bağlantılar.", other: "DİĞER OYUNLAR", otherCopy: "Daha fazla hediye ve kod keşfedin.", follow: "Yeni hediyeler geldiğinde haber alın." },
+};
+const gamePageCopy = () => GAME_PAGE_COPY[state.lang] || GAME_PAGE_COPY.en;
+const gameVerticalSection = (id, icon, title, description, body, className = "") => `<section class="game-vertical-section ${className}" id="${id}"><div class="game-section-heading"><span class="game-section-icon" aria-hidden="true">${icon}</span><div><p class="game-section-kicker">${esc(title)}</p>${description ? `<p class="game-section-description">${esc(description)}</p>` : ""}</div></div>${body}</section>`;
+const renderGameTipsSection = (game) => {
+  const content = centerContent(game);
+  return content?.tips?.length ? gameVerticalSection("game-tips", "💡", gamePageCopy().tips, gamePageCopy().tipsCopy, `<div class="game-tip-grid">${content.tips.map((tip, index) => `<article class="game-tip-card"><span>${String(index + 1).padStart(2, "0")}</span><p>${esc(tip)}</p></article>`).join("")}</div>`) : "";
+};
+const renderGameRedeemSection = (game) => {
+  const info = gameInfoFor(game);
+  if (!info?.redeem?.length) return "";
+  return gameVerticalSection("game-redeem", "📖", gamePageCopy().redeem, gamePageCopy().redeemCopy, `<ol class="game-redeem-steps">${info.redeem.map((step) => `<li>${esc(step)}</li>`).join("")}</ol>`);
+};
+const renderGameInfoSection = (game) => {
+  const info = gameInfoFor(game);
+  if (!info) return "";
+  const labels = gameInfoLabels();
+  const detail = (label, value) => value ? `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>` : "";
+  const links = info.links?.length ? `<div class="game-info-link-list">${info.links.map((link) => `<a class="outline-button" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.label)} ↗</a>`).join("")}</div>` : "";
+  return gameVerticalSection("game-info", "🎮", gamePageCopy().info, gamePageCopy().infoCopy, `<article class="game-info-shell game-info-shell-cartoon"><div class="game-info-overview"><div class="game-info-logo">${gameArt(game, "card-art")}</div><div><p class="eyebrow">ⓘ ${esc(labels.details)}</p><h3>${esc(info.officialName)}</h3><p>${esc(info.description)}</p></div></div><dl class="game-info-details">${detail(labels.officialName, info.officialName)}${detail(labels.publisher, info.publisher)}${detail(labels.platforms, info.platforms)}${info.rewards?.length ? `<div><dt>${esc(labels.rewards)}</dt><dd><div class="game-info-chips">${info.rewards.map((reward) => `<span>${esc(reward)}</span>`).join("")}</div></dd></div>` : ""}</dl>${info.howWorks?.length ? `<div class="game-info-how"><p class="eyebrow">✦ ${esc(labels.howWorks)}</p>${renderInfoList(info.howWorks)}</div>` : ""}${links ? `<div class="game-info-links"><p class="eyebrow">↗ ${esc(labels.officialLinks)}</p>${links}</div>` : ""}</article>`);
+};
 const renderGame = (game) => {
   const all = publicRewardsForGame(game);
   const mode = game.reward_mode || "links";
-  const modeLabel = mode === "codes" ? copy().codesMode : mode === "none" ? copy().noneMode : copy().linksMode;
-  const todayList = sortRewards(publicTodayRewardsForGame(game));
-  const yesterdayList = sortRewards(all.filter((reward) => isLinkActive(reward) && rewardDateKey(reward) === yesterdayKey()));
-  const tab = state.tab;
-  let content = "";
-  if (tab === "history") content = renderHistory(game, all.filter((reward) => rewardDateKey(reward) < yesterdayKey() || isProblem(reward) || isExpired(reward)));
-  if (tab === "today") {
-    const todayHeading = ["match-masters", "coin-master"].includes(game.slug) ? `<div class="match-section-title"><div><p class="eyebrow">✦ ${esc(copy().today)}</p><h2>${esc(copy().today)}</h2></div><strong>${todayList.length}<small>${esc(availableLabel(todayList.length))}</small></strong></div>` : "";
-    const emptyToday = mode === "none" ? emptyState(copy().noneMode, copy().noRewardNow, "—") : mode === "codes" ? emptyState(copy().codesMode, copy().noCodeNow, "#") : !todayList.length ? noNewRewardState() : emptyState(copy().noRewards, copy().noRewardsCopy, "✦");
-    const yesterdayBanner = yesterdayList.length ? yesterdayCallout(yesterdayList.length, !todayList.length) : "";
-    content = `${todayHeading}${yesterdayBanner}${todayList.length ? `<div class="reward-list">${todayList.map((reward, index) => rewardCard(reward, game, index + 1)).join("")}</div>` : emptyToday}`;
-  }
-  if (tab === "yesterday") content = yesterdayList.length ? `<div class="date-context"><span class="eyebrow">◷ ${esc(copy().yesterday)}</span><strong>${esc(dateLabel(yesterdayKey(), { full: true }))}</strong></div><div class="reward-list">${yesterdayList.map((reward, index) => rewardCard(reward, game, index + 1)).join("")}</div>` : mode === "none" ? emptyState(copy().noneMode, copy().noRewardNow, "—") : mode === "codes" ? emptyState(copy().codesMode, copy().noCodeNow, "#") : emptyState(copy().noRewards, copy().noRewardsCopy, "◷");
-  if (tab === "opened") { const list = sortRewards(all.filter((reward) => opened()[reward.id])); content = list.length ? `<div class="reward-list">${list.map((reward, index) => rewardCard(reward, game, index + 1)).join("")}</div>` : emptyState(copy().noOpened, copy().noOpenedCopy, "✓"); }
-  if (tab === "expired") { const list = sortRewards(all.filter(isExpired)); content = list.length ? `<div class="reward-list">${list.map((reward, index) => rewardCard(reward, game, index + 1)).join("")}</div>` : emptyState(copy().noRewards, copy().noRewardsCopy, "×"); }
+  const hasCodes = all.some(rewardIsCode);
+  const hasLinks = all.some((reward) => !rewardIsCode(reward));
+  const modeLabel = mode === "none" && !hasCodes && !hasLinks ? copy().noneMode : hasCodes && hasLinks ? (state.lang === "pt" ? "🎁 PRESENTES + 🎟️ CÓDIGOS" : state.lang === "en" ? "🎁 GIFTS + 🎟️ CODES" : state.lang === "es" ? "🎁 REGALOS + 🎟️ CÓDIGOS" : state.lang === "de" ? "🎁 GESCHENKE + 🎟️ CODES" : "🎁 HEDİYELER + 🎟️ KODLAR") : hasCodes ? (state.lang === "pt" ? "🎟️ CÓDIGOS" : state.lang === "en" ? "🎟️ CODES" : state.lang === "es" ? "🎟️ CÓDIGOS" : state.lang === "de" ? "🎟️ CODES" : "🎟️ KODLAR") : copy().linksMode;
+  const currentRewards = sortRewards(all.filter((reward) => isLinkActive(reward) && (rewardIsCode(reward) || !rewardDetectedDateKey(reward) || rewardDetectedDateKey(reward) >= todayKey())));
+  const currentIds = new Set(currentRewards.map((reward) => String(reward.id)));
+  const currentLinks = currentRewards.filter((reward) => !rewardIsCode(reward));
+  const codeRewards = currentRewards.filter(rewardIsCode);
+  const previousRewards = sortRewards(all.filter((reward) => !currentIds.has(String(reward.id))));
+  const openedRewards = sortRewards(all.filter((reward) => opened()[reward.id] && !currentIds.has(String(reward.id))));
+  const news = publicNewsForGame(game);
   const fav = isFavorite("game", game.id);
+  const following = noticePrefs().games.includes(String(game.slug));
   const profile = CATALOG_PROFILE[game.slug] || { source: copy().unknownSource, sourceUrl: "", cadence: "recorrente", types: copy().unconfirmedReward };
   const profileSource = profile.sourceUrl ? `<a href="${esc(profile.sourceUrl)}" target="_blank" rel="noopener noreferrer">${esc(profile.source)} ↗</a>` : `<strong>${esc(profile.source)}</strong>`;
-  const yesterdayTab = game.slug === "coin-master" ? "" : `<button class="tab ${tab === "yesterday" ? "active" : ""}" data-tab="yesterday">${esc(copy().yesterday)}</button>`;
-  return `<div class="page-top"><a href="${pathFor("games")}" data-route class="back-link">‹ ${esc(copy().games)}</a></div><section class="game-intro ${game.slug === "match-masters" ? "match-masters-intro" : ""}">${gameArt(game, "game-cover")}<div><p class="eyebrow">✦ ${esc(modeLabel)}</p><h1>${esc(game.name)}</h1><p>${esc(game.description || copy().chooseCopy)}</p></div><button class="icon-button ${fav ? "is-favorite" : ""}" type="button" title="${esc(fav ? copy().unfavorite : copy().favorite)}" data-favorite-type="game" data-favorite-id="${game.id}">${fav ? "♥" : "♡"}</button></section><section class="game-proof"><div><small>${esc(copy().source)}</small>${profileSource}</div><div><small>${esc(copy().rewardTypes)}</small><strong>${esc(profile.types)}</strong></div><div><small>${esc(copy().cadence)}</small><strong>${esc(profile.cadence)}</strong></div><p>ⓘ ${esc(copy().note)} ${mode === "none" ? `· ${esc(copy().noRewardNow)}` : ""}</p>${game.slug === "match-masters" ? `<p class="match-validation-note">ⓘ ${esc(copy().matchMastersPolicy)}</p>` : ""}</section><div class="tabs"><button class="tab ${tab === "today" ? "active" : ""}" data-tab="today">${esc(copy().today)}</button>${yesterdayTab}<button class="tab ${tab === "history" ? "active" : ""}" data-tab="history">${esc(copy().previous)}</button><button class="tab ${tab === "opened" ? "active" : ""}" data-tab="opened">${esc(copy().opened)}</button><button class="tab ${tab === "expired" ? "active" : ""}" data-tab="expired">${esc(copy().expired)}</button></div>${content}`;
+  const otherGames = publicGames().filter((item) => Number(item.id) !== Number(game.id)).slice(0, 4);
+  const otherGamesMarkup = otherGames.length ? otherGames.map((item) => `<a class="other-game-card" href="${pathFor("games", item.slug)}" data-route>${gameArt(item, "card-art other-game-art")}<span>${esc(item.name)}</span><small>${esc(item.reward_mode === "codes" ? "🎟️ " + copy().codesMode : "🎁 " + copy().linksMode)}</small></a>`).join("") : "";
+  const currentEmptySection = currentRewards.length ? "" : `<div class="game-compact-empty"><strong>${esc(state.lang === "pt" ? "Nenhum presente disponível por enquanto." : state.lang === "en" ? "No gift available right now." : state.lang === "es" ? "No hay regalos disponibles ahora." : state.lang === "de" ? "Momentan kein Geschenk verfügbar." : "Şu anda mevcut hediye yok.")}</strong><span>${esc(state.lang === "pt" ? "A coleta continua verificando links e códigos reais." : state.lang === "en" ? "Collection is still checking real links and codes." : state.lang === "es" ? "La recopilación sigue comprobando enlaces y códigos reales." : state.lang === "de" ? "Die Sammlung prüft weiterhin echte Links und Codes." : "Toplama gerçek bağlantıları ve kodları kontrol ediyor.")}</span></div>`;
+  const availableTitle = state.lang === "pt" ? "PRESENTES DISPONÍVEIS" : state.lang === "en" ? "AVAILABLE GIFTS" : state.lang === "es" ? "REGALOS DISPONIBLES" : state.lang === "de" ? "VERFÜGBARE GESCHENKE" : "MEVCUT HEDİYELER";
+  const availableCopy = state.lang === "pt" ? "Links reais que ainda podem ser abertos." : state.lang === "en" ? "Real links that can still be opened." : state.lang === "es" ? "Enlaces reales que aún pueden abrirse." : state.lang === "de" ? "Echte Links, die noch geöffnet werden können." : "Hâlâ açılabilen gerçek bağlantılar.";
+  const todaySection = currentLinks.length ? gameVerticalSection("game-rewards", "🎁", availableTitle, availableCopy, `<div class="reward-list">${currentLinks.map((reward, index) => rewardCard(reward, game, index + 1)).join("")}</div>`, "game-rewards-section") : currentRewards.length ? "" : currentEmptySection;
+  const codesSection = codeRewards.length ? gameVerticalSection("game-codes", "🎟️", gamePageCopy().codes, gamePageCopy().codesCopy, `<div class="reward-list">${codeRewards.map((reward, index) => rewardCard(reward, game, index + 1)).join("")}</div>`, "game-codes-section") : "";
+  const previousSection = previousRewards.length ? gameVerticalSection("game-previous", "🕐", gamePageCopy().previous, gamePageCopy().previousCopy, `<div class="reward-list">${previousRewards.map((reward, index) => rewardCard(reward, game, index + 1)).join("")}</div>`, "game-previous-section") : "";
+  const openedSection = openedRewards.length ? gameVerticalSection("game-opened", "✅", copy().opened, state.lang === "pt" ? "Presentes que você já abriu neste dispositivo." : state.lang === "en" ? "Gifts you have opened on this device." : state.lang === "es" ? "Regalos que ya abriste en este dispositivo." : state.lang === "de" ? "Geschenke, die du auf diesem Gerät geöffnet hast." : "Bu cihazda açtığınız hediyeler.", `<div class="reward-list">${openedRewards.map((reward, index) => rewardCard(reward, game, index + 1)).join("")}</div>`, "game-opened-section") : "";
+  const newsSection = news.length ? gameVerticalSection("game-news", "🔥", gamePageCopy().news, gamePageCopy().newsCopy, `<div class="editorial-news-list">${news.map(editorialNewsCard).join("")}</div>`) : "";
+  const followSection = `<div class="game-alert-card"><div><span class="game-alert-icon">🔔</span><div><strong>${esc(centralCopy().notify)}</strong><p>${esc(following ? centralCopy().alertOn : gamePageCopy().follow)}</p></div></div><button type="button" class="game-follow-button ${following ? "is-following" : ""}" data-notice-toggle="${esc(game.slug)}">${following ? "✓ " + esc(centralCopy().following) : esc(centralCopy().follow)}</button></div>`;
+  return `<div class="page-top"><button type="button" data-go-back="${pathFor("games")}" class="back-link">← ${esc(copy().games)}</button></div><section class="game-intro ${game.slug === "match-masters" ? "match-masters-intro" : ""}"><div class="game-hero-banner">${gameArt(game, "game-hero-art")}</div>${gameArt(game, "game-cover")}<div class="game-intro-copy"><p class="eyebrow">✦ ${esc(gamePageCopy().cover)} · ${esc(modeLabel)}</p><h1>${esc(game.name)}</h1><p>${esc(game.description || copy().chooseCopy)}</p></div><div class="game-intro-actions"><button class="game-follow-button ${fav ? "is-following" : ""}" type="button" data-favorite-type="game" data-favorite-id="${game.id}">${fav ? "✓ " + esc(centralCopy().following) : "♡ " + esc(centralCopy().follow)}</button></div></section><div class="game-vertical-flow">${todaySection}${codesSection}${previousSection}${openedSection}${newsSection}${renderGameTipsSection(game)}${renderGameRedeemSection(game)}${renderGameInfoSection(game)}<section class="game-proof"><div><small>${esc(copy().source)}</small>${profileSource}</div><div><small>${esc(copy().rewardTypes)}</small><strong>${esc(profile.types)}</strong></div><div><small>${esc(copy().cadence)}</small><strong>${esc(profile.cadence)}</strong></div><p>ⓘ ${esc(copy().note)} ${mode === "none" ? `· ${esc(copy().noRewardNow)}` : ""}</p>${game.slug === "match-masters" ? `<p class="match-validation-note">ⓘ ${esc(copy().matchMastersPolicy)}</p>` : ""}</section>${followSection}${otherGames.length ? gameVerticalSection("game-other", "🎯", gamePageCopy().other, gamePageCopy().otherCopy, `<div class="other-games-grid">${otherGamesMarkup}</div>`, "other-games-section") : ""}</div>`;
+};
+const renderMatchMastersRewardCard = (reward, game) => {
+  const visual = matchMastersTypeVisual(reward);
+  const quantity = matchMastersQuantity(reward);
+  const openedReward = Boolean(opened()[reward.id]);
+  const claimed = Boolean(claimedRewards()[reward.id]);
+  const status = openedReward || claimed ? { key: "opened", icon: "✓", label: state.lang === "pt" ? "JÁ ABERTO" : "ALREADY OPENED" } : isExpired(reward) ? { key: "expired", icon: "🔴", label: state.lang === "pt" ? "EXPIRADO" : "EXPIRED" } : isProblem(reward) || isUnconfirmed(reward) || !isConfirmedReward(reward) ? { key: "unconfirmed", icon: "⚠", label: state.lang === "pt" ? "NÃO CONFIRMADO" : "NOT CONFIRMED" } : { key: "available", icon: "🟢", label: state.lang === "pt" ? "DISPONÍVEL" : "AVAILABLE" };
+  const rewardName = usableRewardName(reward);
+  const rewardTitle = matchMastersManualLabel(reward) || (quantity ? `${quantity} ${visual?.label || (state.lang === "pt" ? "RECOMPENSA" : "REWARD")}` : rewardName || (state.lang === "pt" ? "Recompensa Match Masters" : "Match Masters reward"));
+  const directDescription = String(reward?.reward_description || "").trim();
+  const rewardDescription = matchMastersManualStatusText(reward) || (directDescription && !/^A URL foi encontrada/i.test(directDescription) ? directDescription : rewardDisplayText(reward));
+  const analytics = ` data-analytics-game-name="${esc(game.name)}" data-analytics-gift-name="${esc(rewardTitle)}" data-analytics-reward-id="${esc(reward.id)}"`;
+  const canOpen = Boolean(reward.url) && !isExpired(reward) && !isProblem(reward);
+  const collectLabel = matchMastersMessengerExclusive(reward) ? (state.lang === "pt" ? "ABRIR LINK DO MESSENGER" : state.lang === "es" ? "ABRIR EN MESSENGER" : state.lang === "de" ? "LINK IM MESSENGER ÖFFNEN" : state.lang === "tr" ? "MESSENGER BAĞLANTISINI AÇ" : "OPEN MESSENGER LINK") : (state.lang === "pt" ? "COLETAR PRESENTE" : "COLLECT GIFT");
+  const action = canOpen ? `<a class="mm-collect-button" href="${esc(reward.url)}" target="_blank" rel="noopener noreferrer" data-open-reward="${esc(reward.id)}"${analytics}>🎁 ${esc(collectLabel)} <span>↗</span></a>` : `<span class="mm-collect-button is-disabled">${esc(status.key === "expired" ? (state.lang === "pt" ? "EXPIRADO" : "EXPIRED") : (state.lang === "pt" ? "LINK INDISPONÍVEL" : "LINK UNAVAILABLE"))}</span>`;
+  const copyAction = reward.url && !isExpired(reward) && !isProblem(reward) ? `<button class="mm-secondary-action" type="button" data-copy-url="${esc(reward.url)}"${analytics}>${esc(copy().copyLink)}</button>` : "";
+  return `<article class="mm-reward-card ${status.key}"><div class="mm-reward-art">${rewardArt(reward, game)}<span class="mm-reward-game">🎮 ${esc(game.name)}</span></div><div class="mm-reward-card-content"><div class="mm-reward-status ${status.key}"><span>${status.icon}</span>${esc(status.label)}</div><h3>${esc(rewardTitle)}</h3><p class="mm-reward-description">${esc(rewardDescription)}</p><div class="mm-reward-meta"><span>${esc(formatRewardDate(reward))}</span><span>${esc(sourceNameFrom(reward))}</span></div><div class="mm-reward-actions">${action}${copyAction}<button class="mm-favorite-action ${isFavorite("reward", reward.id) ? "is-favorite" : ""}" type="button" data-favorite-type="reward" data-favorite-id="${esc(reward.id)}" aria-label="${esc(isFavorite("reward", reward.id) ? copy().unfavorite : copy().favorite)}">${isFavorite("reward", reward.id) ? "♥" : "♡"}</button></div></div>${playerConfirmationMarkup(reward)}</article>`;
+};
+const renderMatchMasters = (game) => {
+  const ui = ({
+    pt: { subtitle: "Presentes, boosters e novidades", updated: "Atualizado recentemente", today: "PRESENTES DE HOJE", todayCopy: "Links e recompensas reais encontrados para o Match Masters.", previous: "PRESENTES ANTERIORES", previousCopy: "Recompensas armazenadas que continuam no histórico.", yesterday: "ONTEM", older: "ANTERIORES", news: "NOVIDADES", about: "SOBRE O MATCH MASTERS", redeem: "Como resgatar presentes", events: "Eventos", tips: "Dicas", newsTab: "Novidades", emptyToday: "Nenhum presente encontrado hoje.", emptyPrevious: "Nenhum presente anterior disponível.", emptyNews: "Buscando novas informações do Match Masters…", info: "Informações úteis e orientações curtas." },
+    en: { subtitle: "Gifts, boosters and updates", updated: "Recently updated", today: "TODAY'S GIFTS", todayCopy: "Real links and rewards found for Match Masters.", previous: "PREVIOUS GIFTS", previousCopy: "Stored rewards that remain in your history.", yesterday: "YESTERDAY", older: "OLDER", news: "NEWS", about: "ABOUT MATCH MASTERS", redeem: "How to redeem gifts", events: "Events", tips: "Tips", newsTab: "News", emptyToday: "No gifts found today.", emptyPrevious: "No previous gifts available.", emptyNews: "Looking for new Match Masters information…", info: "Useful information and short guidance." },
+    es: { subtitle: "Regalos, boosters y novedades", updated: "Actualizado recientemente", today: "REGALOS DE HOY", todayCopy: "Enlaces y recompensas reales encontrados para Match Masters.", previous: "REGALOS ANTERIORES", previousCopy: "Recompensas guardadas que permanecen en tu historial.", yesterday: "AYER", older: "ANTERIORES", news: "NOVEDADES", about: "SOBRE MATCH MASTERS", redeem: "Cómo canjear regalos", events: "Eventos", tips: "Consejos", newsTab: "Novedades", emptyToday: "No se encontraron regalos hoy.", emptyPrevious: "No hay regalos anteriores disponibles.", emptyNews: "Buscando nueva información de Match Masters…", info: "Información útil y orientación breve." },
+    de: { subtitle: "Geschenke, Booster und Neuigkeiten", updated: "Kürzlich aktualisiert", today: "GESCHENKE HEUTE", todayCopy: "Echte Links und Belohnungen für Match Masters.", previous: "FRÜHERE GESCHENKE", previousCopy: "Gespeicherte Belohnungen in deinem Verlauf.", yesterday: "GESTERN", older: "ÄLTER", news: "NEUIGKEITEN", about: "ÜBER MATCH MASTERS", redeem: "Geschenke einlösen", events: "Events", tips: "Tipps", newsTab: "News", emptyToday: "Heute keine Geschenke gefunden.", emptyPrevious: "Keine früheren Geschenke verfügbar.", emptyNews: "Suche nach neuen Match-Masters-Informationen…", info: "Nützliche Informationen und kurze Hinweise." },
+    tr: { subtitle: "Hediyeler, güçlendiriciler ve yenilikler", updated: "Yakın zamanda güncellendi", today: "BUGÜNÜN HEDİYELERİ", todayCopy: "Match Masters için gerçek bağlantılar ve ödüller.", previous: "ÖNCEKİ HEDİYELER", previousCopy: "Geçmişte saklanan ödüller.", yesterday: "DÜN", older: "ESKİ", news: "YENİLİKLER", about: "MATCH MASTERS HAKKINDA", redeem: "Hediyeler nasıl alınır", events: "Etkinlikler", tips: "İpuçları", newsTab: "Yenilikler", emptyToday: "Bugün hediye bulunamadı.", emptyPrevious: "Önceki hediye yok.", emptyNews: "Yeni Match Masters bilgileri aranıyor…", info: "Yararlı bilgiler ve kısa yönlendirme." },
+  }[state.lang] || {});
+  if (state.lang === "pt") {
+    ui.today = "PRESENTES DISPONÍVEIS";
+    ui.todayCopy = "Links e códigos reais que ainda podem ser usados.";
+  }
+  const links = sortRewards(publicRewardsForGame(game).filter((reward) => isAutomaticDiscoveredReward(reward) && !rewardIsCode(reward)));
+  const todayRewards = links.filter((reward) => isLinkActive(reward) && isRewardToday(reward));
+  const dateCursor = new Date();
+  dateCursor.setDate(dateCursor.getDate() - 1);
+  const yesterdayKey = `${dateCursor.getFullYear()}-${String(dateCursor.getMonth() + 1).padStart(2, "0")}-${String(dateCursor.getDate()).padStart(2, "0")}`;
+  const yesterdayRewards = links.filter((reward) => rewardDetectedDateKey(reward) === yesterdayKey);
+  const olderRewards = links.filter((reward) => rewardDetectedDateKey(reward) !== todayKey() && rewardDetectedDateKey(reward) !== yesterdayKey);
+  const codeRewards = sortRewards(publicRewardsForGame(game).filter((reward) => rewardIsCode(reward) && isLinkActive(reward)));
+  const gameNews = publicNewsForGame(game);
+  const latestUpdate = [...links, ...gameNews].map((item) => item.last_checked_at || item.published_at || item.found_at || item.created_at).filter(Boolean).sort().at(-1);
+  const info = gameInfoFor(game);
+  const content = centerContent(game);
+  const rewardSection = (id, title, description, rewards, icon = "🎁") => rewards.length ? `<section class="mm-section mm-rewards-block" id="${id}"><div class="mm-section-heading"><span class="mm-section-icon">${icon}</span><div><span class="mm-section-kicker">GAME GIFTS</span><h2>${esc(title)}</h2><p>${esc(description)}</p></div></div><div class="mm-rewards-list">${rewards.map((reward) => renderMatchMastersRewardCard(reward, game)).join("")}</div></section>` : id === "mm-today" && !codeRewards.length ? `<section class="mm-section mm-rewards-block mm-compact-empty" id="${id}"><strong>${esc(state.lang === "pt" ? "Nenhum presente disponível por enquanto." : ui.emptyToday)}</strong></section>` : "";
+  const newsMarkup = gameNews.length ? `<div class="mm-news-list">${gameNews.map((item) => editorialNewsCard(item)).join("")}</div>` : `<div class="mm-empty-state"><span>🔎</span><strong>${esc(ui.emptyNews)}</strong><p>${esc(ui.info)}</p></div>`;
+  const redeemMarkup = info?.redeem?.length ? `<ol>${info.redeem.map((step) => `<li>${esc(step)}</li>`).join("")}</ol>` : `<p>${esc(ui.info)}</p>`;
+  const tipsMarkup = content?.tips?.length ? `<ul>${content.tips.map((tip) => `<li>${esc(tip)}</li>`).join("")}</ul>` : `<p>${esc(ui.info)}</p>`;
+  const eventMarkup = gameNews.length ? `<p>${esc(gameNews[0].title || ui.info)}</p>` : `<p>${esc(ui.emptyNews)}</p>`;
+  const fav = isFavorite("game", game.id);
+  const following = noticePrefs().games.includes(String(game.slug));
+  return `<div class="mm-page"><div class="mm-page-top"><button type="button" class="mm-back-button" data-go-back="${pathFor("games")}" aria-label="${esc(copy().games)}">←</button><div class="mm-page-identity">${gameArt(game, "mm-logo") }<div><strong>MATCH MASTERS</strong><span>${esc(ui.subtitle)}</span></div></div><div class="mm-page-actions"><button class="mm-icon-action ${fav ? "is-favorite" : ""}" type="button" data-favorite-type="game" data-favorite-id="${game.id}" aria-label="${esc(fav ? centralCopy().following : copy().favorite)}">${fav ? "♥" : "♡"}</button><button class="mm-follow-action ${following ? "is-following" : ""}" type="button" data-notice-toggle="${esc(game.slug)}">🔔 <span>${esc(following ? centralCopy().following : centralCopy().follow)}</span></button></div></div><section class="mm-hero"><div class="mm-hero-art">${gameArt(game, "mm-hero-image")}</div><div class="mm-hero-overlay"></div><div class="mm-hero-copy"><span class="mm-hero-kicker">✦ MATCH MASTERS</span><h1>MATCH<br><em>MASTERS</em></h1><p>🎁 ${esc(state.lang === "pt" ? "PRESENTES GRÁTIS" : state.lang === "en" ? "FREE GIFTS" : "PRESENTES GRATIS")}</p><span class="mm-hero-subtitle">${esc(state.lang === "pt" ? "Links e recompensas atualizados" : state.lang === "en" ? "Updated links and rewards" : "Enlaces y recompensas actualizados")}</span>${latestUpdate ? `<span class="mm-updated">● ${esc(ui.updated)} · ${esc(timeAgo(latestUpdate))}</span>` : ""}</div></section><nav class="mm-anchor-nav" aria-label="Match Masters"><a href="#mm-today">🎁 ${esc(ui.today)}</a><a href="#mm-news">✨ ${esc(ui.news)}</a><a href="#mm-about">💡 ${esc(ui.about)}</a></nav>${rewardSection("mm-today", ui.today, ui.todayCopy, todayRewards, "🎁", ui.emptyToday)}${codeRewards.length ? `<section class="mm-section mm-code-section" id="mm-codes"><div class="mm-section-heading"><span class="mm-section-icon">🎟️</span><div><span class="mm-section-kicker">MATCH MASTERS</span><h2>${esc(gamePageCopy().codes)}</h2><p>${esc(gamePageCopy().codesCopy)}</p></div></div><div class="mm-legacy-reward-list">${codeRewards.map((reward, index) => rewardCard(reward, game, index + 1)).join("")}</div></section>` : ""}${rewardSection("mm-yesterday", ui.yesterday, ui.previousCopy, yesterdayRewards, "🕘")}${rewardSection("mm-previous", ui.previous, ui.previousCopy, olderRewards, "🕘") }<section class="mm-section mm-news-section" id="mm-news"><div class="mm-section-heading"><span class="mm-section-icon">✨</span><div><span class="mm-section-kicker">MATCH MASTERS</span><h2>${esc(ui.news)}</h2><p>${esc(gamePageCopy().newsCopy)}</p></div></div>${newsMarkup}</section><section class="mm-section mm-about-section" id="mm-about"><div class="mm-section-heading"><span class="mm-section-icon">💡</span><div><span class="mm-section-kicker">MATCH MASTERS</span><h2>${esc(ui.about)}</h2><p>${esc(ui.info)}</p></div></div><div class="mm-details-grid"><details open><summary>🎁 ${esc(ui.redeem)}</summary>${redeemMarkup}</details><details><summary>🔥 ${esc(ui.events)}</summary>${eventMarkup}</details><details><summary>💡 ${esc(ui.tips)}</summary>${tipsMarkup}</details><details><summary>📰 ${esc(ui.newsTab)}</summary><p>${esc(gameNews.length ? gameNews[0].summary || gameNews[0].title || ui.info : ui.emptyNews)}</p></details></div></section></div>`;
+};
+const newsDateLabel = (value) => {
+  if (!value || Number.isNaN(new Date(value).getTime())) return "";
+  return new Intl.DateTimeFormat(state.lang === "pt" ? "pt-BR" : state.lang, { day: "2-digit", month: "short", year: "numeric" }).format(new Date(value)).replace(".", "");
+};
+const newsRemainingLabel = (value) => {
+  if (!value || Number.isNaN(new Date(value).getTime())) return "";
+  const diff = new Date(value).getTime() - Date.now();
+  if (diff <= 0) return "";
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(hours / 24);
+  const restHours = hours % 24;
+  if (state.lang === "pt") return days ? `Termina em ${days} d ${restHours} h` : `Termina em ${Math.max(1, hours)} h`;
+  if (state.lang === "en") return days ? `Ends in ${days}d ${restHours}h` : `Ends in ${Math.max(1, hours)}h`;
+  if (state.lang === "es") return days ? `Termina en ${days} d ${restHours} h` : `Termina en ${Math.max(1, hours)} h`;
+  if (state.lang === "de") return days ? `Endet in ${days} T. ${restHours} Std.` : `Endet in ${Math.max(1, hours)} Std.`;
+  return days ? `${days} gün ${restHours} saat kaldı` : `${Math.max(1, hours)} saat kaldı`;
+};
+const newsItemSlug = (item) => String(item?.slug || item?.id || `${item?.game_slug || "news"}-${String(item?.title || "update").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`).slice(0, 90);
+const editorialNewsCard = (item) => {
+  const game = gameFor(item.game_slug);
+  const source = item.source_url ? `<a href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer">${esc(item.source_name || "Fonte")} ↗</a>` : esc(item.source_name || "");
+  const image = item.image ? `<img src="${esc(assetUrl(item.image))}" alt="" loading="lazy" />` : game ? gameArt(game, "editorial-news-art") : "";
+  const date = newsDateLabel(item.published_at || item.created_at);
+  const remaining = newsRemainingLabel(item.ends_at);
+  return `<article class="editorial-news-card"><div class="editorial-news-image">${image}</div><div class="editorial-news-body"><span class="editorial-news-game">${esc(game?.name || item.game_name || "")}</span><h2>${esc(item.title || "Novidade")}</h2><p>${esc(item.summary || "")}</p><div class="editorial-news-meta">${date ? `<span>${esc(date)}</span>` : ""}${remaining ? `<strong>${esc(remaining)}</strong>` : ""}${source ? `<span class="editorial-news-source">${source}</span>` : ""}</div><a class="portal-news-read" href="${pathFor("news", newsItemSlug(item))}" data-route>LER MAIS →</a></div></article>`;
 };
 const renderNews = () => {
-  const list = new URLSearchParams(location.search).get("recent") === "1" ? recentHomeRewards() : sortRewards(publicTodayRewards());
-  return `<div class="page-top"><a href="${pathFor("home")}" data-route class="back-link">‹ ${esc(copy().home)}</a></div><div class="section-head" style="margin-top:0"><div><p class="eyebrow">✧ GAME GIFTS</p><h1 style="font-size:clamp(30px,5vw,52px)">${esc(copy().allNews)}</h1><p>${esc(copy().newsCopy)}</p></div></div>${list.length ? `<div class="news-list">${list.map((reward) => { const game = gameFor(reward.game_slug); const matchMasters = isMatchMastersReward(reward); const newsName = matchMasters ? rewardDisplayText(reward) : reward.name; const newsSuffix = matchMasters ? (isInVerification(reward) ? ` · ${copy().unconfirmedReward}` : "") : `${reward.quantity ? ` · ${reward.quantity}` : ""}${isInVerification(reward) ? ` · ${copy().unconfirmedReward}` : isConfirmedReward(reward) ? ` · ${copy().confirmed}` : ""}`; return `<a class="news-card" href="${pathFor("games", reward.game_slug)}" data-route>${rewardArt(reward, game).replace('class="reward-art ', 'class="mini-art reward-art ')}<h3>${esc(game?.name || reward.game_name)}</h3><p>${esc(newsName)}${esc(newsSuffix)}</p><span class="news-time">✦ ${esc(copy().lastAdded)} · ${esc(timeAgo(reward.created_at))}</span></a>`; }).join("")}</div>` : emptyState(copy().noNews, copy().noNewsCopy, "✧")}`;
+  const recentMode = true;
+  const list = [];
+  const recentRewards = recentHomeRewards().slice(0, 24);
+  const pageTitle = state.lang === "pt" ? "ACABOU DE CHEGAR" : state.lang === "en" ? "JUST IN" : state.lang === "es" ? "ACABA DE LLEGAR" : state.lang === "de" ? "GERADE EINGETROFFEN" : "AZ ÖNCE GELDİ";
+  const pageCopy = state.lang === "pt" ? "Links, códigos e recompensas reais mais recentes." : state.lang === "en" ? "The latest real links, codes and rewards." : state.lang === "es" ? "Los enlaces, códigos y recompensas reales más recientes." : state.lang === "de" ? "Die neuesten echten Links, Codes und Belohnungen." : "En yeni gerçek bağlantılar, kodlar ve ödüller.";
+  const content = recentMode ? (recentRewards.length ? `<div class="reward-list">${recentRewards.map((reward, index) => rewardCard(reward, gameFor(reward.game_slug), index + 1)).join("")}</div>` : emptyState(state.lang === "pt" ? "Nenhum presente novo encontrado no momento." : copy().noNews, state.lang === "pt" ? "A coleta automática continua verificando links públicos reais." : copy().noNewsCopy, "🎁")) : (list.length ? `<div class="editorial-news-list">${list.map(editorialNewsCard).join("")}</div>` : emptyState(copy().noNews, copy().noNewsCopy, "📣"));
+  return `<div class="page-top"><button type="button" data-go-back="${pathFor("home")}" class="back-link">← ${esc(copy().home)}</button></div><div class="section-head" style="margin-top:0"><div><p class="eyebrow">${recentMode ? "🎁" : "✧"} GAME GIFTS</p><h1 style="font-size:clamp(30px,5vw,52px)">${esc(pageTitle)}</h1><p>${esc(pageCopy)}</p></div></div>${content}`;
+};
+const renderRecentGifts = () => {
+  const recentRewards = recentHomeRewards().slice(0, 24);
+  const pageTitle = state.lang === "pt" ? "ACABOU DE CHEGAR" : state.lang === "en" ? "JUST IN" : state.lang === "es" ? "ACABA DE LLEGAR" : state.lang === "de" ? "GERADE EINGETROFFEN" : "AZ ÖNCE GELDİ";
+  const pageCopy = state.lang === "pt" ? "Links, códigos e recompensas reais mais recentes." : state.lang === "en" ? "The latest real links, codes and rewards." : state.lang === "es" ? "Los enlaces, códigos y recompensas reales más recientes." : state.lang === "de" ? "Die neuesten echten Links, Codes und Belohnungen." : "En yeni gerçek bağlantılar, kodlar ve ödüller.";
+  const content = recentRewards.length ? `<div class="home-arrival-grid recent-rewards-grid">${recentRewards.map(homeArrivalCard).join("")}</div>` : `<p class="recent-empty-message">${state.lang === "pt" ? "Nenhum presente novo por enquanto." : state.lang === "en" ? "No new gifts for now." : state.lang === "es" ? "Ningún regalo nuevo por ahora." : state.lang === "de" ? "Momentan keine neuen Geschenke." : "Şimdilik yeni hediye yok."}</p>`;
+  return `<div class="page-top"><button type="button" data-go-back="${pathFor("home")}" class="back-link">← ${esc(copy().home)}</button></div><div class="section-head" style="margin-top:0"><div><p class="eyebrow">🎁 GAME GIFTS</p><h1 style="font-size:clamp(30px,5vw,52px)">${esc(pageTitle)}</h1><p>${esc(pageCopy)}</p></div></div>${content}`;
 };
 const renderFavorites = () => {
   const saved = favorites();
   const games = publicGames().filter((game) => saved.games.includes(Number(game.id)));
   const rewards = publicRewards().filter((reward) => saved.rewards.includes(Number(reward.id)));
-  return `<div class="page-top"><a href="${pathFor("home")}" data-route class="back-link">‹ ${esc(copy().home)}</a></div><div class="section-head" style="margin-top:0"><div><p class="eyebrow">♡ GAME GIFTS</p><h1 style="font-size:clamp(30px,5vw,52px)">${esc(copy().favorites)}</h1></div></div>${games.length ? `<div class="games-grid">${games.map(gameCard).join("")}</div>` : ""}${rewards.length ? `<div class="section-head"><div class="section-heading"><span class="heading-icon">✦</span><h2>${esc(copy().today)}</h2></div></div><div class="reward-list">${rewards.map((reward, index) => rewardCard(reward, gameFor(reward.game_slug), index + 1)).join("")}</div>` : (!games.length ? emptyState(copy().noRewards, copy().noRewardsCopy, "♡") : "")}`;
+  return `<div class="page-top"><button type="button" data-go-back="${pathFor("home")}" class="back-link">← ${esc(copy().home)}</button></div><div class="section-head" style="margin-top:0"><div><p class="eyebrow">⭐ GAME GIFTS</p><h1 style="font-size:clamp(30px,5vw,52px)">${esc(copy().favorites)}</h1></div></div>${games.length ? `<div class="games-grid">${games.map(gameCard).join("")}</div>` : ""}${rewards.length ? `<div class="section-head"><div class="section-heading"><span class="heading-icon">✦</span><h2>${esc(copy().today)}</h2></div></div><div class="reward-list">${rewards.map((reward, index) => rewardCard(reward, gameFor(reward.game_slug), index + 1)).join("")}</div>` : (!games.length ? emptyState(copy().noRewards, copy().noRewardsCopy, "♡") : "")}`;
 };
-const renderMore = () => `<div class="page-top"><a href="${pathFor("home")}" data-route class="back-link">‹ ${esc(copy().home)}</a></div><div class="section-head" style="margin-top:0"><div><p class="eyebrow">••• GAME GIFTS</p><h1 style="font-size:clamp(30px,5vw,52px)">${esc(copy().about)}</h1></div></div><div class="more-grid"><section class="info-card"><h2>${esc(copy().about)}</h2><p>${esc(copy().aboutCopy)}</p></section><section class="info-card"><h2>${esc(copy().how)}</h2><ul>${copy().howItems.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></section><section class="info-card"><h2>${esc(copy().admin)}</h2><p>${esc(copy().adminCopy)}</p><a class="admin-link" href="${pathFor("admin")}" data-route>→ ${esc(copy().admin)}</a></section></div>`;
+const renderMore = () => `<div class="page-top"><button type="button" data-go-back="${pathFor("home")}" class="back-link">← ${esc(copy().home)}</button></div><div class="section-head" style="margin-top:0"><div><p class="eyebrow">💡 GAME GIFTS</p><h1 style="font-size:clamp(30px,5vw,52px)">${esc(copy().about)}</h1></div></div><div class="more-grid"><section class="info-card"><h2>${esc(copy().about)}</h2><p>${esc(copy().aboutCopy)}</p></section><section class="info-card"><h2>${esc(copy().how)}</h2><ul>${copy().howItems.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></section><section class="info-card"><h2>${esc(copy().admin)}</h2><p>${esc(copy().adminCopy)}</p><a class="admin-link" href="${pathFor("admin")}" data-route>→ ${esc(copy().admin)}</a></section></div>`;
+
+const PORTAL_COPY = {
+  pt: { tagline: "Mais jogos. Mais presentes. Todo dia.", heroKicker: "PORTAL DE JOGOS E RECOMPENSAS", heroTitle: "Mais prêmios para jogar mais.", heroCopy: "Descubra presentes, códigos, notícias, eventos e guias organizados a partir de dados reais.", viewGifts: "VER PRESENTES", explore: "EXPLORAR JOGOS", popular: "JOGOS EM ALTA HOJE", popularEmpty: "Jogos populares", allGames: "TODOS OS JOGOS", allGamesCopy: "Explore o catálogo completo sem perder nenhum jogo.", justIn: "ACABOU DE CHEGAR", justInCopy: "As recompensas mais recentes encontradas nas fontes monitoradas.", today: "PRESENTES DE HOJE", todayCopy: "Presentes encontrados na data atual, organizados por jogo.", news: "ÚLTIMAS NOTÍCIAS", newsCopy: "Atualizações reais, anúncios e novidades com fonte identificada.", guides: "GUIAS E DICAS", guidesCopy: "Conteúdo útil baseado nas informações já verificadas do portal.", codes: "CÓDIGOS", codesCopy: "Códigos reais publicados no sistema, sem completar ou inventar valores.", events: "EVENTOS", eventsCopy: "Eventos reais dos jogos quando houver dados publicados.", notices: "MEUS AVISOS", noticesCopy: "Escolha os jogos que você quer acompanhar neste dispositivo.", followed: "jogos seguidos", alert: "Avisar quando chegar novo brinde", manage: "GERENCIAR", activateAll: "ATIVAR TODOS", verified: "VERIFICADO", unconfirmed: "NÃO CONFIRMADO", expired: "EXPIRADO", open: "ABRIR NO JOGO", copy: "COPIAR CÓDIGO", source: "Fonte", emptyNews: "Nenhuma notícia real publicada ainda.", emptyEvents: "Nenhum evento real publicado ainda.", emptyCodes: "Nenhum código real encontrado no sistema.", emptyGuides: "Nenhum guia com conteúdo real disponível ainda.", noData: "Ainda não há dados reais para exibir aqui.", topics: "TÓPICOS EM ALTA", noPopularity: "A popularidade aparecerá quando houver contagem real.", community: "PARTICIPE DA NOSSA COMUNIDADE", noCommunity: "Nenhuma comunidade oficial foi configurada ainda." },
+  en: { tagline: "More games. More gifts. Every day.", heroKicker: "GAMES AND REWARDS PORTAL", heroTitle: "More rewards to play more.", heroCopy: "Discover gifts, codes, news, events and guides organized from real data.", viewGifts: "VIEW GIFTS", explore: "EXPLORE GAMES", popular: "TRENDING GAMES TODAY", popularEmpty: "Popular games", allGames: "ALL GAMES", allGamesCopy: "Explore the complete catalog without losing any game.", justIn: "JUST IN", justInCopy: "The latest rewards found in monitored sources.", today: "TODAY'S GIFTS", todayCopy: "Gifts found today, organized by game.", news: "LATEST NEWS", newsCopy: "Real updates, announcements and news with identified sources.", guides: "GUIDES AND TIPS", guidesCopy: "Useful content based on information already verified by the portal.", codes: "CODES", codesCopy: "Real codes published in the system, without guessing values.", events: "EVENTS", eventsCopy: "Real game events when published data exists.", notices: "MY ALERTS", noticesCopy: "Choose the games you want to follow on this device.", followed: "games followed", alert: "Notify me when a new gift arrives", manage: "MANAGE", activateAll: "ACTIVATE ALL", verified: "VERIFIED", unconfirmed: "NOT CONFIRMED", expired: "EXPIRED", open: "OPEN IN GAME", copy: "COPY CODE", source: "Source", emptyNews: "No real news has been published yet.", emptyEvents: "No real events have been published yet.", emptyCodes: "No real codes found in the system.", emptyGuides: "No guide with real content is available yet.", noData: "There is not enough real data to show this yet.", topics: "TRENDING TOPICS", noPopularity: "Popularity will appear when real counts are available.", community: "JOIN OUR COMMUNITY", noCommunity: "No official community has been configured yet." },
+};
+const portalCopy = () => PORTAL_COPY[state.lang] || PORTAL_COPY.en;
+const NOTICE_PREFS_KEY = "game-gifts-notices";
+const NOTICE_ALERTS_KEY = "game-gifts-notice-alerts";
+const NOTICE_KNOWN_REWARDS_KEY = "game-gifts-notice-known-rewards";
+const noticePrefs = () => {
+  try {
+    const value = JSON.parse(localStorage.getItem(NOTICE_PREFS_KEY) || "{}");
+    return { games: [...new Set((Array.isArray(value.games) ? value.games : []).map(String).filter(Boolean))] };
+  } catch { return { games: [] }; }
+};
+const saveNoticePrefs = (value, sync = true) => {
+  const normalized = { games: [...new Set((Array.isArray(value?.games) ? value.games : []).map(String).filter(Boolean))] };
+  try { localStorage.setItem(NOTICE_PREFS_KEY, JSON.stringify(normalized)); } catch {}
+  if (sync && state.websimUserId) {
+    api("/api/notices/preferences", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify(normalized) }).catch((error) => console.warn("Game Gifts: não foi possível sincronizar Meus Avisos.", error));
+  }
+  return normalized;
+};
+const readNoticeAlerts = () => {
+  try {
+    const value = JSON.parse(localStorage.getItem(NOTICE_ALERTS_KEY) || "[]");
+    return Array.isArray(value) ? value.filter((item) => item && item.rewardId && item.gameSlug).slice(0, 50) : [];
+  } catch { return []; }
+};
+const saveNoticeAlerts = (value) => { try { localStorage.setItem(NOTICE_ALERTS_KEY, JSON.stringify(value.slice(0, 50))); } catch {} };
+const noticeUnreadCount = () => readNoticeAlerts().filter((item) => !item.read).length;
+const readKnownNoticeRewards = () => { try { const value = JSON.parse(localStorage.getItem(NOTICE_KNOWN_REWARDS_KEY) || "[]"); return new Set(Array.isArray(value) ? value.map(String) : []); } catch { return new Set(); } };
+const saveKnownNoticeRewards = (value) => { try { localStorage.setItem(NOTICE_KNOWN_REWARDS_KEY, JSON.stringify([...value].slice(-1000))); } catch {} };
+const noticeRewardKey = (reward) => String(reward?.reward_key || reward?.final_url || reward?.original_url || reward?.url || reward?.id || "").trim().toLowerCase();
+const requestNoticePermission = () => {
+  if (!state.websimUserId || !window.websim?.notifications?.requestPermission) return;
+  window.websim.notifications.requestPermission().then((result) => {
+    if (result?.state === "denied") toast(state.lang === "pt" ? "Avisos salvos neste dispositivo; a permissão de notificação foi recusada." : "Alerts are saved on this device; notification permission was denied.");
+  }).catch((error) => console.warn("Game Gifts: permissão de avisos indisponível.", error));
+};
+const hydrateNoticePrefs = async () => {
+  if (!state.websimUserId || state.noticeHydrated) return;
+  state.noticeHydrated = true;
+  try {
+    const serverPrefs = await api("/api/notices/preferences");
+    const local = noticePrefs();
+    if (serverPrefs.persisted && (serverPrefs.games.length || !local.games.length)) saveNoticePrefs({ games: serverPrefs.games }, false);
+    else if (serverPrefs.persisted && local.games.length) saveNoticePrefs(local);
+  } catch (error) { console.warn("Game Gifts: Meus Avisos local; sincronização indisponível.", error); }
+};
+const syncLocalNoticeAlerts = (data) => {
+  const rewards = Array.isArray(data?.rewards) ? data.rewards : [];
+  const keys = readKnownNoticeRewards();
+  const firstRun = !localStorage.getItem(NOTICE_KNOWN_REWARDS_KEY);
+  const followed = new Set(noticePrefs().games);
+  const alerts = readNoticeAlerts();
+  const alertKeys = new Set(alerts.map((item) => String(item.rewardKey || item.rewardId)));
+  for (const reward of rewards) {
+    const key = noticeRewardKey(reward);
+    if (!key) continue;
+    if (!firstRun && !keys.has(key) && followed.has(String(reward.game_slug)) && isAutomaticDiscoveredReward(reward) && isLinkActive(reward)) {
+      const item = { rewardId: String(reward.id), rewardKey: key, gameSlug: String(reward.game_slug), createdAt: new Date().toISOString(), read: false };
+      if (!alertKeys.has(key)) alerts.unshift(item);
+    }
+    keys.add(key);
+  }
+  saveKnownNoticeRewards(keys);
+  saveNoticeAlerts(alerts);
+};
+const toggleNotice = (slug) => {
+  const saved = noticePrefs();
+  const normalizedSlug = String(slug || "");
+  saved.games = saved.games.includes(normalizedSlug) ? saved.games.filter((item) => item !== normalizedSlug) : [...saved.games, normalizedSlug];
+  saveNoticePrefs(saved);
+  renderPage();
+  requestNoticePermission();
+};
+const openRewardAlert = (rewardId) => {
+  const reward = state.data.rewards.find((item) => String(item.id) === String(rewardId));
+  const game = reward && gameFor(reward.game_slug);
+  if (!reward || !game) return false;
+  const alerts = readNoticeAlerts().map((item) => item.rewardId === String(rewardId) ? { ...item, read: true } : item);
+  saveNoticeAlerts(alerts);
+  go(pathFor("games", game.slug));
+  requestAnimationFrame(() => document.getElementById(`reward-${String(rewardId).replace(/[^a-zA-Z0-9_-]/g, "")}`)?.scrollIntoView({ behavior: "smooth", block: "center" }));
+  return true;
+};
+const portalStatus = (reward) => isExpired(reward) ? { key: "expired", label: portalCopy().expired } : isConfirmedReward(reward) ? { key: "verified", label: portalCopy().verified } : { key: "unconfirmed", label: portalCopy().unconfirmed };
+const portalRewardAmount = (reward) => { if (!isConfirmedReward(reward)) return ""; return String(reward?.reward_amount || reward?.quantity || matchMastersQuantity(reward) || "").trim(); };
+const portalRewardTitle = (reward) => { const title = rewardDisplayText(reward); return title || unidentifiedRewardLabel(); };
+const portalRewardCard = (reward) => {
+  const game = gameFor(reward?.game_slug) || gameFor(reward?.game);
+  const status = portalStatus(reward);
+  const amount = portalRewardAmount(reward);
+  const url = rewardOpenUrl(reward);
+  const action = rewardIsCode(reward) && reward.reward_code ? `<button class="portal-card-action" type="button" data-copy-code="${esc(reward.reward_code)}">${esc(portalCopy().copy)}</button>` : url ? `<a class="portal-card-action" href="${esc(url)}" target="_blank" rel="noopener noreferrer" data-open-reward="${esc(reward.id)}" data-analytics-game-name="${esc(game?.name || "")}" data-analytics-gift-name="${esc(portalRewardTitle(reward))}" data-analytics-reward-id="${esc(reward.id)}">${esc(portalCopy().open)}</a>` : "";
+  const sources = Array.isArray(reward?.sources) ? reward.sources.join(" · ") : reward?.source || "";
+  return `<article class="portal-reward-card ${status.key}"><div class="portal-reward-top"><div class="portal-game-mini">${game ? gameArt(game, "portal-game-art") : ""}<span>${esc(game?.name || reward?.game_name || "Match Masters")}</span></div><span class="portal-status ${status.key}">${esc(status.label)}</span></div><div class="portal-reward-main"><div class="portal-reward-image">${rewardArt(reward, game)}</div><div class="portal-reward-copy"><h3>${esc(portalRewardTitle(reward))}</h3>${amount ? `<strong>${esc(amount)}</strong>` : ""}<div class="portal-reward-meta"><time datetime="${esc(rewardFoundAt(reward))}">${esc(formatRewardDate(reward) || homeTimeAgo(rewardFoundAt(reward)) || "")}</time>${sources ? `<span title="${esc(sources)}">${esc(portalCopy().source)}: ${esc(sources.split(" · ")[0])}</span>` : ""}</div></div></div>${action ? `<div class="portal-reward-actions">${action}<button class="portal-favorite" type="button" data-favorite-type="reward" data-favorite-id="${esc(reward.id)}" aria-label="${esc(isFavorite("reward", reward.id) ? copy().unfavorite : copy().favorite)}">${isFavorite("reward", reward.id) ? "♥" : "♡"}</button></div>` : ""}</article>`;
+};
+const portalGameTile = (game) => `<a class="portal-game-tile" href="${pathFor("games", game.slug)}" data-route data-analytics-game-name="${esc(game.name)}" data-analytics-game-slug="${esc(game.slug)}">${gameArt(game, "portal-game-image")}<div><h3>${esc(game.name)}</h3><small>${esc(gameAvailabilityLabel(activeRewardsForGame(game).length))}</small></div><button type="button" class="portal-tile-heart" data-favorite-type="game" data-favorite-id="${esc(game.id)}" aria-label="${esc(isFavorite("game", game.id) ? copy().unfavorite : copy().favorite)}">${isFavorite("game", game.id) ? "♥" : "♡"}</button></a>`;
+const portalEmpty = (title, message, icon = "✦") => `<div class="portal-empty"><span>${icon}</span><strong>${esc(title)}</strong><p>${esc(message)}</p></div>`;
+const portalNoticePanel = () => {
+  const ui = portalCopy();
+  const saved = noticePrefs();
+  const games = publicGames();
+  return `<section class="portal-section portal-notices" id="meus-avisos"><div class="portal-section-heading"><div><span class="portal-kicker">🔔 ${esc(ui.notices)}</span><p>${esc(ui.noticesCopy)}</p></div><strong>${saved.games.length} ${esc(ui.followed)}</strong></div><div class="portal-notice-list">${games.map((game) => { const on = saved.games.includes(String(game.slug)); return `<div class="portal-notice-row"><div>${gameArt(game, "portal-notice-art")}<div><strong>${esc(game.name)}</strong><span>${esc(ui.alert)}</span></div></div><button type="button" class="portal-switch ${on ? "on" : ""}" data-notice-toggle="${esc(game.slug)}" aria-pressed="${on}"><span></span></button></div>`; }).join("") || portalEmpty(ui.notices, ui.noData, "🔔")}</div><div class="portal-notice-actions"><a class="portal-secondary-button" href="#meus-avisos">${esc(ui.manage)}</a><button class="portal-secondary-button" type="button" data-notice-all>${esc(ui.activateAll)}</button></div></section>`;
+};
+const portalTodaySection = () => {
+  const ui = portalCopy();
+  const groups = publicGames().map((game) => ({ game, rewards: publicTodayRewardsForGame(game) })).filter((entry) => entry.rewards.length);
+  return `<section class="portal-section"><div class="portal-section-heading"><div><span class="portal-kicker">🎁 ${esc(ui.today)}</span><p>${esc(ui.todayCopy)}</p></div><a href="${pathFor("news")}?recent=1" data-route>Ver todos →</a></div><div class="portal-today-grid">${groups.map(({ game, rewards }) => `<a class="portal-today-card" href="${pathFor("games", game.slug)}" data-route>${gameArt(game, "portal-today-art")}<div><span>${esc(game.name)}</span><strong>${esc(rewards.map((reward) => portalRewardTitle(reward)).slice(0, 2).join(" · "))}</strong><small>${rewards.length} ${rewards.length === 1 ? "presente" : "presentes"}</small></div></a>`).join("") || portalEmpty(ui.today, ui.noData, "🎁")}</div></section>`;
+};
+const portalTrending = () => {
+  const ui = portalCopy();
+  const popular = Array.isArray(state.data.popular) ? state.data.popular.map((entry) => gameFor(entry.slug || entry.game_slug)).filter(Boolean) : [];
+  return `<section class="portal-section portal-trending"><div class="portal-section-heading"><div><span class="portal-kicker">🔥 ${esc(ui.topics)}</span></div></div>${popular.length ? `<div class="portal-topic-list">${popular.slice(0, 5).map((game, index) => `<a href="${pathFor("games", game.slug)}" data-route><b>${index + 1}</b><span>${esc(game.name)}</span></a>`).join("")}</div>` : portalEmpty(ui.popularEmpty, ui.noPopularity, "🔥")}</section>`;
+};
+const renderPortalHome = () => {
+  const ui = portalCopy();
+  const query = state.search.trim().toLocaleLowerCase();
+  const games = sortHomeGames(publicGames().filter((game) => !query || `${game.name || ""} ${game.slug || ""} ${publicRewardsForGame(game).map((reward) => `${reward.reward_type || ""} ${reward.reward_code || ""} ${reward.name || ""}`).join(" ")}`.toLocaleLowerCase().includes(query)));
+  const heroGame = games.find((game) => publicTodayRewardsForGame(game).length) || games[0];
+  const recent = recentHomeRewards().filter((reward) => !query || `${reward.game_name || ""} ${reward.reward_type || ""} ${reward.name || ""} ${reward.reward_code || ""}`.toLocaleLowerCase().includes(query)).slice(0, 8);
+  const guides = Object.keys(GAME_INFO_CONTENT).map((slug) => gameFor(slug)).filter(Boolean).slice(0, 4);
+  const news = publicNews().slice(0, 3);
+  const heroArt = heroGame ? gameArt(heroGame, "portal-hero-art") : `<div class="portal-hero-art portal-hero-placeholder">✦</div>`;
+  return `<div class="portal-home"><section class="portal-hero"><div class="portal-hero-copy"><span class="portal-kicker">✦ ${esc(ui.heroKicker)}</span><h1>${esc(ui.heroTitle)}</h1><p>${esc(ui.heroCopy)}</p><div class="portal-hero-actions"><a class="portal-primary-button" href="${pathFor("news")}?recent=1" data-route>${esc(ui.viewGifts)}</a><a class="portal-secondary-button" href="${pathFor("games")}" data-route>${esc(ui.explore)}</a></div></div><div class="portal-hero-visual">${heroArt}${heroGame ? `<span class="portal-hero-game">${esc(heroGame.name)}</span>` : ""}</div><aside class="portal-popular"><span class="portal-kicker">${esc(ui.popular)}</span>${Array.isArray(state.data.popular) && state.data.popular.length ? state.data.popular.slice(0, 5).map((entry, index) => { const game = gameFor(entry.slug || entry.game_slug); return game ? `<a href="${pathFor("games", game.slug)}" data-route><b>${index + 1}</b>${gameArt(game, "portal-popular-art")}<span>${esc(game.name)}</span></a>` : ""; }).join("") : `<div class="portal-popular-empty">${esc(ui.popularEmpty)}<small>${esc(ui.noPopularity)}</small></div>`}</aside></section><section class="portal-section portal-arrivals"><div class="portal-section-heading"><div><span class="portal-kicker">⚡ ${esc(ui.justIn)}</span><p>${esc(ui.justInCopy)}</p></div><a href="${pathFor("news")}?recent=1" data-route>Ver todos →</a></div><div class="portal-reward-grid">${recent.map(portalRewardCard).join("") || portalEmpty(ui.justIn, ui.noData, "⚡")}</div></section><div class="portal-ad-slot" data-ad-slot="home-between-arrivals" aria-hidden="true"></div>${portalTodaySection()}<section class="portal-section"><div class="portal-section-heading"><div><span class="portal-kicker">🎮 ${esc(ui.allGames)}</span><p>${esc(ui.allGamesCopy)}</p></div><a href="${pathFor("games")}" data-route>Ver todos →</a></div><div class="portal-game-carousel">${games.map(portalGameTile).join("") || portalEmpty(copy().noGames, copy().noGamesCopy, "🎮")}</div></section><section class="portal-section"><div class="portal-section-heading"><div><span class="portal-kicker">📖 ${esc(ui.guides)}</span><p>${esc(ui.guidesCopy)}</p></div><a href="${pathFor("guides")}" data-route>Ver guias →</a></div><div class="portal-guide-grid">${guides.map((game) => `<a href="${pathFor("guides", game.slug)}" data-route><div>${gameArt(game, "portal-guide-art")}</div><strong>${esc(game.name)}</strong><span>${esc(GAME_INFO_CONTENT[game.slug]?.[state.lang]?.description || GAME_INFO_CONTENT[game.slug]?.en?.description || "")}</span></a>`).join("")}</div></section><section class="portal-section"><div class="portal-section-heading"><div><span class="portal-kicker">📰 ${esc(ui.news)}</span><p>${esc(ui.newsCopy)}</p></div><a href="${pathFor("news")}" data-route>Ver todas →</a></div><div class="portal-news-grid">${news.map((item) => editorialNewsCard(item)).join("") || portalEmpty(ui.news, ui.emptyNews, "📰")}</div></section>${portalTrending()}<div class="portal-ad-slot" data-ad-slot="home-bottom" aria-hidden="true"></div></div>`;
+};
+const renderPortalNews = (slug = "") => {
+  const ui = portalCopy();
+  if (new URLSearchParams(location.search).get("recent") === "1") return renderRecentGifts();
+  if (slug) {
+    const item = publicNews().find((entry) => newsItemSlug(entry) === slug || String(entry.id || "") === slug);
+    if (!item) return `<div class="portal-page">${portalEmpty(ui.news, ui.emptyNews, "📰")}</div>`;
+    const game = gameFor(item.game_slug);
+    return `<article class="portal-news-detail portal-page"><a class="portal-back" href="${pathFor("news")}" data-route>← ${esc(ui.news)}</a>${editorialNewsCard(item)}<div class="portal-info-grid"><section><h2>${esc(state.lang === "pt" ? "Fonte da atualização" : "Update source")}</h2><p>${esc(item.source_name || ui.source)}</p>${item.source_url ? `<a class="portal-primary-button" href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer">${esc(ui.source)} ↗</a>` : ""}</section>${game ? `<section><h2>${esc(game.name)}</h2><p>${esc(game.description || "")}</p><a class="portal-secondary-button" href="${pathFor("games", game.slug)}" data-route>Ver jogo →</a></section>` : ""}</div></article>`;
+  }
+  const query = state.search.trim().toLocaleLowerCase();
+  const list = publicNews().filter((item) => !query || `${item.title || ""} ${item.summary || ""} ${item.source_name || ""}`.toLocaleLowerCase().includes(query));
+  return `<div class="portal-page"><div class="portal-page-heading"><span class="portal-kicker">📰 ${esc(ui.news)}</span><h1>${esc(ui.news)}</h1><p>${esc(ui.newsCopy)}</p></div><div class="portal-news-list">${list.map(editorialNewsCard).join("") || portalEmpty(ui.news, ui.emptyNews, "📰")}</div><div class="portal-ad-slot" data-ad-slot="news-bottom" aria-hidden="true"></div></div>`;
+};
+const renderPortalCodes = () => {
+  const ui = portalCopy();
+  const query = state.search.trim().toLocaleLowerCase();
+  const list = sortRewards(publicRewards().filter((reward) => rewardIsCode(reward) && (!query || `${reward.game_name || ""} ${reward.reward_code || ""}`.toLocaleLowerCase().includes(query))));
+  return `<div class="portal-page"><div class="portal-page-heading"><span class="portal-kicker">🎟️ ${esc(ui.codes)}</span><h1>${esc(ui.codes)}</h1><p>${esc(ui.codesCopy)}</p></div><div class="portal-reward-grid">${list.map(portalRewardCard).join("") || portalEmpty(ui.codes, ui.emptyCodes, "🎟️")}</div></div>`;
+};
+const renderPortalGuides = (slug = "") => {
+  const ui = portalCopy();
+  if (slug) {
+    const game = gameFor(slug);
+    const info = GAME_INFO_CONTENT[slug]?.[state.lang] || GAME_INFO_CONTENT[slug]?.en;
+    const guide = GAME_CENTER_CONTENT[slug]?.[state.lang] || GAME_CENTER_CONTENT[slug]?.en;
+    if (!game || !info || !guide) return `<div class="portal-page">${portalEmpty(ui.guides, ui.emptyGuides, "📖")}</div>`;
+    return `<article class="portal-guide-detail portal-page"><a class="portal-back" href="${pathFor("guides")}" data-route>← ${esc(ui.guides)}</a><div class="portal-guide-hero">${gameArt(game, "portal-guide-cover")}<div><span class="portal-kicker">📖 ${esc(game.name)}</span><h1>${esc(info.officialName)}</h1><p>${esc(guide.guide)}</p></div></div><div class="portal-guide-content"><section><h2>${esc(centralCopy().howTitle)}</h2><ol>${guide.steps.map((item) => `<li>${esc(item)}</li>`).join("")}</ol></section><section><h2>${esc(centralCopy().tipsTitle)}</h2><ul>${guide.tips.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></section><section><h2>${esc(centralCopy().faqTitle)}</h2><ul>${guide.faq.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></section><section><h2>${esc(game.name)}</h2><p>${esc(info.giftLinks)}</p><a class="portal-primary-button" href="${pathFor("games", game.slug)}" data-route>${esc(centralCopy().viewRewards)}</a></section></div><p class="portal-updated-note">${esc(state.lang === "pt" ? "Atualizado com o conteúdo editorial disponível no portal." : "Updated from the editorial content available in the portal.")}</p></article>`;
+  }
+  const query = state.search.trim().toLocaleLowerCase();
+  const games = Object.keys(GAME_INFO_CONTENT).map((item) => gameFor(item)).filter((game) => game && (!query || `${game.name} ${game.slug}`.toLocaleLowerCase().includes(query)));
+  return `<div class="portal-page"><div class="portal-page-heading"><span class="portal-kicker">📖 ${esc(ui.guides)}</span><h1>${esc(ui.guides)}</h1><p>${esc(ui.guidesCopy)}</p></div><div class="portal-guide-grid portal-guide-list">${games.map((game) => `<a href="${pathFor("guides", game.slug)}" data-route><div>${gameArt(game, "portal-guide-art")}</div><strong>${esc(game.name)}</strong><span>${esc(GAME_INFO_CONTENT[game.slug]?.[state.lang]?.description || GAME_INFO_CONTENT[game.slug]?.en?.description || "")}</span></a>`).join("") || portalEmpty(ui.guides, ui.emptyGuides, "📖")}</div></div>`;
+};
+const renderPortalEvents = () => {
+  const ui = portalCopy();
+  const query = state.search.trim().toLocaleLowerCase();
+  const events = (Array.isArray(state.data.events) ? state.data.events : []).filter((event) => !query || `${event.name || event.title || ""} ${event.game_name || ""} ${event.description || ""}`.toLocaleLowerCase().includes(query));
+  return `<div class="portal-page"><div class="portal-page-heading"><span class="portal-kicker">🔥 ${esc(ui.events)}</span><h1>${esc(ui.events)}</h1><p>${esc(ui.eventsCopy)}</p></div><div class="portal-event-grid">${events.map((event) => { const game = gameFor(event.game_slug); return `<article>${event.image ? `<img src="${esc(assetUrl(event.image))}" alt="" loading="lazy" />` : game ? gameArt(game, "portal-event-art") : ""}<div><span>${esc(game?.name || event.game_name || "")}</span><h2>${esc(event.name || event.title || "Evento")}</h2><p>${esc(event.description || "")}</p><small>${esc(event.start_date || event.starts_at || "")} ${event.end_date || event.ends_at ? `— ${esc(event.end_date || event.ends_at)}` : ""}</small>${event.source_url ? `<a href="${esc(event.source_url)}" target="_blank" rel="noopener noreferrer">${esc(event.source_name || ui.source)} ↗</a>` : ""}</div></article>`; }).join("") || portalEmpty(ui.events, ui.emptyEvents, "🔥")}</div></div>`;
+};
+const renderPortalMore = () => `<div class="portal-page"><div class="portal-page-heading"><span class="portal-kicker">💡 GAME GIFTS</span><h1>${esc(copy().about)}</h1><p>${esc(copy().aboutCopy)}</p></div>${portalNoticePanel()}<div class="portal-info-grid"><section><h2>${esc(copy().how)}</h2><ul>${copy().howItems.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></section><section><h2>${esc(copy().admin)}</h2><p>${esc(copy().adminCopy)}</p><a class="portal-primary-button" href="${pathFor("admin")}" data-route>${esc(copy().admin)} →</a></section></div></div>`;
 
 const adminGameForm = () => { const game = state.admin?.games.find((item) => Number(item.id) === Number(state.editGameId)); return `<form id="game-form" class="admin-card" data-edit-game-id="${game?.id || ""}"><h2>${game ? "Editar jogo" : "+ Adicionar jogo"}</h2><div class="field-grid"><div class="field"><label>Nome do jogo *</label><input name="name" required value="${esc(game?.name)}" placeholder="Match Masters" /></div><div class="field"><label>Slug *</label><input name="slug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" value="${esc(game?.slug)}" placeholder="match-masters" /></div><div class="field"><label>Modo de recompensa</label><select name="reward_mode"><option value="links" ${game?.reward_mode === "links" ? "selected" : ""}>LINKS</option><option value="codes" ${game?.reward_mode === "codes" ? "selected" : ""}>CÓDIGOS</option><option value="none" ${game?.reward_mode === "none" ? "selected" : ""}>SEM RECOMPENSA</option></select></div><div class="field"><label>Imagem / capa (URL)</label><input name="image" type="url" value="${esc(game?.image)}" placeholder="URL pública da imagem" /></div><div class="field"><label>Banner (URL)</label><input name="banner" type="url" value="${esc(game?.banner)}" placeholder="URL pública do banner" /></div><div class="field full"><label>Descrição curta</label><textarea name="description" placeholder="Uma frase sobre o jogo">${esc(game?.description)}</textarea></div></div><label class="check-field"><input name="active" type="checkbox" ${game?.active !== false ? "checked" : ""} /> Jogo ativo na Home</label><div style="display:flex;gap:8px"><button class="primary-button" type="submit">${game ? "Salvar alterações" : "Publicar jogo"}</button>${game ? `<button class="outline-button" type="button" data-admin-cancel-edit>Cancelar</button>` : ""}</div></form>`; };
 const adminRewardForm = () => `<form id="reward-form" class="admin-card"><h2>+ Novo presente</h2><div class="admin-note">Links e códigos entram como NÃO CONFIRMADO. Só use CONFIRMADO quando a fonte original permitir comprovar a recompensa. Para CÓDIGOS, informe o código exato e o destino oficial.</div><div class="field-grid"><div class="field full"><label>Jogo *</label><select name="game_id" required><option value="">Selecione um jogo</option>${state.admin.games.map((game) => `<option value="${game.id}">${esc(game.name)} · ${esc(game.reward_mode || "links")}</option>`).join("")}</select></div><div class="field full"><label>Destino oficial / link da recompensa *</label><input name="url" type="url" placeholder="https://..." /></div><div class="field full"><label>Código exato (somente jogos CÓDIGOS)</label><input name="reward_code" placeholder="Não invente nem complete códigos" /></div><div class="field"><label>Nome / recompensa informada</label><input name="name" placeholder="Deixe vazio se a fonte não informar" /></div><div class="field"><label>Tipo</label><input name="type" placeholder="Somente se informado pela fonte" /></div><div class="field"><label>Quantidade</label><input name="quantity" placeholder="Somente se informado pela fonte" /></div><div class="field"><label>Fonte original</label><input name="source" placeholder="Página ou publicação original" /></div><div class="field"><label>Data encontrada *</label><input name="date_key" type="date" required value="${todayKey()}" /></div><div class="field"><label>Horário encontrado</label><input name="time_label" type="time" /></div><div class="field full"><label>Imagem original (URL)</label><input name="image" type="url" placeholder="URL pública da imagem" /></div><div class="field full"><label>Ou enviar imagem</label><input name="image_file" type="file" accept="image/*" /></div><div class="field"><label>Status *</label><select name="status"><option value="unconfirmed">🟡 NÃO CONFIRMADO</option><option value="confirmed">🟢 CONFIRMADO</option><option value="expired_invalid">🔴 EXPIRADO / INVÁLIDO</option></select></div></div><button class="primary-button" type="submit">Publicar presente</button></form>`;
@@ -679,35 +1712,284 @@ const renderAdmin = async () => {
     const session = await api("/api/admin/session");
     if (!session.isOwner) { app.innerHTML = `<div class="admin-shell">${emptyState("Área restrita", "A administração está disponível apenas para o proprietário deste projeto.", "⌁")}<p style="text-align:center;margin-top:18px"><a class="back-link" href="${pathFor("home")}" data-route>‹ ${esc(copy().home)}</a></p></div>`; return; }
     state.admin = await api("/api/admin/data");
-    app.innerHTML = `<div class="admin-shell"><div class="admin-heading"><div><p class="eyebrow">✦ GAME GIFTS</p><h1>Admin central</h1><p>Gerencie jogos, fontes e presentes publicados.</p></div><div class="admin-heading-actions"><button class="primary-button" type="button" data-admin-collect>BUSCAR AGORA</button><a class="outline-button" href="${pathFor("home")}" data-route>Ver site ↗</a></div></div><div class="admin-note">A coleta automática verifica as fontes periodicamente no servidor e também é acionada quando o catálogo é atualizado. Links e códigos expirados permanecem registrados internamente para não serem publicados novamente.</div>${collectionResultView()}<div class="admin-columns"><div>${adminGameForm()}${adminSourceForm()}${adminRewardForm()}</div><div><section class="admin-card"><h2>Fontes <small style="color:var(--muted);font-size:12px">${state.admin.sources.length}</small></h2><div class="admin-list">${state.admin.sources.map((source) => `<div class="admin-row source-row"><div><strong>${esc(source.game_name)} · ${esc(source.name)}</strong><small>${esc(source.url)} · ${source.active ? "ativa" : "inativa"} · ${esc(source.parser_type)}</small><small>Última checagem: ${esc(source.last_checked_at || "nunca")} · Último sucesso: ${esc(source.last_success_at || "nunca")}</small>${source.last_error ? `<small class="source-error">Erro: ${esc(source.last_error)}</small>` : ""}</div><div class="admin-row-actions"><button class="small-button ${source.active ? "active" : ""}" data-admin-source-active="${source.id}" data-active="${source.active}">${source.active ? "Ativa" : "Inativa"}</button><button class="small-button" data-admin-test-source="${source.id}">Testar</button><button class="small-button" data-admin-edit-source="${source.id}">Editar</button><button class="small-button danger" data-admin-delete-source="${source.id}">Excluir</button></div></div>`).join("") || emptyState("Nenhuma fonte", "Cadastre uma fonte pública real para iniciar a coleta.")}</div></section><section class="admin-card"><h2>Jogos cadastrados <small style="color:var(--muted);font-size:12px">${state.admin.games.length}</small></h2><div class="admin-list">${state.admin.games.map((game) => `<div class="admin-row"><div><strong>${esc(game.name)}</strong><small>/${esc(game.slug)} · ${game.active ? "ativo" : "inativo"}</small></div><div class="admin-row-actions"><button class="small-button ${game.active ? "active" : ""}" data-admin-game-active="${game.id}" data-active="${game.active}">${game.active ? "Ativo" : "Inativo"}</button><button class="small-button" data-admin-edit-game="${game.id}">Editar</button></div></div>`).join("") || emptyState("Nenhum jogo", "Adicione o primeiro jogo.")}</div></section><section class="admin-card"><h2>Presentes cadastrados <small style="color:var(--muted);font-size:12px">${state.admin.rewards.length}</small></h2><div class="admin-list">${state.admin.rewards.map((reward) => `<div class="admin-row"><div><strong>${esc(reward.game_name)} · ${esc(reward.name || "Recompensa não confirmada")}</strong><small>${esc(reward.date_key)} · ${esc(reward.type || "sem tipo")}${reward.quantity ? ` · ${esc(reward.quantity)}` : ""}</small></div><div class="admin-row-actions"><select class="small-button" data-admin-reward-status="${reward.id}" aria-label="Status"><option value="problem_unconfirmed" ${adminStatusValue(reward) === "problem_unconfirmed" ? "selected" : ""}>🟠 Link com problema / não confirmado</option><option value="unconfirmed" ${adminStatusValue(reward) === "unconfirmed" ? "selected" : ""}>🟡 Não confirmado</option><option value="confirmed" ${adminStatusValue(reward) === "confirmed" ? "selected" : ""}>🟢 Confirmado</option><option value="expired_invalid" ${adminStatusValue(reward) === "expired_invalid" ? "selected" : ""}>🔴 Expirado / inválido</option></select><button class="small-button danger" data-admin-delete-reward="${reward.id}">Excluir</button></div></div>`).join("") || emptyState("Nenhum presente", "Os links coletados aparecerão aqui.")}</div></section><section class="admin-card"><h2>Log da coleta</h2><div class="admin-list">${state.admin.logs.map((log) => `<div class="admin-row"><div><strong>${esc(log.source_name || "Execução geral")}</strong><small>${esc(log.started_at)} · HTTP ${esc(log.http_status || "—")} · ${log.links_found} candidatos · ${log.new_links_saved} novos · ${log.duplicates_ignored} duplicados</small></div><small class="${log.error ? "source-error" : "source-success"}">${esc(log.error || "Sucesso")}</small></div>`).join("") || `<p class="admin-muted">Nenhuma execução registrada.</p>`}</div></section></div></div></div>`;
+    app.innerHTML = `<div class="admin-shell"><div class="admin-heading"><div><p class="eyebrow">✦ GAME GIFTS</p><h1>Admin central</h1><p>Gerencie jogos, fontes e presentes publicados.</p></div><div class="admin-heading-actions"><button class="primary-button" type="button" data-admin-collect>BUSCAR AGORA</button><a class="outline-button" href="${pathFor("home")}" data-route>Ver site ↗</a></div></div><div class="admin-note">🔒 <strong>Coleta automática fixa: a cada 24 horas.</strong> Ela roda no servidor mesmo com o navegador fechado. Links e códigos expirados permanecem registrados internamente para não serem publicados novamente.</div>${collectionResultView()}<div class="admin-columns"><div>${adminGameForm()}${adminSourceForm()}${adminRewardForm()}</div><div><section class="admin-card"><h2>Fontes <small style="color:var(--muted);font-size:12px">${state.admin.sources.length}</small></h2><div class="admin-list">${state.admin.sources.map((source) => `<div class="admin-row source-row"><div><strong>${esc(source.game_name)} · ${esc(source.name)}</strong><small>${esc(source.url)} · ${source.active ? "ativa" : "inativa"} · ${esc(source.parser_type)}</small><small>Última checagem: ${esc(source.last_checked_at || "nunca")} · Último sucesso: ${esc(source.last_success_at || "nunca")}</small>${source.last_error ? `<small class="source-error">Erro: ${esc(source.last_error)}</small>` : ""}</div><div class="admin-row-actions"><button class="small-button ${source.active ? "active" : ""}" data-admin-source-active="${source.id}" data-active="${source.active}">${source.active ? "Ativa" : "Inativa"}</button><button class="small-button" data-admin-test-source="${source.id}">Testar</button><button class="small-button" data-admin-edit-source="${source.id}">Editar</button><button class="small-button danger" data-admin-delete-source="${source.id}">Excluir</button></div></div>`).join("") || emptyState("Nenhuma fonte", "Cadastre uma fonte pública real para iniciar a coleta.")}</div></section><section class="admin-card"><h2>Jogos cadastrados <small style="color:var(--muted);font-size:12px">${state.admin.games.length}</small></h2><div class="admin-list">${state.admin.games.map((game) => `<div class="admin-row"><div><strong>${esc(game.name)}</strong><small>/${esc(game.slug)} · ${game.active ? "ativo" : "inativo"}</small></div><div class="admin-row-actions"><button class="small-button ${game.active ? "active" : ""}" data-admin-game-active="${game.id}" data-active="${game.active}">${game.active ? "Ativo" : "Inativo"}</button><button class="small-button" data-admin-edit-game="${game.id}">Editar</button></div></div>`).join("") || emptyState("Nenhum jogo", "Adicione o primeiro jogo.")}</div></section><section class="admin-card"><h2>Presentes cadastrados <small style="color:var(--muted);font-size:12px">${state.admin.rewards.length}</small></h2><div class="admin-list">${state.admin.rewards.map((reward) => `<div class="admin-row"><div><strong>${esc(reward.game_name)} · ${esc(reward.name || "Recompensa não confirmada")}</strong><small>${esc(reward.date_key)} · ${esc(reward.type || "sem tipo")}${reward.quantity ? ` · ${esc(reward.quantity)}` : ""}</small></div><div class="admin-row-actions"><select class="small-button" data-admin-reward-status="${reward.id}" aria-label="Status"><option value="problem_unconfirmed" ${adminStatusValue(reward) === "problem_unconfirmed" ? "selected" : ""}>🟠 Link com problema / não confirmado</option><option value="unconfirmed" ${adminStatusValue(reward) === "unconfirmed" ? "selected" : ""}>🟡 Não confirmado</option><option value="confirmed" ${adminStatusValue(reward) === "confirmed" ? "selected" : ""}>🟢 Confirmado</option><option value="expired_invalid" ${adminStatusValue(reward) === "expired_invalid" ? "selected" : ""}>🔴 Expirado / inválido</option></select><button class="small-button danger" data-admin-delete-reward="${reward.id}">Excluir</button></div></div>`).join("") || emptyState("Nenhum presente", "Os links coletados aparecerão aqui.")}</div></section><section class="admin-card"><h2>Log da coleta</h2><div class="admin-list">${state.admin.logs.map((log) => `<div class="admin-row"><div><strong>${esc(log.source_name || "Execução geral")}</strong><small>${esc(log.started_at)} · HTTP ${esc(log.http_status || "—")} · ${log.links_found} candidatos · ${log.new_links_saved} novos · ${log.duplicates_ignored} duplicados</small></div><small class="${log.error ? "source-error" : "source-success"}">${esc(log.error || "Sucesso")}</small></div>`).join("") || `<p class="admin-muted">Nenhuma execução registrada.</p>`}</div></section></div></div></div>`;
   } catch (error) { app.innerHTML = `<div class="admin-shell">${emptyState("Admin indisponível", error.message, "!")}</div>`; }
+};
+const syncHomeMobileNav = () => {
+  const nav = document.querySelector(".mobile-nav");
+  if (!nav) return;
+  const current = route();
+  if (current.page === "home") {
+    nav.classList.add("home-reference-nav");
+    nav.innerHTML = `<a href="${pathFor("home")}" data-route data-nav="home"><span>⌂</span><b>${state.lang === "pt" ? "Início" : "Home"}</b></a><a href="${pathFor("news")}?recent=1" data-route data-nav="news"><span>🎁</span><b>${state.lang === "pt" ? "Presentes" : "Gifts"}</b></a><a href="${pathFor("games")}" data-route data-nav="games"><span>♧</span><b>${state.lang === "pt" ? "Jogos" : "Games"}</b></a><a href="${pathFor("favorites")}" data-route data-nav="favorites"><span>♡</span><b>${state.lang === "pt" ? "Favoritos" : "Favorites"}</b></a><a href="#meus-avisos"><span>🔔</span><b>${state.lang === "pt" ? "Avisos" : "Alerts"}</b></a>`;
+  } else if (nav.classList.contains("home-reference-nav")) {
+    nav.classList.remove("home-reference-nav");
+    nav.innerHTML = `<a href="${pathFor("home")}" data-route data-nav="home"><span>⌂</span><b data-i18n="home">${esc(copy().home)}</b></a><a href="${pathFor("games")}" data-route data-nav="games"><span>♧</span><b data-i18n="games">${esc(copy().games)}</b></a><a href="${pathFor("news")}" data-route data-nav="news"><span>✧</span><b data-i18n="news">${esc(copy().news)}</b></a><a href="${pathFor("favorites")}" data-route data-nav="favorites"><span>♡</span><b data-i18n="favorites">${esc(copy().favorites)}</b></a><a href="${pathFor("more")}" data-route data-nav="more"><span>•••</span><b data-i18n="more">${esc(copy().more)}</b></a>`;
+  }
+};
+const renderReferenceHome = () => {
+  const ui = portalCopy();
+  const games = publicGames();
+  const todayGroups = games.map((game) => ({ game, rewards: publicTodayRewardsForGame(game).filter(isLinkActive) })).filter((entry) => entry.rewards.length);
+  const recent = recentHomeRewards().slice(0, 6);
+  const featured = [...games].sort((a, b) => activeRewardsForGame(b).length - activeRewardsForGame(a).length || a.name.localeCompare(b.name)).slice(0, 7);
+  const popularFromData = Array.isArray(state.data.popular) ? state.data.popular.map((entry) => gameFor(entry.slug || entry.game_slug)).filter(Boolean) : [];
+  const popular = (popularFromData.length ? popularFromData : featured).slice(0, 7);
+  const followed = noticePrefs().games;
+  const title = state.lang === "pt" ? { fresh: "ACABOU DE CHEGAR", today: "PRESENTES DE HOJE", featured: "JOGOS EM DESTAQUE", popular: popularFromData.length ? "JOGOS POPULARES" : "JOGOS COM PRESENTES", notices: "MEUS AVISOS", points: "NOSSO JOGO", viewAll: "Ver todos", viewGifts: "Ver presentes", search: "Buscar jogo, presente, código...", heroCopy: "Links, códigos, eventos e novidades todos os dias, em um só lugar!", gameNow: "Jogar agora" } : { fresh: "JUST IN", today: "TODAY'S GIFTS", featured: "FEATURED GAMES", popular: popularFromData.length ? "POPULAR GAMES" : "GAMES WITH GIFTS", notices: "MY ALERTS", points: "OUR GAME", viewAll: "View all", viewGifts: "View gifts", search: "Search game, gift, code...", heroCopy: "Links, codes, events and news every day, all in one place!", gameNow: "Play now" };
+  const heroGames = featured.slice(0, 5);
+  const heroArt = heroGames.length ? heroGames.map((game, index) => `<div class="home-reference-hero-tile hero-tile-${index}">${gameArt(game, "home-reference-hero-art")}</div>`).join("") : `<div class="home-reference-hero-empty">✦</div>`;
+  const nav = `<nav class="home-reference-tabs" aria-label="Atalhos da página inicial"><a class="is-active" href="${pathFor("home")}" data-route><span>▦</span><b>${state.lang === "pt" ? "Todos" : "All"}</b></a><a href="${pathFor("games")}" data-route><span>↗</span><b>${state.lang === "pt" ? "Links" : "Links"}</b></a><a href="${pathFor("codes")}" data-route><span>🎟</span><b>${state.lang === "pt" ? "Códigos" : "Codes"}</b></a><a href="${pathFor("events")}" data-route><span>▣</span><b>${state.lang === "pt" ? "Eventos" : "Events"}</b></a><a href="${pathFor("news")}" data-route><span>♨</span><b>${state.lang === "pt" ? "Novidades" : "News"}</b></a><a href="${pathFor("favorites")}" data-route><span>♡</span><b>${state.lang === "pt" ? "Favoritos" : "Favorites"}</b></a><a href="#meus-avisos"><span>🔔</span><b>${state.lang === "pt" ? "Meus avisos" : "My alerts"}</b></a></nav>`;
+  const fresh = recent.length ? recent.map(homeArrivalCard).join("") : `<div class="home-reference-empty"><span>🎁</span><strong>${esc(homeCopy().noRecent)}</strong><small>${esc(homeSearchingCopy()[1])}</small></div>`;
+  const today = todayGroups.length ? todayGroups.slice(0, 4).map(({ game, rewards }) => `<article class="home-reference-gift-card"><a href="${pathFor("games", game.slug)}" data-route data-analytics-game-name="${esc(game.name)}" data-analytics-game-slug="${esc(game.slug)}"><div class="home-reference-gift-art">${gameArt(game, "home-reference-card-art")}${rewards.length > 0 ? `<span class="home-reference-card-badge">${rewards.length}</span>` : ""}</div><h3>${esc(game.name)}</h3><span>🎁 ${rewards.length} ${rewards.length === 1 ? (state.lang === "pt" ? "link novo" : "new link") : (state.lang === "pt" ? "links novos" : "new links")}</span></a><a class="home-reference-yellow-button" href="${pathFor("games", game.slug)}" data-route>${esc(title.viewGifts)} <b>›</b></a></article>`).join("") : `<div class="home-reference-empty"><span>🎁</span><strong>${esc(ui.noData)}</strong><small>${esc(ui.todayCopy)}</small></div>`;
+  const gameChips = featured.length ? featured.map((game) => `<a class="home-reference-game-chip" href="${pathFor("games", game.slug)}" data-route data-analytics-game-name="${esc(game.name)}" data-analytics-game-slug="${esc(game.slug)}"><span>${gameArt(game, "home-reference-chip-art")}</span><b>${esc(game.name)}</b></a>`).join("") : `<div class="home-reference-empty"><strong>${esc(copy().noGames)}</strong></div>`;
+  const popularCards = popular.length ? popular.map((game) => `<article class="home-reference-popular-card"><a href="${pathFor("games", game.slug)}" data-route><div>${gameArt(game, "home-reference-popular-art")}</div><b>${esc(game.name)}</b></a><button type="button" class="home-reference-favorite ${isFavorite("game", game.id) ? "is-favorite" : ""}" data-favorite-type="game" data-favorite-id="${esc(game.id)}" aria-label="${esc(isFavorite("game", game.id) ? copy().unfavorite : copy().favorite)}">${isFavorite("game", game.id) ? "♥" : "♡"}</button></article>`).join("") : `<div class="home-reference-empty"><strong>${esc(ui.noData)}</strong></div>`;
+  const notices = games.length ? games.slice(0, 8).map((game) => { const on = followed.includes(String(game.slug)); return `<button type="button" class="home-reference-notice-pill ${on ? "is-on" : ""}" data-notice-toggle="${esc(game.slug)}"><span>${gameArt(game, "home-reference-notice-art")}</span><b>${esc(game.name)}</b><i>${on ? "✓" : "+"}</i></button>`; }).join("") : `<div class="home-reference-empty"><strong>${esc(ui.noData)}</strong></div>`;
+  const score = scoreData().score.toLocaleString(state.lang === "pt" ? "pt-BR" : state.lang);
+  return `<div class="home-reference"><section class="home-reference-hero"><div class="home-reference-hero-copy"><span class="home-reference-kicker">🎮 GAME GIFTS</span><h1>SEUS JOGOS<br><em>MAIS PRESENTES!</em></h1><p>${esc(title.heroCopy)}</p><div class="home-reference-proof"><span>↗ <b>${state.lang === "pt" ? "LINKS REAIS" : "REAL LINKS"}</b></span><span>◇ <b>${state.lang === "pt" ? "FONTES CONFIÁVEIS" : "TRUSTED SOURCES"}</b></span><span>🎁 <b>100% ${state.lang === "pt" ? "GRÁTIS" : "FREE"}</b></span></div><a class="home-reference-hero-button" href="${pathFor("news")}?recent=1" data-route>${state.lang === "pt" ? "VER PRESENTES DE HOJE" : "VIEW TODAY'S GIFTS"}<b>›</b></a></div><div class="home-reference-hero-art">${heroArt}<span class="home-reference-hero-note">${state.lang === "pt" ? "Mais jogos. Mais presentes." : "More games. More gifts."}</span></div></section>${nav}<section class="home-reference-section home-reference-fresh"><div class="home-reference-section-heading"><h2><span>🎁</span>${esc(title.fresh)}</h2><a href="${pathFor("news")}?recent=1" data-route>${esc(title.viewAll)} <b>›</b></a></div><div class="home-reference-fresh-grid">${fresh}</div></section><section class="home-reference-section home-reference-today"><div class="home-reference-section-heading"><h2><span>🎁</span>${esc(title.today)}</h2><a href="${pathFor("news")}?recent=1" data-route>${esc(title.viewAll)} <b>›</b></a></div><div class="home-reference-gift-grid">${today}</div></section><section class="home-reference-section home-reference-featured"><div class="home-reference-section-heading"><h2><span>♛</span>${esc(title.featured)}</h2><a href="${pathFor("games")}" data-route>${esc(title.viewAll)} <b>›</b></a></div><div class="home-reference-game-row">${gameChips}</div></section><section class="home-reference-points"><div class="home-reference-points-art">🎁</div><div><span class="home-reference-kicker">🎮 ${esc(title.points)}</span><h2>${state.lang === "pt" ? "ABRA E GANHE PONTOS!" : "OPEN AND EARN POINTS!"}</h2><p>${state.lang === "pt" ? "Abra presentes reais e acumule pontos no site." : "Open real gifts and collect points on the site."}</p></div><div class="home-reference-score"><small>${esc(scoreLabel())}</small><strong data-score-value>${esc(score)}</strong><span>+10 ${state.lang === "pt" ? "por presente aberto" : "per gift opened"}</span></div><a class="home-reference-yellow-button" href="${pathFor("news")}?recent=1" data-route>${esc(title.gameNow)} <b>›</b></a></section><section class="home-reference-section home-reference-popular"><div class="home-reference-section-heading"><h2><span>🎮</span>${esc(title.popular)}</h2><a href="${pathFor("games")}" data-route>${state.lang === "pt" ? "Mais jogos" : "More games"} <b>›</b></a></div><div class="home-reference-popular-grid">${popularCards}</div></section><section class="home-reference-section home-reference-notices" id="meus-avisos"><div class="home-reference-section-heading"><div><h2><span>🔔</span>${esc(title.notices)}</h2><p>${esc(ui.noticesCopy)} · ${followed.length} ${state.lang === "pt" ? "acompanhados" : "followed"}</p></div><button type="button" class="home-reference-outline-button" data-notice-all>${esc(ui.activateAll)}</button></div><div class="home-reference-notice-grid">${notices}</div></section></div>`;
+};
+const DICE_ROLLS_PER_DAY = 10;
+const DICE_CHALLENGE_DAYS = 30;
+const DICE_CHALLENGE_KEY = "game-gifts-dice-challenge";
+const diceTodayKey = () => { const now = new Date(); return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`; };
+const diceDayGap = (from, to) => Math.round((Date.parse(`${to}T00:00:00`) - Date.parse(`${from}T00:00:00`)) / 86400000);
+const readDiceChallenge = () => {
+  const today = diceTodayKey();
+  try {
+    const saved = JSON.parse(localStorage.getItem(DICE_CHALLENGE_KEY) || "{}");
+    if (saved.completed) return { dayKey: today, rollsToday: DICE_ROLLS_PER_DAY, streak: DICE_CHALLENGE_DAYS, totalRolls: Number(saved.totalRolls) || 0, completed: true, completedAt: saved.completedAt || "" };
+    const previous = String(saved.dayKey || "");
+    const gap = previous ? diceDayGap(previous, today) : 0;
+    return { dayKey: today, rollsToday: previous === today ? Math.min(DICE_ROLLS_PER_DAY, Number(saved.rollsToday) || 0) : 0, streak: previous === today || gap === 1 ? Math.min(DICE_CHALLENGE_DAYS, Number(saved.streak) || 0) : 0, totalRolls: Number(saved.totalRolls) || 0, completed: false, completedAt: "" };
+  } catch { return { dayKey: today, rollsToday: 0, streak: 0, totalRolls: 0, completed: false, completedAt: "" }; }
+};
+const saveDiceChallenge = (value) => { try { localStorage.setItem(DICE_CHALLENGE_KEY, JSON.stringify(value)); } catch {} };
+const diceFaces = ["", "⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+const dicePipPositions = { 1: [[2, 2]], 2: [[1, 1], [3, 3]], 3: [[1, 1], [2, 2], [3, 3]], 4: [[1, 1], [1, 3], [3, 1], [3, 3]], 5: [[1, 1], [1, 3], [2, 2], [3, 1], [3, 3]], 6: [[1, 1], [2, 1], [3, 1], [1, 3], [2, 3], [3, 3]] };
+const diceFaceMarkup = (face, side) => `<div class="home-real-die-face home-real-die-${side}" aria-hidden="true">${dicePipPositions[face].map(([row, column]) => `<i style="grid-row:${row};grid-column:${column}"></i>`).join("")}</div>`;
+const renderDiceOverlay = () => `<div class="home-dice-overlay" data-dice-overlay hidden><div class="home-dice-backdrop" data-close-dice></div><section class="home-dice-modal" role="dialog" aria-modal="true" aria-labelledby="home-dice-title"><button class="home-dice-close" type="button" data-close-dice aria-label="Fechar">×</button><div class="home-dice-heading"><span class="home-reference-kicker">🎲 NOSSO JOGO</span><h2 id="home-dice-title">${state.lang === "pt" ? "DADO PREMIADO" : "REWARD DIE"}</h2><p>${state.lang === "pt" ? "Role o dado durante a rodada e acumule pontos. A recompensa é liberada ao terminar o cronômetro." : "Roll during the round and collect points. The reward is released when the timer ends."}</p></div><div class="home-dice-stage"><div class="home-dice-table" aria-hidden="true"><span class="home-dice-table-highlight"></span></div><div class="home-dice-die-wrap"><div class="home-real-die" data-real-die style="transform: rotateX(-18deg) rotateY(25deg)">${diceFaceMarkup(1, "front")}${diceFaceMarkup(2, "top")}${diceFaceMarkup(3, "right")}${diceFaceMarkup(4, "left")}${diceFaceMarkup(5, "bottom")}${diceFaceMarkup(6, "back")}</div></div><div class="home-dice-shadow" aria-hidden="true"></div><div class="home-dice-burst" data-dice-burst></div></div><div class="home-dice-status" aria-live="polite"><strong data-dice-status>${state.lang === "pt" ? "Pronto para jogar" : "Ready to play"}</strong><span data-dice-result>${state.lang === "pt" ? "Clique em rolar para começar" : "Click roll to start"}</span></div><div class="home-dice-stats"><div><small>${state.lang === "pt" ? "Tempo restante" : "Time left"}</small><strong data-dice-countdown>02:00</strong></div><div><small>${esc(scoreLabel())}</small><strong data-dice-session-score>0</strong></div></div><button class="home-reference-yellow-button home-dice-roll-button" type="button" data-dice-roll>${state.lang === "pt" ? "ROLAR O DADO" : "ROLL THE DIE"}<b>↻</b></button><p class="home-dice-reward-note">${state.lang === "pt" ? "Ao zerar o tempo, os pontos da rodada entram na sua pontuação local." : "When the timer reaches zero, the round points enter your local score."}</p></section></div>`;
+const diceGame = { points: 0, rollTimer: null, rolling: false, turns: 0, challenge: readDiceChallenge() };
+const diceRotation = { 1: [-18, 25], 2: [-110, 25], 3: [-18, -65], 4: [-18, 115], 5: [70, 25], 6: [-18, 205] };
+const updateDiceUi = () => {
+  diceGame.challenge = readDiceChallenge();
+  const dailyProgress = document.querySelector("[data-dice-daily-progress]");
+  const streak = document.querySelector("[data-dice-streak]");
+  const dayPoints = document.querySelector("[data-dice-day-points]");
+  if (dailyProgress) dailyProgress.textContent = `${diceGame.challenge.rollsToday}/${DICE_ROLLS_PER_DAY}`;
+  if (streak) streak.textContent = `${diceGame.challenge.streak}/${DICE_CHALLENGE_DAYS}`;
+  if (dayPoints) dayPoints.textContent = String(diceGame.points);
+};
+const spawnDiceBurst = () => {
+  const burst = document.querySelector("[data-dice-burst]");
+  if (!burst) return;
+  burst.innerHTML = Array.from({ length: 24 }, (_, index) => `<i style="--x:${Math.round((Math.random() - .5) * 220)}px;--y:${Math.round((Math.random() - .5) * 190)}px;--r:${Math.round(Math.random() * 360)}deg;--d:${(index % 6) * 20}ms"></i>`).join("");
+  window.setTimeout(() => { if (burst.isConnected) burst.innerHTML = ""; }, 1100);
+};
+const completeDiceDay = () => {
+  if (diceGame.challenge.rollsToday < DICE_ROLLS_PER_DAY || diceGame.challenge.completed) return;
+  diceGame.challenge.streak = Math.min(DICE_CHALLENGE_DAYS, diceGame.challenge.streak + 1);
+  if (diceGame.challenge.streak >= DICE_CHALLENGE_DAYS) {
+    diceGame.challenge.completed = true;
+    diceGame.challenge.completedAt = new Date().toISOString();
+  }
+  saveDiceChallenge(diceGame.challenge);
+  const status = document.querySelector("[data-dice-status]");
+  const result = document.querySelector("[data-dice-result]");
+  if (diceGame.challenge.completed) {
+    if (status) status.textContent = state.lang === "pt" ? "Desafio concluído!" : "Challenge complete!";
+    if (result) result.textContent = state.lang === "pt" ? "Elegível para validação do gift card" : "Eligible for gift-card validation";
+  } else {
+    if (status) status.textContent = state.lang === "pt" ? "Dia concluído!" : "Day complete!";
+    if (result) result.textContent = state.lang === "pt" ? `${diceGame.challenge.streak}/${DICE_CHALLENGE_DAYS} dias completos` : `${diceGame.challenge.streak}/${DICE_CHALLENGE_DAYS} days complete`;
+  }
+  spawnDiceBurst();
+  diceGame.points = 0;
+  updateDiceUi();
+};
+const openDiceGame = () => {
+  const overlay = document.querySelector("[data-dice-overlay]");
+  if (!overlay) return;
+  diceGame.challenge = readDiceChallenge();
+  overlay.hidden = false;
+  requestAnimationFrame(() => overlay.classList.add("is-open"));
+  updateDiceUi();
+  overlay.querySelector("[data-dice-roll]")?.focus({ preventScroll: true });
+};
+const closeDiceGame = () => {
+  const overlay = document.querySelector("[data-dice-overlay]");
+  if (!overlay) return;
+  overlay.classList.remove("is-open");
+  if (diceGame.rollTimer) { window.clearTimeout(diceGame.rollTimer); diceGame.rollTimer = null; }
+  diceGame.rolling = false;
+  const button = overlay.querySelector("[data-dice-roll]");
+  if (button) button.disabled = false;
+  window.setTimeout(() => { if (!overlay.classList.contains("is-open")) overlay.hidden = true; }, 220);
+};
+const rollDice = (button) => {
+  if (diceGame.rolling) return;
+  diceGame.challenge = readDiceChallenge();
+  if (diceGame.challenge.completed) {
+    const status = document.querySelector("[data-dice-status]");
+    const result = document.querySelector("[data-dice-result]");
+    if (status) status.textContent = state.lang === "pt" ? "Desafio já concluído" : "Challenge already complete";
+    if (result) result.textContent = state.lang === "pt" ? "Gift card pendente de validação" : "Gift card pending validation";
+    return;
+  }
+  if (diceGame.challenge.rollsToday >= DICE_ROLLS_PER_DAY) {
+    const status = document.querySelector("[data-dice-status]");
+    const result = document.querySelector("[data-dice-result]");
+    if (status) status.textContent = state.lang === "pt" ? "Limite de hoje concluído" : "Today's limit complete";
+    if (result) result.textContent = state.lang === "pt" ? "Volte amanhã para continuar" : "Come back tomorrow to continue";
+    return;
+  }
+  diceGame.rolling = true;
+  button.disabled = true;
+  const die = document.querySelector("[data-real-die]");
+  const stage = document.querySelector(".home-dice-stage");
+  const status = document.querySelector("[data-dice-status]");
+  const result = document.querySelector("[data-dice-result]");
+  const face = 1 + Math.floor(Math.random() * 6);
+  const [x, y] = diceRotation[face];
+  diceGame.turns += 1;
+  if (status) status.textContent = state.lang === "pt" ? "O dado está girando…" : "The die is spinning…";
+  if (result) result.textContent = state.lang === "pt" ? "Aguarde o resultado" : "Wait for the result";
+  stage?.classList.add("is-rolling");
+  if (die) { die.classList.add("is-rolling"); die.style.transform = `rotateX(${x + diceGame.turns * 720}deg) rotateY(${y + diceGame.turns * 720}deg) rotateZ(${diceGame.turns % 2 ? 12 : -12}deg)`; }
+  diceGame.rollTimer = window.setTimeout(() => {
+    diceGame.rolling = false;
+    diceGame.rollTimer = null;
+    button.disabled = false;
+    diceGame.points += face;
+    diceGame.challenge.rollsToday += 1;
+    diceGame.challenge.totalRolls += 1;
+    saveDiceChallenge(diceGame.challenge);
+    stage?.classList.remove("is-rolling");
+    die?.classList.remove("is-rolling");
+    if (status) status.textContent = state.lang === "pt" ? `Você tirou ${diceFaces[face]}` : `You rolled ${face}`;
+    if (result) result.textContent = state.lang === "pt" ? `+${face} ponto${face === 1 ? "" : "s"} · ${diceGame.challenge.rollsToday}/${DICE_ROLLS_PER_DAY} hoje` : `+${face} point${face === 1 ? "" : "s"} · ${diceGame.challenge.rollsToday}/${DICE_ROLLS_PER_DAY} today`;
+    spawnDiceBurst();
+    updateDiceUi();
+    if (diceGame.challenge.rollsToday === DICE_ROLLS_PER_DAY) completeDiceDay();
+  }, 1450);
 };
 const renderPage = () => {
   const current = route();
+  const diceWasOpen = current.page === "home" && Boolean(document.querySelector("[data-dice-overlay].is-open"));
   state.lang = current.lang;
+  document.body.classList.toggle("game-page", current.page === "game");
+  document.body.classList.toggle("match-masters-page", current.page === "game" && current.slug === "match-masters");
   document.body.classList.toggle("coin-master-page", current.page === "game" && current.slug === "coin-master");
   document.body.classList.toggle("home-page", current.page === "home");
   renderChrome();
   updateSeo(current);
   document.querySelectorAll("[data-nav]").forEach((node) => node.classList.toggle("active", node.dataset.nav === current.page || (node.dataset.nav === "games" && current.page === "game")));
   if (current.page === "admin") return renderAdmin();
-  if (current.page === "game") { const game = gameFor(current.slug); if (game && isPublicVisibleGame(game)) { app.innerHTML = renderGame(game); decorateGamePage(game); } else app.innerHTML = emptyState(copy().noGames, copy().noGamesCopy); return; }
+  if (current.page === "game") { const game = gameFor(current.slug); if (game && isPublicVisibleGame(game)) { app.innerHTML = game.slug === "match-masters" ? renderMatchMasters(game) : renderGame(game); if (game.slug !== "match-masters") decorateGamePage(game); } else app.innerHTML = emptyState(copy().noGames, copy().noGamesCopy); return; }
   if (current.page === "games") { app.innerHTML = renderGames(); return; }
-  if (current.page === "news") { app.innerHTML = renderNews(); return; }
+  if (current.page === "news") { app.innerHTML = renderPortalNews(current.slug); return; }
+  if (current.page === "guides") { app.innerHTML = renderPortalGuides(current.slug); return; }
+  if (current.page === "codes") { app.innerHTML = renderPortalCodes(); return; }
+  if (current.page === "events") { app.innerHTML = renderPortalEvents(); return; }
   if (current.page === "favorites") { app.innerHTML = renderFavorites(); return; }
-  if (current.page === "more") { app.innerHTML = renderMore(); return; }
-  app.innerHTML = renderHome();
+  if (current.page === "more") { app.innerHTML = renderPortalMore(); return; }
+  app.innerHTML = renderReferenceHome();
+  app.insertAdjacentHTML("beforeend", renderDiceOverlay());
+  const diceStats = app.querySelector(".home-dice-stats");
+  if (diceStats) diceStats.innerHTML = `<div><small>${state.lang === "pt" ? "Giros hoje" : "Rolls today"}</small><strong data-dice-daily-progress>0/${DICE_ROLLS_PER_DAY}</strong></div><div><small>${state.lang === "pt" ? "Dias completos" : "Days complete"}</small><strong data-dice-streak>0/${DICE_CHALLENGE_DAYS}</strong></div><div><small>${state.lang === "pt" ? "Pontos do dia" : "Today's points"}</small><strong data-dice-day-points>0</strong></div>`;
+  const diceHeading = app.querySelector(".home-dice-heading p");
+  if (diceHeading) diceHeading.textContent = state.lang === "pt" ? "Faça 10 giros por dia durante 30 dias consecutivos. A conclusão fica registrada neste dispositivo para validação do prêmio." : "Make 10 rolls a day for 30 consecutive days. Completion is stored on this device for prize validation.";
+  const diceNote = app.querySelector(".home-dice-reward-note");
+  if (diceNote) diceNote.textContent = state.lang === "pt" ? "Ao completar 30 dias, o desafio fica elegível para validação manual do gift card." : "After 30 days, the challenge becomes eligible for manual gift-card validation.";
+  const oldGame = app.querySelector(".home-reference-points");
+  const challenge = readDiceChallenge();
+  // Keep the card's existing visual affordance, but do not expose it as a
+  // second interactive control around the actual dice link. Nested links
+  // inside a role=button are hit-test and accessibility traps on mobile.
+  oldGame?.setAttribute("data-open-dice-game", "");
+  oldGame?.removeAttribute("tabindex");
+  oldGame?.removeAttribute("role");
+  oldGame?.removeAttribute("aria-label");
+  if (oldGame) {
+    const kicker = oldGame.querySelector(".home-reference-kicker");
+    const heading = oldGame.querySelector("h2");
+    const copy = oldGame.querySelector("p");
+    const scoreBox = oldGame.querySelector(".home-reference-score");
+    if (kicker) kicker.textContent = state.lang === "pt" ? "🎲 NOSSO JOGO" : "🎲 OUR GAME";
+    if (heading) heading.textContent = state.lang === "pt" ? "10 GIROS POR DIA" : "10 ROLLS A DAY";
+    if (copy) copy.textContent = state.lang === "pt" ? "Complete 30 dias consecutivos para ficar elegível ao gift card." : "Complete 30 consecutive days to become eligible for the gift card.";
+    scoreBox?.insertAdjacentHTML("beforeend", `<span class="home-reference-challenge-progress">${challenge.streak}/${DICE_CHALLENGE_DAYS} ${state.lang === "pt" ? "dias" : "days"} · ${challenge.rollsToday}/${DICE_ROLLS_PER_DAY} ${state.lang === "pt" ? "hoje" : "today"}</span>`);
+  }
+  const oldGameButton = oldGame?.querySelector(".home-reference-yellow-button");
+  if (oldGameButton) { oldGameButton.removeAttribute("data-route"); oldGameButton.setAttribute("href", "#home-dice-title"); oldGameButton.setAttribute("data-open-dice-game", ""); oldGameButton.innerHTML = `${state.lang === "pt" ? "JOGAR DADOS" : "PLAY DICE"} <b>›</b>`; }
+  if (diceWasOpen) {
+    const refreshedOverlay = app.querySelector("[data-dice-overlay]");
+    if (refreshedOverlay) {
+      refreshedOverlay.hidden = false;
+      refreshedOverlay.classList.add("is-open");
+      const refreshedRollButton = refreshedOverlay.querySelector("[data-dice-roll]");
+      if (refreshedRollButton) refreshedRollButton.disabled = diceGame.rolling;
+      updateDiceUi();
+    }
+  }
+  updateScoreDisplay();
 };
 const resolveViewerKey = async () => {
   try {
     const user = await window.websim?.getUser?.();
-    if (user?.id) { state.viewerKey = `user-${user.id}`; return; }
-    const bootstrap = await window.websim?.getBootstrap?.();
-    if (bootstrap?.distinct_id) state.viewerKey = `visitor-${bootstrap.distinct_id}`;
-  } catch {}
+    if (user?.id) { state.websimUserId = String(user.id); state.viewerKey = `user-${user.id}`; await hydrateNoticePrefs(); return; }
+    state.websimUserId = "";
+    state.viewerKey = localVoterId();
+  } catch { state.websimUserId = ""; state.viewerKey = localVoterId(); }
 };
-const refresh = async () => { try { await resolveViewerKey(); state.data = await api("/api/data"); renderPage(); } catch (error) { app.innerHTML = emptyState("Não foi possível carregar", error.message, "!"); } };
+let refreshInFlight = null;
+let initialCollectionRefreshPending = true;
+const refresh = () => {
+  if (refreshInFlight) return refreshInFlight;
+  refreshInFlight = (async () => {
+    try {
+      await resolveViewerKey();
+      state.data = await loadPublicData();
+      syncLocalNoticeAlerts(state.data);
+      renderPage();
+      const incomingAlert = new URLSearchParams(location.search).get("gg-alert-reward");
+      if (incomingAlert && openRewardAlert(incomingAlert)) history.replaceState({}, "", `${location.pathname}${location.hash}`);
+      if (initialCollectionRefreshPending) {
+        initialCollectionRefreshPending = false;
+        window.setTimeout(() => refresh(), 3500);
+      }
+    }
+    catch (error) {
+      if (isGitHubPagesDeployment()) {
+        console.error("Game Gifts: não foi possível carregar o snapshot público de dados.", error);
+        app.innerHTML = emptyState("Não foi possível carregar", error.message, "!");
+        return;
+      }
+      try {
+        const liveRewards = await api("/api/data/rewards.json");
+        state.data = recoverGameCatalog({ ...state.data, rewards: liveRewards.rewards || [] });
+        syncLocalNoticeAlerts(state.data);
+        console.warn("Game Gifts: /api/data falhou; usando o feed JSON vivo de recompensas.", error);
+      } catch (fallbackError) {
+        try {
+          const staticResponse = await fetch(assetUrl("/data/rewards.json"), { cache: "no-store" });
+          const staticFeed = await staticResponse.json();
+          state.data = recoverGameCatalog({ ...state.data, rewards: staticFeed.rewards || [] });
+          syncLocalNoticeAlerts(state.data);
+          console.warn("Game Gifts: usando o snapshot estático do monitor enquanto os dados online não estão disponíveis.", fallbackError);
+        } catch (staticError) {
+          state.data = recoverGameCatalog(state.data);
+          syncLocalNoticeAlerts(state.data);
+          console.warn("Game Gifts: usando o catálogo local existente enquanto os dados online não estão disponíveis.", staticError);
+        }
+      }
+      renderPage();
+    }
+    finally { refreshInFlight = null; }
+  })();
+  return refreshInFlight;
+};
 const toast = (message) => { const node = document.querySelector("#toast"); node.textContent = message; node.classList.add("show"); clearTimeout(window.__ggToast); window.__ggToast = setTimeout(() => node.classList.remove("show"), 2600); };
+const codeCopiedLabel = () => state.lang === "pt" ? "✓ CÓDIGO COPIADO!" : state.lang === "en" ? "✓ CODE COPIED!" : state.lang === "es" ? "✓ ¡CÓDIGO COPIADO!" : state.lang === "de" ? "✓ CODE KOPIERT!" : "✓ KOD KOPYALANDI!";
 const uploadIfPresent = async (input) => { const file = input?.files?.[0]; if (!file) return ""; if (!window.websim?.upload) throw new Error("Upload indisponível neste ambiente. Use uma URL pública."); return await window.websim.upload(file); };
 const copyRewardLink = async (url, message = copy().copied) => {
   try {
@@ -726,8 +2008,55 @@ const copyRewardLink = async (url, message = copy().copied) => {
   }
   toast(message);
 };
+const submitRewardVote = async (button) => {
+  const rewardId = button.dataset.rewardId;
+  const confirmation = button.closest("[data-reward-confirmation]");
+  const buttons = confirmation ? [...confirmation.querySelectorAll("[data-reward-vote]")] : [button];
+  buttons.forEach((item) => { item.disabled = true; item.setAttribute("aria-busy", "true"); });
+  try {
+    const result = await api(`/api/rewards/${encodeURIComponent(rewardId)}/vote`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ vote: button.dataset.rewardVote }),
+    });
+    const reward = state.data.rewards.find((item) => String(item.id) === String(rewardId));
+    if (reward && result.confirmation) {
+      const gameId = Number(reward.game_id);
+      state.data.rewards.forEach((item) => {
+        if (Number(item.game_id) === gameId) item.confirmation = { ...(item.confirmation || {}), game_my_vote: result.confirmation.game_my_vote || result.confirmation.my_vote || button.dataset.rewardVote };
+      });
+      reward.confirmation = result.confirmation;
+    }
+    toast(copy().voteSaved);
+    renderPage();
+  } catch (error) {
+    if (error.code === "already_voted_game") {
+      await refresh();
+      toast(error.message);
+      return;
+    }
+    buttons.forEach((item) => { item.disabled = false; item.removeAttribute("aria-busy"); });
+    toast(error.message);
+  }
+};
 
 document.addEventListener("click", async (event) => {
+  const clickTarget = event.target instanceof Element ? event.target : event.target?.parentElement;
+  if (!clickTarget) return;
+  const alertLink = clickTarget.closest("[data-notice-alert]");
+  if (alertLink) { event.preventDefault(); openRewardAlert(alertLink.dataset.noticeAlert); return; }
+  if (event.target.closest("[data-open-drawer]")) { event.preventDefault(); openDrawer(); return; }
+  if (event.target.closest("[data-close-drawer]")) { event.preventDefault(); closeDrawer(); return; }
+  const backButton = event.target.closest("[data-go-back]");
+  if (backButton) { event.preventDefault(); goBack(backButton.dataset.goBack || pathFor("home")); return; }
+  const voteButton = event.target.closest("[data-reward-vote]");
+  if (voteButton) { event.preventDefault(); await submitRewardVote(voteButton); return; }
+  const diceClose = event.target.closest("[data-close-dice]");
+  if (diceClose) { event.preventDefault(); closeDiceGame(); return; }
+  const diceLauncher = event.target.closest("[data-open-dice-game]");
+  if (diceLauncher) { event.preventDefault(); openDiceGame(); return; }
+  const diceButton = event.target.closest("[data-dice-roll]");
+  if (diceButton) { event.preventDefault(); rollDice(diceButton); return; }
   const gameCardLink = event.target.closest("a.game-card");
   if (gameCardLink) {
     trackEvent("game_click", { game_name: gameCardLink.dataset.analyticsGameName, game_slug: gameCardLink.dataset.analyticsGameSlug });
@@ -735,29 +2064,59 @@ document.addEventListener("click", async (event) => {
   }
   const routeLink = event.target.closest("a[data-route]");
   if (routeLink) { event.preventDefault(); go(routeLink.getAttribute("href")); return; }
+  const homeRewardCard = event.target.closest(".home-premium-reward-card[data-home-reward-url]");
+  if (homeRewardCard && !event.target.closest("a,button")) {
+    const rewardUrl = homeRewardCard.dataset.homeRewardUrl;
+    const rewardId = homeRewardCard.dataset.homeRewardId;
+    const rewardOpener = homeRewardCard.querySelector("[data-open-reward]");
+    trackEvent("gift_open", { game_name: rewardOpener?.dataset.analyticsGameName, gift_name: rewardOpener?.dataset.analyticsGiftName, reward_id: rewardId });
+    markOpened(rewardId);
+    if (awardScore(rewardId)) toast(`+${SCORE_PER_REWARD} pontos`);
+    const openedWindow = window.open(rewardUrl, "_blank", "noopener,noreferrer");
+    if (!openedWindow) window.location.assign(rewardUrl);
+    setTimeout(() => renderPage(), 0);
+    return;
+  }
   const copyButton = event.target.closest("[data-copy-url]");
   if (copyButton) {
     trackEvent("copy_link", { game_name: copyButton.dataset.analyticsGameName, gift_name: copyButton.dataset.analyticsGiftName, reward_id: copyButton.dataset.analyticsRewardId });
     await copyRewardLink(copyButton.dataset.copyUrl); return;
   }
   const copyCode = event.target.closest("[data-copy-code]");
-  if (copyCode) { await copyRewardLink(copyCode.dataset.copyCode, copy().copiedCode || copy().copied); return; }
+  if (copyCode) { await copyRewardLink(copyCode.dataset.copyCode, codeCopiedLabel()); return; }
+  const noticeToggle = event.target.closest("[data-notice-toggle]");
+  if (noticeToggle) { toggleNotice(noticeToggle.dataset.noticeToggle); return; }
+  const noticeAll = event.target.closest("[data-notice-all]");
+  if (noticeAll) { saveNoticePrefs({ games: publicGames().map((game) => String(game.slug)) }); renderPage(); requestNoticePermission(); return; }
   const favorite = event.target.closest("[data-favorite-type]");
   if (favorite) { toggleFavorite(favorite.dataset.favoriteType, favorite.dataset.favoriteId); return; }
   const opener = event.target.closest("[data-open-reward]");
   if (opener) {
     trackEvent("gift_open", { game_name: opener.dataset.analyticsGameName, gift_name: opener.dataset.analyticsGiftName, reward_id: opener.dataset.analyticsRewardId });
-    markOpened(opener.dataset.openReward); setTimeout(() => renderPage(), 0); return;
+    markOpened(opener.dataset.openReward);
+    if (awardScore(opener.dataset.openReward)) toast(`+${SCORE_PER_REWARD} pontos`);
+    setTimeout(() => renderPage(), 0); return;
   }
   const redeemer = event.target.closest("[data-redeem-reward]");
   if (redeemer) {
     trackEvent("gift_redeem", { game_name: redeemer.dataset.analyticsGameName, gift_name: redeemer.dataset.analyticsGiftName, reward_id: redeemer.dataset.analyticsRewardId });
+    if (awardScore(redeemer.dataset.redeemReward)) toast(`+${SCORE_PER_REWARD} pontos`);
     return;
   }
   const claimed = event.target.closest("[data-mark-claimed]");
   if (claimed) { markClaimed(claimed.dataset.markClaimed); toast(claimedLabel()); renderPage(); return; }
+  const rewardsSectionLink = event.target.closest('a.game-primary-link[href="#game-rewards"]');
+  if (rewardsSectionLink) {
+    state.gameSection = "rewards";
+    document.querySelectorAll(".game-primary-link").forEach((item) => { item.classList.toggle("is-active", item === rewardsSectionLink); item.toggleAttribute("aria-current", item === rewardsSectionLink); });
+    return;
+  }
+  const centralTab = event.target.closest("[data-central-tab]");
+  if (centralTab) { state.centralTab = centralTab.dataset.centralTab; state.gameSection = centralTab.dataset.centralTab; renderPage(); requestAnimationFrame(() => document.querySelector("#game-central")?.scrollIntoView({ behavior: "smooth", block: "start" })); return; }
+  const homeSort = event.target.closest("[data-home-sort]");
+  if (homeSort) { state.homeSort = homeSort.dataset.homeSort || "all"; renderPage(); return; }
   const tab = event.target.closest("[data-tab]");
-  if (tab) { state.tab = tab.dataset.tab; state.selectedDate = ""; renderPage(); return; }
+  if (tab) { state.tab = tab.dataset.tab; state.gameSection = "rewards"; state.selectedDate = ""; renderPage(); return; }
   const date = event.target.closest("[data-date]");
   if (date) { state.selectedDate = date.dataset.date; renderPage(); return; }
   if (event.target.closest("[data-admin-cancel-edit]")) { state.editGameId = null; renderAdmin(); return; }
@@ -767,7 +2126,7 @@ document.addEventListener("click", async (event) => {
   const sourceEdit = event.target.closest("[data-admin-edit-source]");
   if (sourceEdit) { state.editSourceId = sourceEdit.dataset.adminEditSource; renderAdmin(); return; }
   const collect = event.target.closest("[data-admin-collect]");
-  if (collect) { collect.disabled = true; collect.textContent = "COLETANDO…"; try { state.collectionResult = await api("/api/admin/collect", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" }); toast(`${state.collectionResult.new_links_saved} novo(s), ${state.collectionResult.duplicates_ignored} duplicado(s).`); await renderAdmin(); } catch (error) { toast(error.message); collect.disabled = false; collect.textContent = "BUSCAR AGORA"; } return; }
+  if (collect) { collect.disabled = true; collect.setAttribute("aria-busy", "true"); collect.textContent = "COLETANDO…"; try { state.collectionResult = await api("/api/admin/collect", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" }); toast(`${state.collectionResult.new_links_saved} novo(s), ${state.collectionResult.duplicates_ignored} duplicado(s).`); await renderAdmin(); } catch (error) { toast(error.message); collect.disabled = false; collect.removeAttribute("aria-busy"); collect.textContent = "BUSCAR AGORA"; } return; }
   const active = event.target.closest("[data-admin-game-active]");
   if (active) { try { await api(`/api/admin/games/${active.dataset.adminGameActive}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ active: active.dataset.active !== "true" }) }); toast("Status do jogo atualizado."); renderAdmin(); } catch (error) { toast(error.message); } return; }
   const sourceActive = event.target.closest("[data-admin-source-active]");
@@ -780,7 +2139,7 @@ document.addEventListener("click", async (event) => {
   if (remove) { if (!confirm("Excluir este presente?")) return; try { await api(`/api/admin/rewards/${remove.dataset.adminDeleteReward}`, { method: "DELETE" }); toast("Presente excluído."); renderAdmin(); } catch (error) { toast(error.message); } }
 });
 document.addEventListener("change", async (event) => {
-  if (event.target.matches("#language-select")) { localStorage.setItem("game-gifts-language", event.target.value); const current = route(); const destination = current.page === "game" ? pathFor("games", current.slug, event.target.value) : pathFor(current.page, "", event.target.value); go(destination); return; }
+  if (event.target.matches("#language-select")) { try { localStorage.setItem("game-gifts-language", event.target.value); } catch {} const current = route(); const destination = current.page === "game" ? pathFor("games", current.slug, event.target.value) : pathFor(current.page, "", event.target.value); go(destination); return; }
   if (event.target.matches("[data-admin-reward-status]")) { try { await api(`/api/admin/rewards/${event.target.dataset.adminRewardStatus}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ status: event.target.value }) }); toast("Status do presente atualizado."); } catch (error) { toast(error.message); } }
 });
 document.addEventListener("submit", async (event) => {
@@ -792,14 +2151,21 @@ let searchTrackingTimer;
 document.querySelector("#global-search")?.addEventListener("input", (event) => {
   state.search = event.target.value;
   const current = route();
-  if (current.page === "home" || current.page === "games") renderPage();
+  if (current.page !== "admin" && current.page !== "game") renderPage();
   clearTimeout(searchTrackingTimer);
   const searchTerm = event.target.value.trim();
   if (searchTerm) searchTrackingTimer = setTimeout(() => trackEvent("search", { search_term: searchTerm, game_name: searchTerm }), 500);
 });
-window.addEventListener("popstate", () => { const current = route(); state.lang = current.lang; renderPage(); });
+window.addEventListener("popstate", () => { if (!state.backRequested && state.navigationStack.length) state.navigationStack.pop(); state.backRequested = false; closeDrawer(); const current = route(); state.lang = current.lang; renderPage(); });
 window.addEventListener("pageshow", () => { if (route().page === "game") renderPage(); });
-document.addEventListener("visibilitychange", () => { if (!document.hidden && route().page === "game") renderPage(); });
+document.addEventListener("keydown", (event) => { if (event.key === "Escape") { closeDrawer(); closeDiceGame(); } if (event.key === "Enter" && event.target.closest("[data-open-dice-game]")) { event.preventDefault(); openDiceGame(); } });
+document.addEventListener("visibilitychange", () => { if (!document.hidden) refresh(); });
 if (document.querySelector("#language-select")) document.querySelector("#language-select").value = state.lang;
+updateScoreDisplay();
+// Paint the preserved local catalog immediately, then hydrate with the API or
+// the real rewards snapshot. This keeps the portal usable during slow starts.
+state.data = recoverGameCatalog(state.data);
+renderPage();
 refresh();
-window.setInterval(() => { if (!document.hidden) refresh(); }, 5 * 60 * 1000);
+const AUTO_REFRESH_MS = 5 * 60 * 1000;
+window.setInterval(() => { if (!document.hidden) refresh(); }, AUTO_REFRESH_MS);
