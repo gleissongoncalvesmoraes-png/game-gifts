@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    <meta name="google-site-verification" content="INtoi0cs-7bK38v9-2kxE7Dqm_W3p7eQHubKih0UaCo" />
+    <meta name="google-site-verification" content="8S3xHAYjBRZlGgf9hDsWK3QS-Iwr4GjNx_pHjhGRAb4" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#07111f" />
-    <meta name="google-site-verification" content="8S3xHAYjBRZIGgf9hDsWK3QS-lwr4GjNx_pHjhGRAb4" />
-    <meta name="google-site-verification" content="8S3xHAYjBRZlGgf9hDsWK3QS-Iwr4GjNx_pHjhGRAb4" />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YNXFNNRX08"></script>
     <script>
@@ -15,12 +15,19 @@
 
       gtag('config', 'G-YNXFNNRX08');
     </script>
-    <meta name="description" content="Game Gifts organiza links públicos verificados de presentes para jogos mobile." />
+    <meta name="description" content="Game Gifts reúne links públicos de presentes e recompensas para jogos mobile, com status claro de verificação." />
     <meta property="og:title" content="Game Gifts" />
-    <meta property="og:description" content="Links públicos de presentes para seus jogos favoritos." />
+    <meta property="og:description" content="Links públicos de presentes e recompensas para jogos mobile, organizados pelo Game Gifts." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="/" />
-    <meta name="robots" content="noindex, nofollow" />
+    <meta property="og:url" content="/pt/" />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:image:alt" content="Game Gifts" />
+    <meta property="og:site_name" content="Game Gifts" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Game Gifts" />
+    <meta name="twitter:description" content="Links públicos de presentes e recompensas para jogos mobile." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <meta name="robots" content="index, follow" />
     <link rel="canonical" href="/pt/" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="alternate" hreflang="pt" href="/pt/" />
@@ -29,6 +36,7 @@
     <link rel="alternate" hreflang="tr" href="/tr/" />
     <title>Game Gifts</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="interaction.css" />
   </head>
   <body>
     <div class="ambient ambient-one"></div>
@@ -45,6 +53,10 @@
         <a href="/pt/favoritos/" data-route data-nav="favorites"><span>♡</span><b data-i18n="favorites">Favoritos</b></a>
         <a href="/pt/mais/" data-route data-nav="more"><span>•••</span><b data-i18n="more">Mais</b></a>
       </nav>
+      <div class="score-display" aria-live="polite" title="Cada presente aberto pela primeira vez vale 10 pontos">
+        <span class="score-icon" aria-hidden="true">★</span>
+        <span><small data-score-label>Pontuação</small><strong data-score-value>0</strong></span>
+      </div>
       <label class="search-box" aria-label="Pesquisar jogo">
         <span>⌕</span>
         <input id="global-search" type="search" placeholder="Pesquisar jogos..." data-i18n-placeholder="search" />
