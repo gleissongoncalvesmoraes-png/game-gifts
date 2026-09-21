@@ -4,7 +4,12 @@ const LANGS = ["pt", "en", "es", "de", "tr"];
 const PUBLIC_BASE_URL = "https://gleissongoncalvesmoraes-png.github.io/game-gifts";
 const SITE_PATH = new URL(PUBLIC_BASE_URL).pathname.replace(/\/$/, "");
 const runtimeUsesSitePath = () => location.hostname.endsWith("github.io") || location.pathname === SITE_PATH || location.pathname.startsWith(`${SITE_PATH}/`);
-const sitePath = (path) => `${runtimeUsesSitePath() ? SITE_PATH : ""}${String(path || "").startsWith("/") ? path : `/${path}`}`;
+const sitePath = (path) => {
+  const value = String(path || "");
+  const normalized = value.startsWith("/") ? value : `/${value}`;
+  if (normalized === SITE_PATH || normalized.startsWith(`${SITE_PATH}/`)) return normalized;
+  return `${runtimeUsesSitePath() ? SITE_PATH : ""}${normalized}`;
+};
 const assetUrl = (path) => {
   const value = String(path || "");
   if (!value || /^(?:https?:|data:|blob:|#)/i.test(value)) return value;
@@ -82,95 +87,10 @@ const RECOVERED_GAME_CATALOG = Object.freeze([
   { name: "Seaside Escape", slug: "seaside-escape", description: "Energia grátis e recompensas públicas para sua aventura.", image: "/uploads/file_00000000c0f0820e8d1fe6ea7271e5cd.png" },
   { name: "Carnival Tycoon", slug: "carnival-tycoon", description: "Eventos e recompensas públicas para sua próxima partida.", image: "/assets/logos/carnival-tycoon.svg" },
 ]);
-// These public links are kept as a static recovery path because GitHub Pages
-// cannot call /api/data. User-submitted links remain unconfirmed until the
-// live collector or player feedback provides stronger evidence.
-const RECOVERED_REWARD_CATALOG = Object.freeze([
-  {
-    id: -1004,
-    game_slug: "match-masters",
-    name: "Free Perks",
-    reward_type: "perks",
-    url: "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Dy0kKAm4tWc&pcode=t21qtxizjgbsxfx3pol2",
-    original_url: "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Dy0kKAm4tWc&pcode=t21qtxizjgbsxfx3pol2",
-    final_url: "https://launch.matchmasters.com/l/p/Dy0kKAm4tWc",
-    redemption_url: "https://launch.matchmasters.com/l/p/Dy0kKAm4tWc",
-    source: "Enviado pelo usuário",
-    source_excerpt: "Free Perks",
-    source_date: "2026-09-20",
-    found_at: "2026-09-20T00:00:00.000Z",
-    discovery_method: "automatic",
-    reward_key: "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&c=Dy0kKAm4tWc&pcode=t21qtxizjgbsxfx3pol2",
-    status: "unconfirmed",
-    link_status: "active",
-    reward_status: "unknown",
-    verification_reason: "Link enviado pelo usuário; ainda não confirmado.",
-  },
-  {
-    id: -1005,
-    game_slug: "match-masters",
-    name: "Coins + Star Race",
-    reward_type: "coins",
-    url: "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=pqu1uim4v2sfl66xsob0&c=yD1dkVWEaPQ",
-    original_url: "https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=pqu1uim4v2sfl66xsob0&c=yD1dkVWEaPQ",
-    final_url: "https://launch.matchmasters.com/l/p/yD1dkVWEaPQ",
-    redemption_url: "https://launch.matchmasters.com/l/p/yD1dkVWEaPQ",
-    source: "Enviado pelo usuário",
-    source_excerpt: "Coins + Star Race",
-    source_date: "2026-09-20",
-    found_at: "2026-09-20T00:00:00.000Z",
-    discovery_method: "automatic",
-    reward_key: "url:https://matchmasters.onelink.me/hCkF/a4a53b83?af_dp=matchmasters%253A%252F%252F&af_force_deeplink=true&pcode=pqu1uim4v2sfl66xsob0&c=yD1dkVWEaPQ",
-    status: "unconfirmed",
-    link_status: "active",
-    reward_status: "unknown",
-    verification_reason: "Link enviado pelo usuário; ainda não confirmado.",
-  },
-  {
-    id: -1001,
-    game_slug: "match-masters",
-    name: "Super Lucky Spin",
-    url: "https://launch.matchmasters.com/l/p/-9Wty1EuYyM",
-    original_url: "https://launch.matchmasters.com/l/p/-9Wty1EuYyM",
-    final_url: "https://launch.matchmasters.com/l/p/-9Wty1EuYyM",
-    redemption_url: "https://launch.matchmasters.com/l/p/-9Wty1EuYyM",
-    source: "Match Masters · links públicos",
-    reward_description: "Roleta Super Lucky Spin exibida no jogo; o prêmio final depende do resultado.",
-    reward_key: "url:https://launch.matchmasters.com/l/p/-9Wty1EuYyM",
-    status: "expired_invalid",
-    link_status: "expired",
-    reward_status: "expired_invalid",
-    expiry_reason: "Link de Spin informado como expirado.",
-  },
-  {
-    id: -1002,
-    game_slug: "dice-dreams",
-    name: "Link de recompensa",
-    url: "https://rewards-v2.dicedreams.com/?handler=reward&link=Community271025",
-    original_url: "https://rewards-v2.dicedreams.com/?handler=reward&link=Community271025",
-    final_url: "https://rewards-v2.dicedreams.com/?handler=reward&link=Community271025",
-    redemption_url: "https://rewards-v2.dicedreams.com/?handler=reward&link=Community271025",
-    source: "Dice Dreams · links públicos",
-    reward_key: "url:https://rewards-v2.dicedreams.com/?handler=reward&link=Community271025",
-    status: "expired_invalid",
-    link_status: "expired",
-    reward_status: "expired_invalid",
-  },
-  {
-    id: -1003,
-    game_slug: "coin-master",
-    name: "Link de recompensa",
-    url: "https://rewards.coinmaster.com/rewards/rewards.html?c=pe_CHATBCLrLbw_20260827",
-    original_url: "https://rewards.coinmaster.com/rewards/rewards.html?c=pe_CHATBCLrLbw_20260827",
-    final_url: "https://rewards.coinmaster.com/rewards/rewards.html?c=pe_CHATBCLrLbw_20260827",
-    redemption_url: "https://rewards.coinmaster.com/rewards/rewards.html?c=pe_CHATBCLrLbw_20260827",
-    source: "Coin Master · links públicos",
-    reward_key: "url:https://rewards.coinmaster.com/rewards/rewards.html?c=pe_CHATBCLrLbw_20260827",
-    status: "unconfirmed",
-    link_status: "active",
-    reward_status: "unknown",
-  },
-]);
+// Rewards never come from a hand-written client-side catalog. The fallback
+// may use the maintained monitor snapshot below, but an unavailable snapshot
+// must produce an empty list instead of inventing a gift.
+const RECOVERED_REWARD_CATALOG = Object.freeze([]);
 const GENERIC_GAME_SEO_COPY = Object.freeze({
   pt: {
     title: (name) => `${name} — Presentes e Recompensas | Game Gifts`,
@@ -401,7 +321,7 @@ const detectLanguage = () => {
   const browser = String(navigator.language || "").toLowerCase().split("-")[0];
   return LANGS.includes(browser) ? browser : "pt";
 };
-const state = { lang: detectLanguage(), data: { games: [], rewards: [], news: [] }, search: "", homeSort: "all", tab: "today", centralTab: "guides", gameSection: "rewards", selectedDate: "", admin: null, editGameId: null, editSourceId: null, collectionResult: null, viewerKey: "anonymous", websimUserId: "", noticeHydrated: false, noticeBaselineReady: false, navigationStack: [], backRequested: false };
+const state = { lang: detectLanguage(), data: { games: [], rewards: [], news: [] }, search: "", homeSort: "all", tab: "today", centralTab: "guides", gameSection: "rewards", selectedDate: "", admin: null, editGameId: null, editSourceId: null, collectionResult: null, viewerKey: "anonymous", websimUserId: "", noticeHydrated: false, noticePermission: "unknown", noticeBaselineReady: false, navigationStack: [], backRequested: false };
 const app = document.querySelector("#app");
 const recoverGameCatalog = (data) => {
   const source = data && typeof data === "object" ? data : {};
@@ -540,7 +460,7 @@ const api = async (path, options = {}) => {
   }
   return body;
 };
-const isGitHubPagesDeployment = () => location.hostname.endsWith("github.io");
+const isGitHubPagesDeployment = () => location.hostname.endsWith("github.io") || location.pathname === SITE_PATH || location.pathname.startsWith(`${SITE_PATH}/`);
 const readStaticPublicData = async () => {
   const response = await fetch(assetUrl("/data/rewards.json"), { cache: "no-store" });
   const feed = await response.json().catch(() => null);
@@ -628,6 +548,7 @@ const publicGames = () => state.data.games.filter(isPublicVisibleGame);
 const publicRewards = () => publicGames().flatMap((game) => publicRewardsForGame(game));
 const presentationRewardKey = (reward) => String(reward?.reward_key || reward?.url || reward?.original_url || reward?.final_url || reward?.id || "").trim().replace(/\/+$/, "").toLowerCase();
 const publicTodayRewardsForGame = (game) => {
+  if (game?.slug === "match-masters") return matchMastersTodayRewards(game);
   const unique = new Map();
   publicRewardsForGame(game).filter((reward) => isAutomaticDiscoveredReward(reward) && isLinkActive(reward) && !(game?.slug === "match-masters" && rewardIsCode(reward)) && isRewardToday(reward)).forEach((reward) => {
     const key = presentationRewardKey(reward);
@@ -807,27 +728,65 @@ const goBack = (fallback) => { if (state.navigationStack.length) { state.navigat
 const gameFor = (slug) => state.data.games.find((game) => game.slug === slug);
 const rewardsFor = (gameId) => state.data.rewards.filter((reward) => Number(reward.game_id) === Number(gameId));
 const isMatchMastersReward = (reward) => String(reward?.game_slug || "") === "match-masters" || Number(reward?.game_id) === Number(gameFor("match-masters")?.id);
+const matchMastersDetectedAt = (reward) => String(reward?.found_at || reward?.published_at || reward?.created_at || "").trim();
+const matchMastersDetectedDateKey = (reward) => {
+  const detectedAt = matchMastersDetectedAt(reward);
+  return detectedAt ? localDateKey(detectedAt) : "";
+};
+const matchMastersDetectedTimeKey = (reward) => {
+  const detectedAt = matchMastersDetectedAt(reward);
+  if (detectedAt) {
+    const parsed = new Date(detectedAt);
+    if (!Number.isNaN(parsed.getTime())) return `${String(parsed.getHours()).padStart(2, "0")}:${String(parsed.getMinutes()).padStart(2, "0")}`;
+  }
+  return String(reward?.time_label || "").slice(0, 5);
+};
+const matchMastersPcode = (reward) => {
+  const values = [reward?.reward_code, reward?.reward_key, reward?.original_url, reward?.url, reward?.final_url].map((value) => String(value || ""));
+  for (const value of values) {
+    try {
+      const parsed = new URL(value.replace(/^url:/i, ""));
+      const pcode = parsed.searchParams.get("pcode") || parsed.searchParams.get("reward_code") || parsed.searchParams.get("c");
+      if (pcode) return decodeURIComponent(pcode).trim().toLowerCase();
+      const pathCode = parsed.hostname.toLowerCase() === "launch.matchmasters.com" ? parsed.pathname.split("/").filter(Boolean).at(-1) : "";
+      if (pathCode) return decodeURIComponent(pathCode).trim().toLowerCase();
+    } catch {}
+    const match = value.match(/(?:pcode|reward_code|[?&]c)=([^&]+)/i);
+    if (match?.[1]) return decodeURIComponent(match[1]).trim().toLowerCase();
+  }
+  return "";
+};
+const matchMastersRewardDescriptor = (reward) => {
+  const type = String(reward?.reward_type || reward?.type || "").trim().toLowerCase().replace(/\s+/g, " ");
+  const amount = String(reward?.reward_amount || reward?.quantity || "").trim().toLowerCase();
+  const name = usableRewardName(reward).toLowerCase().replace(/\s+/g, " ");
+  return [type, amount, name].filter(Boolean).join("|") || "unknown";
+};
+const matchMastersRecordIdentity = (reward) => {
+  const rewardKey = String(reward?.reward_key || "").trim().toLowerCase();
+  const pcode = matchMastersPcode(reward);
+  const base = pcode ? `pcode:${pcode}` : rewardKey || `url:${String(reward?.final_url || reward?.original_url || reward?.url || reward?.id || "").trim().toLowerCase()}`;
+  return [base, matchMastersDetectedDateKey(reward), matchMastersDetectedTimeKey(reward), matchMastersRewardDescriptor(reward)].join("|");
+};
 const matchMastersOfferKey = (reward) => {
-  // Keep the individual reward identity from the server. Different reward_keys
-  // remain separate; legacy copies of the same reward collapse only when their
-  // stored reward_key is the same.
-  const rewardKey = String(reward?.reward_key || "").trim();
-  if (rewardIsCode(reward)) return `code:${rewardKey || String(reward?.reward_code || "").trim()}`.toLowerCase();
-  if (rewardKey) return rewardKey.toLowerCase();
-  const url = String(reward?.final_url || reward?.original_url || reward?.url || "").trim();
-  return `url:${url || reward?.id || "unknown"}`.toLowerCase();
+  // Match Masters can reuse the same destination for different prizes. Keep
+  // the pcode/reward_key, detection date/time and reward descriptor together;
+  // URL alone is never the identity.
+  return `${rewardIsCode(reward) ? "code|" : ""}${matchMastersRecordIdentity(reward)}`;
 };
 const freshnessScore = (reward) => new Date(reward?.found_at || reward?.created_at || 0).getTime() || new Date(`${rewardDateKey(reward)}T${reward?.time_label || "00:00"}`).getTime() || 0;
 const matchMastersPublicRewards = (gameId) => {
   const unique = new Map();
-  rewardsFor(gameId).forEach((reward) => {
+  rewardsFor(gameId).filter((reward) => String(reward?.discovery_method || "automatic").toLowerCase() !== "catalog_seed").forEach((reward) => {
     const key = matchMastersOfferKey(reward);
     const current = unique.get(key);
     if (!current || freshnessScore(reward) > freshnessScore(current)) unique.set(key, reward);
   });
   return [...unique.values()];
 };
-const publicRewardsForGame = (game) => (game?.slug === "match-masters" ? matchMastersPublicRewards(game.id) : rewardsFor(game?.id)).filter((reward) => rewardIsCode(reward) || Boolean(rewardOpenUrl(reward)));
+const matchMastersTodayRewards = (game) => matchMastersPublicRewards(game.id)
+  .filter((reward) => !rewardIsCode(reward) && isLinkActive(reward) && matchMastersDetectedDateKey(reward) === todayKey());
+const publicRewardsForGame = (game) => (game?.slug === "match-masters" ? matchMastersPublicRewards(game.id) : rewardsFor(game?.id).filter((reward) => String(reward?.discovery_method || "automatic").toLowerCase() !== "catalog_seed")).filter((reward) => rewardIsCode(reward) || Boolean(rewardOpenUrl(reward)));
 const availableRewards = (gameId) => sortRewards(publicRewardsForGame(gameFor(gameId)).filter(isLinkActive));
 const matchMastersArt = (className) => `<div class="${className} match-masters-art" aria-hidden="true"><span class="match-masters-spark spark-one">✦</span><span class="match-masters-spark spark-two">◆</span><span class="match-masters-wordmark">MATCH <b>MASTERS</b></span><span class="match-masters-gem gem-one">◆</span><span class="match-masters-gem gem-two">◆</span><span class="match-masters-gem gem-three">◆</span></div>`;
 const gameArt = (game, className = "card-art") => {
@@ -1444,13 +1403,13 @@ const renderMatchMasters = (game) => {
     ui.today = "PRESENTES DISPONÍVEIS";
     ui.todayCopy = "Links e códigos reais que ainda podem ser usados.";
   }
-  const links = sortRewards(publicRewardsForGame(game).filter((reward) => isAutomaticDiscoveredReward(reward) && !rewardIsCode(reward)));
-  const todayRewards = links.filter((reward) => isLinkActive(reward) && isRewardToday(reward));
+  const links = sortRewards(publicRewardsForGame(game).filter((reward) => !rewardIsCode(reward)));
+  const todayRewards = matchMastersTodayRewards(game);
   const dateCursor = new Date();
   dateCursor.setDate(dateCursor.getDate() - 1);
   const yesterdayKey = `${dateCursor.getFullYear()}-${String(dateCursor.getMonth() + 1).padStart(2, "0")}-${String(dateCursor.getDate()).padStart(2, "0")}`;
-  const yesterdayRewards = links.filter((reward) => rewardDetectedDateKey(reward) === yesterdayKey);
-  const olderRewards = links.filter((reward) => rewardDetectedDateKey(reward) !== todayKey() && rewardDetectedDateKey(reward) !== yesterdayKey);
+  const yesterdayRewards = links.filter((reward) => matchMastersDetectedDateKey(reward) === yesterdayKey);
+  const olderRewards = links.filter((reward) => matchMastersDetectedDateKey(reward) !== todayKey() && matchMastersDetectedDateKey(reward) !== yesterdayKey);
   const codeRewards = sortRewards(publicRewardsForGame(game).filter((reward) => rewardIsCode(reward) && isLinkActive(reward)));
   const gameNews = publicNewsForGame(game);
   const latestUpdate = [...links, ...gameNews].map((item) => item.last_checked_at || item.published_at || item.found_at || item.created_at).filter(Boolean).sort().at(-1);
