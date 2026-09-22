@@ -1,0 +1,93 @@
+/* Visual-only redesign for the recent gifts route. Data and reward actions
+   remain the existing Game Gifts ones rendered by app.js. */
+body.recent-gifts-page-body {
+  color: #10141a !important;
+  background: #fbfaf6 !important;
+  background-image: none !important;
+}
+body.recent-gifts-page-body #app {
+  width: min(1160px, calc(100% - 36px)) !important;
+  max-width: none !important;
+  padding: 0 0 110px !important;
+}
+body.recent-gifts-page-body .recent-gifts-page { display: grid; gap: 18px; }
+body.recent-gifts-page-body .recent-gifts-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #697483; font-size: 12px; font-weight: 900; letter-spacing: .12em; }
+body.recent-gifts-page-body .recent-gifts-back { min-height: 34px; padding: 0 12px; color: #10141a; background: #fff; border: 1px solid #e5e2d8; border-radius: 10px; font-size: 12px; font-weight: 800; cursor: pointer; }
+body.recent-gifts-page-body .recent-gifts-tabs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 2px; padding: 7px; overflow-x: auto; background: #fff; border: 1px solid #e7e4db; border-radius: 17px; box-shadow: 0 4px 12px rgba(35,35,30,.04); }
+body.recent-gifts-page-body .recent-gifts-tabs a { display: grid; min-width: 112px; min-height: 67px; place-items: center; align-content: center; gap: 5px; color: #13171c; border-radius: 12px; text-align: center; text-decoration: none; }
+body.recent-gifts-page-body .recent-gifts-tabs a.is-active { background: #ffd21a; }
+body.recent-gifts-page-body .recent-gifts-tabs span { font-size: 25px; line-height: 1; }
+body.recent-gifts-page-body .recent-gifts-tabs b { font-size: 11px; line-height: 1.05; }
+body.recent-gifts-page-body .recent-gifts-page-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; padding: 5px 12px 0; }
+body.recent-gifts-page-body .recent-gifts-heading-title { display: flex; align-items: center; gap: 13px; }
+body.recent-gifts-page-body .recent-gifts-heading-title > span { display: grid; width: 47px; height: 47px; place-items: center; color: #10141a; background: #ffd21a; border-radius: 14px; font-size: 38px; font-weight: 900; line-height: 1; transform: rotate(-5deg); }
+body.recent-gifts-page-body .recent-gifts-page-heading h1 { margin: 0; color: #10141a; font-size: clamp(31px, 4.4vw, 52px); line-height: .92; letter-spacing: -.065em; }
+body.recent-gifts-page-body .recent-gifts-page-heading p { margin: 7px 0 0 60px; color: #56647a; font-size: 15px; }
+body.recent-gifts-page-body .recent-gifts-sort { display: inline-flex; align-items: center; gap: 22px; min-height: 48px; padding: 0 18px; color: #11151a; background: #fffdf5; border: 1px solid #f0c923; border-radius: 15px; font-size: 14px; font-weight: 900; box-shadow: 0 5px 13px rgba(179,143,0,.08); }
+body.recent-gifts-page-body .recent-gifts-sort span { font-size: 23px; line-height: 1; }
+body.recent-gifts-page-body .recent-gifts-groups { display: grid; gap: 18px; }
+body.recent-gifts-page-body .recent-gifts-game-section { display: grid; gap: 13px; min-width: 0; padding: 14px 15px 17px; overflow: hidden; background: linear-gradient(120deg, #fffef8, #f8f5e9); border: 1px solid #f1edde; border-radius: 23px; box-shadow: 0 7px 20px rgba(56,48,19,.045); }
+body.recent-gifts-page-body .recent-gifts-game-header { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 0 2px; }
+body.recent-gifts-page-body .recent-gifts-game-identity { display: flex; align-items: center; gap: 14px; min-width: 0; }
+body.recent-gifts-page-body .recent-gifts-game-art { width: 86px; height: 86px; flex: 0 0 86px; overflow: hidden; border-radius: 18px; box-shadow: 0 4px 10px rgba(20,26,32,.1); }
+body.recent-gifts-page-body .recent-gifts-game-image, body.recent-gifts-page-body .recent-gifts-game-image img { width: 100%; height: 100%; }
+body.recent-gifts-page-body .recent-gifts-game-image img { object-fit: cover; }
+body.recent-gifts-page-body .recent-gifts-game-identity h2 { margin: 0; overflow: hidden; color: #11151a; font-size: clamp(22px, 3vw, 29px); letter-spacing: -.05em; text-overflow: ellipsis; white-space: nowrap; }
+body.recent-gifts-page-body .recent-gifts-game-identity p { margin: 5px 0 0; color: #56647a; font-size: 15px; font-weight: 700; }
+body.recent-gifts-page-body .recent-gifts-see-all { display: inline-flex; align-items: center; gap: 13px; min-height: 46px; padding: 0 17px; color: #11151a; background: #fffdf8; border: 1px solid #f0c923; border-radius: 13px; font-size: 14px; font-weight: 900; text-decoration: none; white-space: nowrap; }
+body.recent-gifts-page-body .recent-gifts-see-all span { font-size: 28px; line-height: .7; }
+body.recent-gifts-page-body .recent-gifts-track { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(215px, 1fr); gap: 14px; min-width: 0; overflow-x: auto; padding: 1px 3px 7px; scrollbar-width: thin; }
+body.recent-gifts-page-body .recent-gifts-reward-card { position: relative; display: grid; grid-template-rows: auto 133px auto; min-width: 0; overflow: hidden; background: #fff; border: 1px solid #ebe9e3; border-radius: 17px; box-shadow: 0 4px 12px rgba(22,25,31,.08); }
+body.recent-gifts-page-body .recent-gifts-card-meta { display: flex; align-items: center; justify-content: space-between; gap: 7px; min-height: 35px; padding: 7px 11px 3px; color: #56647a; font-size: 11px; }
+body.recent-gifts-page-body .recent-gifts-card-meta b { padding: 5px 9px; color: #fff; background: #18a849; border-radius: 9px; font-size: 10px; }
+body.recent-gifts-page-body .recent-gifts-reward-art { display: grid; min-height: 0; place-items: center; margin: 0 9px; overflow: hidden; border-radius: 12px; background: #faf9f4; }
+body.recent-gifts-page-body .recent-gifts-reward-art .reward-art { width: 100%; height: 100%; border-radius: 12px; }
+body.recent-gifts-page-body .recent-gifts-reward-art .reward-art img { width: 100%; height: 100%; object-fit: contain; }
+body.recent-gifts-page-body .recent-gifts-card-body { position: relative; display: grid; align-content: start; gap: 7px; min-width: 0; padding: 11px 13px 12px; }
+body.recent-gifts-page-body .recent-gifts-card-body h3 { margin: 0; overflow: hidden; color: #10141a; font-size: 16px; line-height: 1.15; text-overflow: ellipsis; white-space: nowrap; }
+body.recent-gifts-page-body .recent-gifts-status { overflow: hidden; color: #6d7785; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+body.recent-gifts-page-body .recent-gifts-status.is-confirmed { color: #168143; }
+body.recent-gifts-page-body .recent-gifts-status.is-unconfirmed { color: #9a7311; }
+body.recent-gifts-page-body .recent-gifts-card-action { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 39px; margin-top: 2px; padding: 0 9px; color: #10141a; background: #ffd21a; border: 0; border-radius: 10px; font-size: 11px; font-weight: 950; text-decoration: none; cursor: pointer; }
+body.recent-gifts-page-body .recent-gifts-card-actions { display: grid; gap: 6px; }
+body.recent-gifts-page-body .recent-gifts-card-action span { font-size: 16px; }
+body.recent-gifts-page-body .recent-gifts-card-action.is-disabled { color: #707783; background: #f0efeb; cursor: default; }
+body.recent-gifts-page-body .recent-gifts-favorite { position: absolute; top: 10px; right: 9px; display: grid; width: 28px; height: 28px; place-items: center; color: #596271; background: #f5f4ef; border: 0; border-radius: 50%; font-size: 17px; cursor: pointer; }
+body.recent-gifts-page-body .recent-gifts-favorite.is-favorite { color: #d49c00; }
+body.recent-gifts-page-body .recent-gifts-note { display: flex; align-items: center; gap: 13px; padding: 17px 22px; color: #11151a; background: #fff4c9; border-radius: 18px; }
+body.recent-gifts-page-body .recent-gifts-note > span { display: grid; width: 39px; height: 39px; place-items: center; background: #ffed9a; border-radius: 50%; font-size: 22px; }
+body.recent-gifts-page-body .recent-gifts-note strong { font-size: 14px; }
+body.recent-gifts-page-body .recent-gifts-note p { margin: 3px 0 0; color: #536075; font-size: 12px; }
+body.recent-gifts-page-body .recent-gifts-empty { display: grid; place-items: center; gap: 8px; min-height: 220px; padding: 20px; color: #596575; background: #fff; border: 1px dashed #dedbd0; border-radius: 20px; text-align: center; }
+body.recent-gifts-page-body .recent-gifts-empty span { font-size: 39px; }
+body.recent-gifts-page-body .recent-gifts-empty strong { color: #11151a; font-size: 17px; }
+body.recent-gifts-page-body .recent-gifts-empty p { margin: 0; font-size: 12px; }
+@media (max-width: 760px) {
+  body.recent-gifts-page-body #app { width: calc(100% - 20px) !important; padding-top: 10px !important; }
+  body.recent-gifts-page-body .recent-gifts-page { gap: 14px; }
+  body.recent-gifts-page-body .recent-gifts-tabs { grid-template-columns: repeat(6, 100px); margin-inline: -1px; }
+  body.recent-gifts-page-body .recent-gifts-tabs a { min-width: 100px; min-height: 60px; }
+  body.recent-gifts-page-body .recent-gifts-tabs span { font-size: 22px; }
+  body.recent-gifts-page-body .recent-gifts-tabs b { font-size: 9px; }
+  body.recent-gifts-page-body .recent-gifts-page-heading { align-items: start; padding-inline: 3px; }
+  body.recent-gifts-page-body .recent-gifts-heading-title { gap: 9px; }
+  body.recent-gifts-page-body .recent-gifts-heading-title > span { width: 38px; height: 38px; border-radius: 11px; font-size: 29px; }
+  body.recent-gifts-page-body .recent-gifts-page-heading h1 { font-size: 31px; }
+  body.recent-gifts-page-body .recent-gifts-page-heading p { margin: 6px 0 0 47px; font-size: 12px; }
+  body.recent-gifts-page-body .recent-gifts-sort { display: none; }
+  body.recent-gifts-page-body .recent-gifts-game-section { gap: 10px; padding: 10px 9px 12px; border-radius: 19px; }
+  body.recent-gifts-page-body .recent-gifts-game-header { align-items: center; }
+  body.recent-gifts-page-body .recent-gifts-game-art { width: 60px; height: 60px; flex-basis: 60px; border-radius: 14px; }
+  body.recent-gifts-page-body .recent-gifts-game-identity { gap: 9px; }
+  body.recent-gifts-page-body .recent-gifts-game-identity h2 { font-size: 20px; }
+  body.recent-gifts-page-body .recent-gifts-game-identity p { margin-top: 3px; font-size: 11px; }
+  body.recent-gifts-page-body .recent-gifts-see-all { min-height: 37px; padding: 0 10px; border-radius: 10px; font-size: 10px; }
+  body.recent-gifts-page-body .recent-gifts-see-all span { font-size: 22px; }
+  body.recent-gifts-page-body .recent-gifts-track { grid-auto-columns: 74vw; gap: 9px; padding-bottom: 5px; }
+  body.recent-gifts-page-body .recent-gifts-reward-card { grid-template-rows: auto 128px auto; border-radius: 15px; }
+  body.recent-gifts-page-body .recent-gifts-card-meta { min-height: 32px; font-size: 10px; }
+  body.recent-gifts-page-body .recent-gifts-card-body h3 { font-size: 15px; }
+  body.recent-gifts-page-body .recent-gifts-note { padding: 13px 15px; }
+  body.recent-gifts-page-body .recent-gifts-note strong { font-size: 12px; }
+  body.recent-gifts-page-body .recent-gifts-note p { font-size: 10px; }
+}

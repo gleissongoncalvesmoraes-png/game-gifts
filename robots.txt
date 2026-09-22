@@ -1,6 +1,11 @@
 # Public pages may be crawled. Private/personal areas stay out of search.
 User-agent: *
 Allow: /
+Allow: /game-gifts/
+# Keep application endpoints and private tools out of crawling while leaving
+# public game, language, stylesheet and image URLs available to Googlebot.
+Disallow: /api/
+Disallow: /cloudflare-staging/
 Disallow: /pt/admin/
 Disallow: /en/admin/
 Disallow: /es/admin/
@@ -11,4 +16,19 @@ Disallow: /en/favorites/
 Disallow: /es/favoritos/
 Disallow: /de/favoriten/
 Disallow: /tr/favoriler/
-Sitemap: /sitemap.xml
+# Preview/editor query parameters are not public documents.
+Disallow: /*?__websim_
+Disallow: /*?*__websim_
+Disallow: /game-gifts/api/
+Disallow: /game-gifts/cloudflare-staging/
+Disallow: /game-gifts/pt/admin/
+Disallow: /game-gifts/en/admin/
+Disallow: /game-gifts/es/admin/
+Disallow: /game-gifts/de/admin/
+Disallow: /game-gifts/tr/admin/
+Disallow: /game-gifts/pt/favoritos/
+Disallow: /game-gifts/en/favorites/
+Disallow: /game-gifts/es/favoritos/
+Disallow: /game-gifts/de/favoriten/
+Disallow: /game-gifts/tr/favoriler/
+Sitemap: https://gleissongoncalvesmoraes-png.github.io/game-gifts/sitemap.xml

@@ -1,0 +1,330 @@
+/* Light Game Gifts skin for internal game pages only. */
+body.game-page,
+body.match-masters-page {
+  color-scheme: light;
+  color: #151515 !important;
+  background: #f8f7f2 !important;
+  background-image: none !important;
+}
+
+body.game-page::before,
+body.game-page::after,
+body.match-masters-page::before,
+body.match-masters-page::after {
+  display: none !important;
+}
+
+body.game-page .site-header.portal-header,
+body.match-masters-page .site-header.portal-header {
+  color: #151515 !important;
+  background: rgba(255, 254, 249, .97) !important;
+  border-bottom: 1px solid #e5e1d7 !important;
+  box-shadow: 0 4px 18px rgba(26, 25, 20, .07) !important;
+}
+
+body.game-page .portal-header .brand-name,
+body.game-page .portal-header .brand-name em,
+body.match-masters-page .portal-header .brand-name,
+body.match-masters-page .portal-header .brand-name em,
+body.game-page .portal-header .desktop-nav a,
+body.match-masters-page .portal-header .desktop-nav a,
+body.game-page .portal-header .header-notify,
+body.match-masters-page .portal-header .header-notify,
+body.game-page .portal-header .language-select,
+body.match-masters-page .portal-header .language-select {
+  color: #151515 !important;
+}
+
+body.game-page .portal-header .brand-name em,
+body.match-masters-page .portal-header .brand-name em {
+  color: #b38300 !important;
+}
+
+body.game-page .portal-header .desktop-nav a:hover,
+body.game-page .portal-header .desktop-nav a.active,
+body.match-masters-page .portal-header .desktop-nav a:hover,
+body.match-masters-page .portal-header .desktop-nav a.active {
+  color: #151515 !important;
+  background: #fff1a8 !important;
+}
+
+body.game-page .portal-header .search-box,
+body.match-masters-page .portal-header .search-box {
+  color: #151515 !important;
+  border-color: #ddd9cf !important;
+  background: #fff !important;
+}
+
+body.game-page .portal-header .search-box input,
+body.match-masters-page .portal-header .search-box input {
+  color: #151515 !important;
+}
+
+body.game-page .portal-header .language-select,
+body.match-masters-page .portal-header .language-select {
+  border-color: #ddd9cf !important;
+  background: #fff !important;
+}
+
+body.game-page .back-link,
+body.match-masters-page .mm-back-button,
+body.match-masters-page .mm-icon-action,
+body.match-masters-page .mm-follow-action {
+  color: #151515 !important;
+  border-color: #e2ded4 !important;
+  background: #fff !important;
+  box-shadow: 0 5px 14px rgba(31, 29, 18, .08) !important;
+}
+
+body.game-page:not(.match-masters-page) .game-intro {
+  color: #151515 !important;
+  border-color: #e5dfcf !important;
+  background: #fffdf5 !important;
+  box-shadow: 0 12px 30px rgba(31, 29, 18, .09) !important;
+}
+
+body.game-page:not(.match-masters-page) .game-intro::after {
+  background: linear-gradient(120deg, rgba(255, 253, 245, .9), rgba(255, 253, 245, .62)) !important;
+}
+
+body.game-page:not(.match-masters-page) .game-hero-art {
+  background: #fff1ad !important;
+}
+
+body.game-page:not(.match-masters-page) .game-hero-art::after {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .08), rgba(255, 253, 245, .86)) !important;
+}
+
+body.game-page:not(.match-masters-page) .game-intro-copy .eyebrow,
+body.game-page:not(.match-masters-page) .game-intro-copy h1,
+body.game-page:not(.match-masters-page) .game-intro-copy p:not(.eyebrow) {
+  color: #151515 !important;
+  text-shadow: none !important;
+}
+
+body.game-page:not(.match-masters-page) .game-intro-copy .eyebrow {
+  color: #9a7300 !important;
+}
+
+body.game-page:not(.match-masters-page) .game-primary-link,
+body.match-masters-page .mm-anchor-nav a {
+  color: #151515 !important;
+  border-color: #e2ded4 !important;
+  background: #fff !important;
+  box-shadow: 0 4px 12px rgba(31, 29, 18, .06) !important;
+}
+
+body.game-page:not(.match-masters-page) .game-primary-link:hover,
+body.game-page:not(.match-masters-page) .game-primary-link.is-active,
+body.match-masters-page .mm-anchor-nav a:hover,
+body.match-masters-page .mm-anchor-nav a:first-child {
+  color: #151515 !important;
+  border-color: #ffd21a !important;
+  background: #ffd21a !important;
+}
+
+body.game-page:not(.match-masters-page) .game-vertical-section,
+body.game-page:not(.match-masters-page) .game-proof,
+body.game-page:not(.match-masters-page) .game-alert-card,
+body.game-page:not(.match-masters-page) .game-central-card,
+body.game-page:not(.match-masters-page) .game-tip-card,
+body.game-page:not(.match-masters-page) .game-info-details > div,
+body.game-page:not(.match-masters-page) .game-info-block,
+body.game-page:not(.match-masters-page) .game-faq-list details,
+body.game-page:not(.match-masters-page) .other-game-card,
+body.match-masters-page .mm-section,
+body.match-masters-page .mm-details-grid details {
+  color: #151515 !important;
+  border-color: #e5e1d8 !important;
+  background: #fff !important;
+  box-shadow: 0 8px 22px rgba(31, 29, 18, .06) !important;
+}
+
+body.game-page:not(.match-masters-page) .game-vertical-section::after {
+  background: radial-gradient(circle at 100% 0, rgba(255, 210, 26, .12), transparent 31%) !important;
+}
+
+body.game-page:not(.match-masters-page) .game-section-kicker,
+body.game-page:not(.match-masters-page) .game-central-heading h2,
+body.game-page:not(.match-masters-page) .game-central-card h3,
+body.game-page:not(.match-masters-page) .game-info-overview h3,
+body.game-page:not(.match-masters-page) .game-info-overview h3,
+body.game-page:not(.match-masters-page) .game-info-details dd,
+body.game-page:not(.match-masters-page) .game-alert-card strong,
+body.game-page:not(.match-masters-page) .game-proof strong,
+body.game-page:not(.match-masters-page) .game-proof a,
+body.game-page:not(.match-masters-page) .other-game-card > span,
+body.match-masters-page .mm-section-heading h2,
+body.match-masters-page .mm-details-grid summary,
+body.match-masters-page .mm-reward-card h3,
+body.match-masters-page .mm-code-prize strong {
+  color: #151515 !important;
+}
+
+body.game-page:not(.match-masters-page) .game-section-description,
+body.game-page:not(.match-masters-page) .game-central-heading > div > p:last-child,
+body.game-page:not(.match-masters-page) .game-central-card > p:not(.eyebrow),
+body.game-page:not(.match-masters-page) .game-central-card li,
+body.game-page:not(.match-masters-page) .game-tip-card p,
+body.game-page:not(.match-masters-page) .game-redeem-steps li,
+body.game-page:not(.match-masters-page) .game-info-overview p:not(.eyebrow),
+body.game-page:not(.match-masters-page) .game-info-block > p:not(.eyebrow),
+body.game-page:not(.match-masters-page) .game-info-list li,
+body.game-page:not(.match-masters-page) .game-info-details dt,
+body.game-page:not(.match-masters-page) .game-alert-card p,
+body.game-page:not(.match-masters-page) .game-proof p,
+body.game-page:not(.match-masters-page) .game-proof small,
+body.game-page:not(.match-masters-page) .game-vertical-section .reward-details,
+body.game-page:not(.match-masters-page) .game-vertical-section .reward-source-line,
+body.match-masters-page .mm-section-heading p,
+body.match-masters-page .mm-reward-description,
+body.match-masters-page .mm-reward-meta,
+body.match-masters-page .mm-code-status,
+body.match-masters-page .mm-code-prize small,
+body.match-masters-page .mm-code-meta {
+  color: #5f5d56 !important;
+}
+
+body.game-page:not(.match-masters-page) .game-vertical-section .reward-card,
+body.match-masters-page .mm-reward-card,
+body.match-masters-page .mm-code-card,
+body.match-masters-page .mm-news-list .editorial-news-card {
+  color: #151515 !important;
+  border-color: #e5e1d8 !important;
+  background: #fff !important;
+  box-shadow: 0 6px 16px rgba(31, 29, 18, .07) !important;
+}
+
+body.game-page:not(.match-masters-page) .game-vertical-section .reward-copy h3,
+body.game-page:not(.match-masters-page) .game-vertical-section .reward-copy .reward-value > strong,
+body.match-masters-page .mm-reward-card h3 {
+  color: #151515 !important;
+}
+
+body.game-page:not(.match-masters-page) .game-vertical-section .reward-source-line a,
+body.game-page:not(.match-masters-page) .game-info-link-list .outline-button,
+body.game-page:not(.match-masters-page) .game-central-link,
+body.match-masters-page .mm-secondary-action,
+body.match-masters-page .mm-favorite-action,
+body.match-masters-page .mm-code-claimed,
+body.match-masters-page .mm-code-favorite {
+  color: #151515 !important;
+  border-color: #e2ded4 !important;
+  background: #faf9f4 !important;
+}
+
+body.game-page:not(.match-masters-page) .game-central-link:hover,
+body.game-page:not(.match-masters-page) .game-central-link.active,
+body.match-masters-page .mm-secondary-action:hover,
+body.match-masters-page .mm-favorite-action:hover {
+  color: #151515 !important;
+  border-color: #ffd21a !important;
+  background: #fff1a8 !important;
+}
+
+body.game-page:not(.match-masters-page) .game-info-chips span {
+  color: #6f5400 !important;
+  border-color: #edd47a !important;
+  background: #fff8d7 !important;
+}
+
+body.game-page:not(.match-masters-page) .game-redeem-steps li::before {
+  color: #151515 !important;
+  background: #ffd21a !important;
+  box-shadow: 0 3px 0 rgba(167, 125, 0, .18) !important;
+}
+
+body.game-page:not(.match-masters-page) .game-follow-button,
+body.game-page:not(.match-masters-page) .open-button,
+body.game-page:not(.match-masters-page) .primary-button,
+body.game-page:not(.match-masters-page) .game-info-link-list .outline-button:hover,
+body.match-masters-page .mm-collect-button,
+body.match-masters-page .mm-code-copy {
+  color: #151515 !important;
+  border-color: #ffd21a !important;
+  background: #ffd21a !important;
+  box-shadow: 0 4px 0 rgba(167, 125, 0, .22) !important;
+}
+
+body.game-page:not(.match-masters-page) .game-vertical-section .copy-link,
+body.game-page:not(.match-masters-page) .game-vertical-section .icon-button {
+  color: #151515 !important;
+  border-color: #e2ded4 !important;
+  background: #faf9f4 !important;
+}
+
+body.match-masters-page .mm-hero {
+  color: #151515 !important;
+  border-color: #eadfa8 !important;
+  background: #fffdf2 !important;
+  box-shadow: 0 12px 30px rgba(31, 29, 18, .1) !important;
+}
+
+body.match-masters-page .mm-hero-image::after {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .12), rgba(255, 253, 242, .9)) !important;
+}
+
+body.match-masters-page .mm-hero-overlay {
+  background: linear-gradient(90deg, rgba(255, 253, 242, .94), rgba(255, 253, 242, .58), rgba(255, 253, 242, .16)) !important;
+}
+
+body.match-masters-page .mm-hero-copy,
+body.match-masters-page .mm-hero-copy h1,
+body.match-masters-page .mm-hero-copy p,
+body.match-masters-page .mm-hero-subtitle {
+  color: #151515 !important;
+  text-shadow: none !important;
+}
+
+body.match-masters-page .mm-hero-kicker,
+body.match-masters-page .mm-hero-copy h1 em,
+body.match-masters-page .mm-section-kicker {
+  color: #9a7300 !important;
+}
+
+body.match-masters-page .mm-updated {
+  color: #315f43 !important;
+  border-color: #b7d8bf !important;
+  background: #e9f6e9 !important;
+}
+
+body.match-masters-page .mm-code-section { border-top-color: #ffd21a !important; }
+body.match-masters-page .mm-code-section .mm-section-kicker,
+body.match-masters-page .mm-code-brand { color: #8a6800 !important; }
+body.match-masters-page .mm-code-value { color: #151515 !important; border-color: #e7c84d !important; background: #fff9dc !important; }
+body.match-masters-page .mm-code-redeem { color: #fff !important; border-color: #151515 !important; background: #151515 !important; }
+body.match-masters-page .mm-code-redeem.is-disabled { color: #77736a !important; border-color: #e5e1d8 !important; background: #f1f0eb !important; }
+body.match-masters-page .mm-code-favorite.is-favorite { color: #fff !important; background: #151515 !important; }
+body.match-masters-page .mm-details-grid details { border-color: #e5e1d8 !important; background: #fff !important; }
+
+body.game-page .mobile-nav,
+body.match-masters-page .mobile-nav {
+  border-color: #e5e1d8 !important;
+  background: rgba(255, 254, 249, .97) !important;
+  box-shadow: 0 -7px 22px rgba(31, 29, 18, .1) !important;
+}
+
+body.game-page .mobile-nav a,
+body.match-masters-page .mobile-nav a {
+  color: #6f6c64 !important;
+}
+
+body.game-page .mobile-nav a.active,
+body.match-masters-page .mobile-nav a.active {
+  color: #151515 !important;
+  border-color: #ffd21a !important;
+  background: #ffd21a !important;
+  box-shadow: none !important;
+}
+
+body.game-page .site-footer,
+body.match-masters-page .site-footer {
+  color: #6f6c64 !important;
+  background: #f0efe9 !important;
+  border-top-color: #e5e1d8 !important;
+}
+
+body.game-page .site-footer a,
+body.match-masters-page .site-footer a {
+  color: #151515 !important;
+}

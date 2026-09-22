@@ -1,0 +1,11 @@
+{
+  "name": "Game Gifts",
+  "short_name": "Game Gifts",
+  "description": "Presentes, códigos e novidades de jogos em um só lugar.",
+  "start_url": "./pt/",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fffaf0",
+  "theme_color": "#111d34",
+  "icons": [{ "src": "./favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

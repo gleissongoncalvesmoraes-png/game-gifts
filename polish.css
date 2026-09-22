@@ -105,3 +105,838 @@ body { overflow-x: hidden; }
   .home-featured-game-card,
   .home-news-card { transition: none; }
 }
+
+/*
+ * Referência visual global: aplicativo claro, arredondado e direto.
+ * Esta camada só redefine apresentação; links, atalhos, dados e interações
+ * continuam sendo controlados pelo HTML/JavaScript existente.
+ */
+:root {
+  color-scheme: light !important;
+  --bg: #f4f4f2 !important;
+  --bg-soft: #ececea !important;
+  --surface: #ffffff !important;
+  --surface-solid: #ffffff !important;
+  --surface-light: #fafaf8 !important;
+  --line: #e1e1df !important;
+  --line-strong: #bdbdb8 !important;
+  --text: #171717 !important;
+  --muted: #737373 !important;
+  --cyan: #171717 !important;
+  --blue: #ffd400 !important;
+  --violet: #171717 !important;
+  --green: #18864b !important;
+  --yellow: #ffd400 !important;
+  --danger: #c83b3b !important;
+  --radius: 22px !important;
+}
+
+html,
+body,
+body.home-page,
+body.game-page,
+body.match-masters-page,
+body.coin-master-page {
+  color: #171717 !important;
+  background: #f4f4f2 !important;
+  background-image: none !important;
+}
+
+body::before,
+body::after,
+body.home-page::after,
+body.match-masters-page::after,
+body.coin-master-page::after {
+  display: none !important;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+.site-header,
+body.home-page .site-header,
+body.game-page .site-header,
+body.match-masters-page .site-header {
+  color: #171717 !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid #e1e1df !important;
+  box-shadow: 0 2px 12px rgba(23, 23, 23, .07) !important;
+  backdrop-filter: none !important;
+}
+
+.brand,
+.brand-name,
+.home-page .brand-name,
+.footer-brand {
+  color: #171717 !important;
+}
+
+.brand em,
+.footer-brand em {
+  color: #171717 !important;
+}
+
+.brand-mark,
+.home-page .brand-mark,
+.brand-mark.small {
+  color: #171717 !important;
+  background: #ffd400 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.brand-subtitle,
+.site-footer,
+.site-footer p {
+  color: #737373 !important;
+}
+
+.desktop-nav a,
+.mobile-nav a {
+  color: #5d5d5d !important;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active,
+.mobile-nav a.active {
+  color: #171717 !important;
+  background: #ffd400 !important;
+  box-shadow: none !important;
+}
+
+.desktop-nav a.active {
+  box-shadow: inset 0 -3px #171717 !important;
+}
+
+.header-menu-button,
+.header-notify,
+.language-select {
+  color: #171717 !important;
+  border: 0 !important;
+  background: #f0f0ee !important;
+  box-shadow: none !important;
+}
+
+.header-menu-button span { background: #171717 !important; }
+
+.search-box {
+  color: #171717 !important;
+  border: 0 !important;
+  background: #f0f0ee !important;
+  box-shadow: none !important;
+}
+
+.search-box input {
+  color: #171717 !important;
+}
+
+.search-box input::placeholder { color: #8a8a8a !important; }
+
+#app,
+.home-page #app {
+  width: min(1120px, calc(100% - 32px)) !important;
+  padding-top: 24px !important;
+  padding-bottom: 112px !important;
+}
+
+h1,
+h2,
+h3,
+.home-dashboard-heading h2,
+.home-dashboard-heading p,
+.section-head h2,
+.section-head p,
+.home-premium-section-heading h2,
+.home-premium-section-heading p {
+  color: #171717 !important;
+}
+
+.eyebrow,
+.home-dashboard-kicker,
+.home-premium-section-heading .eyebrow,
+.game-section-kicker,
+.mm-section-kicker {
+  color: #171717 !important;
+}
+
+.home-dashboard-hero,
+.home-premium-hero {
+  color: #171717 !important;
+  border: 0 !important;
+  border-radius: 26px !important;
+  background: #ffd400 !important;
+  box-shadow: 0 14px 30px rgba(23, 23, 23, .14) !important;
+}
+
+.home-dashboard-hero .home-hero-backdrop,
+.home-premium-hero .home-hero-backdrop {
+  background: linear-gradient(135deg, #ffeb70, #ffd400 62%, #f5c700) !important;
+}
+
+.home-dashboard-hero .home-hero-backdrop::after,
+.home-premium-hero .home-hero-backdrop::after {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(23, 23, 23, .18)) !important;
+}
+
+.home-dashboard-hero .home-hero-tile,
+.home-premium-hero .home-hero-tile {
+  opacity: .12 !important;
+  filter: grayscale(1) !important;
+}
+
+.home-dashboard-hero-copy,
+.home-premium-hero-copy {
+  color: #171717 !important;
+}
+
+.home-dashboard-hero-copy h1,
+.home-premium-hero h1,
+.home-premium-hero h1 em,
+.home-dashboard-hero-copy h1 em,
+.home-dashboard-hero-copy .home-hero-kicker,
+.home-dashboard-hero-copy p,
+.home-premium-hero p {
+  color: #171717 !important;
+  text-shadow: none !important;
+}
+
+.home-hero-cta,
+.home-dashboard-hero .home-hero-cta,
+.home-redeem-button,
+.home-premium-collect,
+.home-featured-redeem,
+.game-follow-button,
+.open-button,
+.primary-button,
+.mm-collect-button,
+.mm-follow-action {
+  color: #171717 !important;
+  border: 0 !important;
+  background: #ffd400 !important;
+  box-shadow: 0 3px 0 rgba(23, 23, 23, .16) !important;
+}
+
+.home-hero-cta:hover,
+.home-redeem-button:hover,
+.home-premium-collect:hover,
+.home-featured-redeem:hover,
+.game-follow-button:hover,
+.open-button:hover,
+.primary-button:hover,
+.mm-collect-button:hover,
+.mm-follow-action:hover {
+  filter: brightness(.98) !important;
+  transform: translateY(-1px);
+}
+
+.home-quick-links,
+.home-empty-state,
+.empty,
+.home-trust-strip > div,
+.home-trust-strip article,
+.home-featured-game-card,
+.home-arrival-card,
+.home-news-card,
+.home-premium-reward-card,
+.home-premium-games-grid .home-game-card,
+.game-card,
+.reward-card,
+.info-card,
+.admin-card,
+.game-intro,
+.game-proof,
+.game-alert-card,
+body.game-page .game-vertical-section,
+body.match-masters-page .mm-section,
+body.match-masters-page .mm-details-grid details {
+  color: #171717 !important;
+  border: 1px solid #e1e1df !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 22px rgba(23, 23, 23, .07) !important;
+}
+
+.home-quick-links a,
+.home-empty-state strong,
+.home-empty-state p,
+.empty h3,
+.empty p,
+.home-trust-strip article strong,
+.home-trust-strip article p,
+.home-featured-game-copy h3,
+.home-arrival-copy strong,
+.home-arrival-copy > span,
+.home-news-copy h3,
+.home-premium-reward-body h3,
+.home-premium-reward-body p,
+.game-card h3,
+.reward-copy h3,
+.reward-copy .reward-value,
+.info-card h3,
+.admin-card h2,
+.game-intro h1,
+.game-intro p,
+.game-proof a,
+.game-proof strong,
+body.game-page .game-section-heading h2,
+body.game-page .game-vertical-section .reward-copy h3,
+body.game-page .game-vertical-section .reward-copy .reward-value > strong,
+body.match-masters-page .mm-section-heading h2,
+body.match-masters-page .mm-details-grid summary,
+body.match-masters-page .mm-reward-card h3 {
+  color: #171717 !important;
+}
+
+.home-quick-links a:hover,
+.home-quick-links a.active {
+  color: #171717 !important;
+  background: #ffd400 !important;
+}
+
+.home-dashboard-heading > a,
+.home-game-filters button,
+.tab,
+.outline-button,
+.copy-link,
+.small-button,
+.mm-secondary-action,
+.back-link {
+  color: #171717 !important;
+  border: 1px solid #e1e1df !important;
+  background: #f0f0ee !important;
+  box-shadow: none !important;
+}
+
+.home-game-filters button.active,
+.tab.active,
+.tab:hover,
+.home-dashboard-heading > a:hover,
+.outline-button:hover,
+.small-button:hover,
+.mm-secondary-action:hover,
+.back-link:hover {
+  color: #171717 !important;
+  border-color: #ffd400 !important;
+  background: #ffd400 !important;
+}
+
+.home-premium-games-grid .home-game-card-body,
+.game-card-body {
+  background: linear-gradient(180deg, transparent, rgba(23, 23, 23, .84) 28%) !important;
+}
+
+.home-premium-games-grid .home-game-card h3,
+.game-card h3,
+.game-card .game-meta,
+.game-card .game-meta small,
+.game-card .logo-word {
+  color: #ffffff !important;
+}
+
+.home-featured-game-art,
+.home-arrival-art,
+.home-news-image,
+.home-premium-reward-art,
+.reward-art,
+.game-cover {
+  background: #ececea !important;
+}
+
+.home-featured-reward,
+.home-empty-state,
+.empty,
+.home-arrival-copy span,
+.home-premium-reward-status,
+.reward-details,
+.reward-copy p,
+.game-intro p,
+.game-proof small,
+.game-proof p,
+.mm-section-heading p,
+.mm-details-grid details p,
+.info-card p,
+.admin-muted,
+.admin-row small {
+  color: #737373 !important;
+}
+
+.home-featured-reward {
+  background: #f0f0ee !important;
+}
+
+.home-empty-state,
+.empty {
+  min-height: 164px;
+  border-style: dashed !important;
+  background: #f0f0ee !important;
+}
+
+.home-empty-state > span,
+.empty .empty-icon {
+  filter: none !important;
+}
+
+.game-meta .arrow,
+.mode-chip,
+.home-new-badge {
+  color: #171717 !important;
+  background: #ffd400 !important;
+}
+
+.drawer-panel {
+  color: #ffffff !important;
+  border-right: 0 !important;
+  background: #333333 !important;
+  box-shadow: 14px 0 35px rgba(0, 0, 0, .22) !important;
+}
+
+.drawer-heading {
+  border-bottom-color: rgba(255, 255, 255, .16) !important;
+}
+
+.drawer-heading h2,
+.drawer-close {
+  color: #ffffff !important;
+}
+
+.drawer-kicker { color: #ffd400 !important; }
+
+.drawer-close {
+  border: 0 !important;
+  background: rgba(255, 255, 255, .1) !important;
+}
+
+.drawer-links a {
+  color: #ffffff !important;
+  border: 0 !important;
+  background: rgba(255, 255, 255, .08) !important;
+}
+
+.drawer-links a:hover,
+.drawer-links a.active {
+  color: #171717 !important;
+  background: #ffd400 !important;
+}
+
+.drawer-links a span {
+  background: rgba(255, 255, 255, .12) !important;
+}
+
+.drawer-backdrop { background: rgba(0, 0, 0, .46) !important; }
+
+.mobile-nav {
+  border: 1px solid #e1e1df !important;
+  background: rgba(255, 255, 255, .98) !important;
+  box-shadow: 0 -8px 25px rgba(23, 23, 23, .1) !important;
+  backdrop-filter: none !important;
+}
+
+.site-footer {
+  background: #ececea !important;
+  border-top-color: #e1e1df !important;
+}
+
+#toast {
+  color: #ffffff !important;
+  border: 0 !important;
+  background: #333333 !important;
+  box-shadow: 0 10px 25px rgba(23, 23, 23, .18) !important;
+}
+
+@media (max-width: 720px) {
+  #app,
+  .home-page #app {
+    width: min(100% - 22px, 560px) !important;
+    padding-top: 16px !important;
+    padding-bottom: 108px !important;
+  }
+
+  .site-header {
+    min-height: 66px !important;
+    padding: 8px 10px !important;
+  }
+
+  .home-dashboard-hero,
+  .home-premium-hero {
+    border-radius: 20px !important;
+  }
+
+  .home-quick-links,
+  .home-featured-game-card,
+  .home-arrival-card,
+  .home-news-card,
+  .game-card,
+  .reward-card,
+  .game-intro,
+  body.game-page .game-vertical-section,
+  body.match-masters-page .mm-section {
+    border-radius: 18px !important;
+  }
+
+  .mobile-nav {
+    right: 10px !important;
+    bottom: 10px !important;
+    left: 10px !important;
+    padding: 7px !important;
+  }
+}
+
+/* Reward identity inside ACABOU DE CHEGAR: the prize is primary, the game is secondary. */
+.home-arrival-topline {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  padding: 8px 10px 0 !important;
+}
+
+.home-arrival-game {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  color: #171717 !important;
+  background: transparent !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+}
+
+.home-arrival-game strong {
+  overflow: hidden !important;
+  color: #171717 !important;
+  font-size: 11px !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.home-arrival-topline .home-arrival-game-logo {
+  display: block !important;
+  flex: 0 0 25px !important;
+  width: 25px !important;
+  height: 25px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid #e1e1df !important;
+  border-radius: 8px !important;
+  background: #f2f1ed !important;
+}
+
+.home-arrival-game-logo .card-art {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  border-radius: 0 !important;
+}
+
+.home-arrival-game-logo .card-art img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.home-arrival-topline time {
+  flex: 0 0 auto !important;
+  color: #737373 !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+.home-arrival-topline .home-arrival-new-label {
+  flex: 0 0 auto !important;
+  padding: 3px 5px !important;
+  color: #171717 !important;
+  border-radius: 6px !important;
+  background: #ffd400 !important;
+  font-size: 9px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+}
+
+.home-arrival-copy .home-arrival-reward {
+  overflow: hidden !important;
+  color: #171717 !important;
+  font-size: 13px !important;
+  font-weight: 950 !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.home-arrival-copy .home-arrival-status {
+  overflow: hidden !important;
+  color: #737373 !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.home-arrival-copy .home-arrival-status.is-confirmed {
+  color: #16823c !important;
+}
+
+.home-arrival-copy .home-arrival-status.is-unconfirmed {
+  color: #737373 !important;
+}
+
+.reward-art-code,
+.reward-art-dice,
+.reward-art-credits,
+.reward-art-packs,
+.reward-art-stickers,
+.reward-art-rubies {
+  background: linear-gradient(145deg, #ffd400, #f0a800) !important;
+}
+
+.reward-art-generic {
+  background: linear-gradient(145deg, #f4f0e6, #ded8c9) !important;
+  box-shadow: inset 0 0 0 1px #d1c9b8 !important;
+}
+
+.reward-art-generic .reward-icon,
+.reward-art-generic .reward-art-label {
+  color: #171717 !important;
+  text-shadow: none !important;
+}
+
+.reward-art-generic .reward-art-label {
+  font-size: 9px !important;
+  letter-spacing: .04em !important;
+}
+
+@media (max-width: 620px) {
+  .home-arrival-topline {
+    padding-inline: 8px !important;
+  }
+
+  .home-arrival-game strong {
+    max-width: 78px !important;
+  }
+
+  .home-arrival-topline time {
+    font-size: 9px !important;
+  }
+}
+
+/* Live content areas: only real rewards are shown in these grids. */
+.home-featured-section,
+.home-news-section {
+  display: none !important;
+}
+
+.home-arrival-grid,
+.recent-rewards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.home-arrival-card {
+  display: grid !important;
+  grid-template-rows: auto 116px 1fr !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid #e1e1df !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 22px rgba(23, 23, 23, .07) !important;
+}
+
+.home-arrival-topline {
+  color: #737373 !important;
+}
+
+.home-arrival-topline span {
+  color: #171717 !important;
+  background: #ffd400 !important;
+}
+
+.home-arrival-copy {
+  align-content: start !important;
+  min-width: 0 !important;
+  background: #ffffff !important;
+}
+
+.home-arrival-copy strong,
+.home-arrival-copy > span {
+  color: #171717 !important;
+}
+
+.home-arrival-copy > span {
+  color: #737373 !important;
+}
+
+.home-arrival-action {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 36px !important;
+  margin-top: 5px !important;
+  padding: 0 8px !important;
+  color: #171717 !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: #ffd400 !important;
+  box-shadow: 0 3px 0 rgba(23, 23, 23, .14) !important;
+  font-size: 10px !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+  cursor: pointer !important;
+}
+.home-arrival-actions { display: grid; gap: 5px; margin-top: 5px; }
+.home-arrival-actions .home-arrival-action { margin-top: 0 !important; }
+.home-arrival-action.is-disabled { color: #737373 !important; background: #f0efeb !important; box-shadow: none !important; cursor: default !important; }
+
+.home-arrival-action:hover {
+  filter: brightness(.98) !important;
+  transform: translateY(-1px);
+}
+
+.recent-empty-message {
+  margin: 0 !important;
+  padding: 8px 0 !important;
+  color: #737373 !important;
+  font-size: 13px !important;
+}
+
+.home-arrival-section .home-empty-state {
+  display: block !important;
+  min-height: 0 !important;
+  padding: 8px 0 !important;
+  text-align: left !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.home-arrival-section .home-empty-state > span {
+  display: none !important;
+}
+
+.home-arrival-section .home-empty-state strong {
+  color: #737373 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+.home-all-games-grid .home-game-card {
+  min-height: 210px !important;
+  overflow: hidden !important;
+  border: 1px solid #e1e1df !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 22px rgba(23, 23, 23, .07) !important;
+}
+
+.home-all-games-grid .home-game-card .game-card-body {
+  padding: 13px 14px 14px !important;
+}
+
+.home-all-games-grid .home-game-card .game-card-details {
+  display: grid !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+}
+
+.home-all-games-grid .home-game-card .game-availability {
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+}
+
+.home-all-games-grid .home-game-card .home-new-indicator {
+  width: max-content !important;
+  padding: 3px 6px !important;
+  color: #171717 !important;
+  border-radius: 6px !important;
+  background: #ffd400 !important;
+  font-size: 10px !important;
+  font-weight: 900 !important;
+}
+
+.game-card-details {
+  min-width: 0;
+}
+
+.game-card-details .mode-chip {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+body.game-page .game-vertical-flow {
+  gap: 12px !important;
+  margin-top: 16px !important;
+}
+
+body.game-page .game-vertical-section {
+  min-height: 0 !important;
+  padding: 18px !important;
+}
+
+.game-compact-empty,
+.mm-compact-empty {
+  display: grid !important;
+  gap: 4px !important;
+  min-height: 0 !important;
+  padding: 14px 16px !important;
+  color: #171717 !important;
+  border: 1px dashed #c9c9c5 !important;
+  border-radius: 14px !important;
+  background: #f0f0ee !important;
+}
+
+.game-compact-empty strong,
+.mm-compact-empty strong {
+  color: #171717 !important;
+  font-size: 13px !important;
+}
+
+.game-compact-empty span {
+  color: #737373 !important;
+  font-size: 11px !important;
+}
+
+.mm-compact-empty {
+  margin: 0 !important;
+}
+
+@media (max-width: 900px) {
+  .home-arrival-grid,
+  .recent-rewards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .home-arrival-grid,
+  .recent-rewards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+  }
+
+  .home-arrival-card {
+    grid-template-rows: auto 104px 1fr !important;
+    border-radius: 16px !important;
+  }
+
+  .home-arrival-action {
+    min-height: 34px !important;
+    font-size: 9px !important;
+  }
+
+  .home-all-games-grid .home-game-card {
+    min-height: 204px !important;
+  }
+
+  body.game-page .game-vertical-section {
+    padding: 14px !important;
+  }
+}

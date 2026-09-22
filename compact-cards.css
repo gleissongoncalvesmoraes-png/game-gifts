@@ -1,0 +1,39 @@
+/* Global light compact pass: keep the same hierarchy while reclaiming a
+   little space on desktop and mobile. */
+.home-premium-reward-card { min-height: 304px; }
+.home-premium-games-grid .home-game-card { min-height: 210px; }
+.home-news-card { grid-template-rows: 138px auto; }
+.game-card { min-height: 216px; }
+.reward-card { grid-template-columns: 82px 1fr auto; gap: 15px; padding: 11px; }
+.reward-art { width: 82px; height: 82px; }
+.mm-reward-card { grid-template-columns: 138px minmax(0, 1fr); gap: 13px; padding: 10px; }
+.portal-reward-card { gap: 10px; padding: 10px; }
+.portal-today-card { grid-template-columns: 48px 1fr; gap: 8px; padding: 9px; }
+.portal-feature-card { gap: 15px; padding: 19px; }
+.portal-tool-grid > *, .quiz-card, .profile-panel { padding: 18px; }
+.home-reference-reward-card { border-radius: 18px; }
+.home-reference-reward-body { padding: 10px; }
+.home-link-game-card, .home-reference-gift-card { padding: 8px; }
+.event-card-link { grid-template-columns: 145px minmax(0, 1fr); min-height: 145px; }
+.event-card-art { min-height: 145px; }
+.event-card-body { padding: 13px; }
+.event-game-group { padding: 8px; }
+.event-detail-grid > section, .event-detail-grid > aside { padding: 17px; }
+
+@media (max-width: 760px) {
+  .home-premium-reward-card { min-height: 250px; }
+  .home-premium-games-grid .home-game-card { min-height: 164px; }
+  .home-news-card { grid-template-rows: 108px auto; }
+  .game-card { min-height: 185px; }
+  .reward-card { grid-template-columns: 62px 1fr; gap: 10px; padding: 10px; }
+  .reward-art { width: 62px; height: 62px; border-radius: 12px; }
+  .reward-actions { gap: 6px; }
+  .mm-reward-card { grid-template-columns: 86px minmax(0, 1fr); gap: 10px; padding: 8px; }
+  .portal-reward-card { padding: 8px; }
+  .portal-today-card { grid-template-columns: 44px 1fr; padding: 8px; }
+  .portal-feature-card { gap: 12px; padding: 16px; }
+  .portal-tool-grid > *, .quiz-card, .profile-panel { padding: 15px; }
+  .event-card-link { grid-template-columns: 86px minmax(0, 1fr); min-height: 104px; }
+  .event-card-art { min-height: 104px; }
+  .event-card-body { padding: 10px; }
+}

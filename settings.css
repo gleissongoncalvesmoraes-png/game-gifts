@@ -1,0 +1,84 @@
+/* Settings is an additive page; all selectors are scoped so Home and game
+   pages keep their existing visual systems unchanged. */
+body.settings-page-body {
+  color: #111317;
+  background: #fbfaf7 !important;
+}
+body.settings-page-body .site-header.portal-header {
+  color: #111317 !important;
+  background: transparent !important;
+}
+body.settings-page-body #app {
+  width: min(900px, calc(100% - 32px)) !important;
+  max-width: none !important;
+  padding: 24px 0 100px !important;
+}
+.settings-page { display: grid; gap: 18px; }
+.settings-page-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 2px; color: #6c7480; font-size: 11px; font-weight: 900; letter-spacing: .12em; }
+.settings-back { display: inline-flex; align-items: center; min-height: 38px; padding: 0 14px; color: #111317; background: #fff; border: 1px solid #e8e5db; border-radius: 11px; font-size: 13px; font-weight: 800; cursor: pointer; }
+.settings-heading { display: flex; align-items: center; gap: 17px; padding: 24px 25px; color: #fff; background: #111a22; border-radius: 22px; box-shadow: 0 7px 18px rgba(18,25,30,.12); }
+.settings-heading-icon { display: grid; width: 58px; height: 58px; place-items: center; color: #111317; background: #ffd21a; border-radius: 17px; font-size: 31px; }
+.settings-heading p { margin: 0 0 5px; color: #ffd21a; font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.settings-heading h1 { margin: 0 0 5px; color: #fff; font-size: clamp(32px, 5vw, 48px); line-height: .95; letter-spacing: -.06em; }
+.settings-heading span { color: #b9c5ca; font-size: 14px; }
+.settings-card { display: grid; gap: 17px; padding: 22px; background: #fff; border: 1px solid #ebe8df; border-radius: 21px; box-shadow: 0 5px 18px rgba(31,32,32,.05); }
+.settings-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.settings-eyebrow { display: block; margin-bottom: 6px; color: #b28700; font-size: 11px; font-weight: 950; letter-spacing: .1em; }
+.settings-card h2 { margin: 0; color: #111317; font-size: 24px; letter-spacing: -.045em; }
+.settings-card-heading p { max-width: 600px; margin: 5px 0 0; color: #68717c; font-size: 13px; line-height: 1.4; }
+.settings-permission { display: inline-flex; align-items: center; min-height: 35px; padding: 0 12px; border-radius: 999px; font-size: 11px; font-weight: 900; white-space: nowrap; }
+.settings-permission.is-on { color: #155b35; background: #ddf6e6; }
+.settings-permission.is-off { color: #8b2329; background: #ffebeb; }
+.settings-permission.is-pending { color: #7a5b00; background: #fff4bd; }
+.settings-permission-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+.settings-primary-button, .settings-secondary-button { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 15px; border-radius: 10px; font-size: 11px; font-weight: 950; cursor: pointer; }
+.settings-primary-button { color: #111317; background: #ffd21a; border: 1px solid #ffd21a; }
+.settings-secondary-button { color: #111317; background: #fff; border: 1px solid #d9d5cb; }
+.settings-secondary-button:disabled { opacity: .6; cursor: wait; }
+.settings-feedback { margin: -2px 0 0; padding: 10px 12px; color: #5d4d16; background: #fff7cf; border: 1px solid #f1dd76; border-radius: 10px; font-size: 12px; line-height: 1.4; }
+.settings-divider { height: 1px; background: #ece9e1; }
+.settings-channel-list, .settings-preference-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.settings-toggle-row, .settings-game-row { display: flex; align-items: center; gap: 11px; width: 100%; min-width: 0; padding: 12px; color: #111317; background: #fbfaf7; border: 1px solid #ece9e1; border-radius: 14px; text-align: left; cursor: pointer; }
+.settings-toggle-row:hover, .settings-game-row:hover { border-color: #e0bd20; }
+.settings-row-icon { display: grid; width: 36px; height: 36px; flex: 0 0 36px; place-items: center; background: #fff; border-radius: 10px; font-size: 19px; }
+.settings-toggle-row > span:nth-child(2), .settings-game-row > span:nth-child(2) { display: grid; gap: 3px; min-width: 0; }
+.settings-toggle-row strong, .settings-game-row strong { overflow: hidden; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.settings-toggle-row small, .settings-game-row small { color: #747d88; font-size: 10px; line-height: 1.25; }
+.settings-switch { position: relative; display: block; width: 41px; height: 23px; flex: 0 0 41px; margin-left: auto; background: #d8d8d4; border-radius: 99px; transition: background .16s ease; }
+.settings-switch b { position: absolute; top: 3px; left: 3px; width: 17px; height: 17px; background: #fff; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: transform .16s ease; }
+.settings-switch.is-on { background: #ffd21a; }
+.settings-switch.is-on b { transform: translateX(18px); }
+.settings-subheading { display: flex; align-items: center; gap: 10px; }
+.settings-subheading > span { font-size: 24px; }
+.settings-subheading h3 { margin: 0; font-size: 18px; letter-spacing: -.03em; }
+.settings-subheading p { margin: 3px 0 0; color: #747d88; font-size: 12px; }
+.settings-game-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.settings-game-row { background: #fff; }
+.settings-game-row.is-followed { border-color: #ffd21a; background: #fffdf1; }
+.settings-game-art { display: block; width: 42px; height: 42px; flex: 0 0 42px; overflow: hidden; background: #e9e8e2; border-radius: 11px; }
+.settings-game-image, .settings-game-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.settings-followed-count { display: grid; min-width: 38px; height: 38px; place-items: center; color: #111317; background: #ffd21a; border-radius: 50%; font-size: 14px; }
+.settings-followed-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.settings-empty { padding: 18px; color: #747d88; background: #fbfaf7; border: 1px dashed #d9d5cb; border-radius: 13px; font-size: 12px; }
+.settings-followed-list .settings-empty { grid-column: 1 / -1; }
+.settings-test-card { grid-template-columns: 1fr auto; align-items: center; color: #fff; background: #111a22; border-color: #111a22; }
+.settings-test-card h2 { color: #fff; }
+.settings-test-card p { margin: 5px 0 0; color: #b9c5ca; font-size: 13px; }
+.settings-test-card .settings-eyebrow { color: #ffd21a; }
+.settings-test-button { color: #111317; background: #ffd21a; border-color: #ffd21a; }
+body.settings-page-body .mobile-nav { background: #111a22 !important; }
+@media (max-width: 680px) {
+  body.settings-page-body #app { width: min(100% - 22px, 900px) !important; padding-top: 14px !important; }
+  .settings-heading { align-items: flex-start; padding: 20px 16px; }
+  .settings-heading-icon { width: 45px; height: 45px; flex: 0 0 45px; border-radius: 13px; font-size: 25px; }
+  .settings-heading h1 { font-size: 34px; }
+  .settings-heading span { font-size: 12px; }
+  .settings-card { padding: 16px 13px; border-radius: 17px; }
+  .settings-card-heading { display: grid; gap: 10px; }
+  .settings-card h2 { font-size: 21px; }
+  .settings-permission { justify-self: start; font-size: 10px; }
+  .settings-channel-list, .settings-preference-list, .settings-game-list, .settings-followed-list { grid-template-columns: 1fr; }
+  .settings-test-card { grid-template-columns: 1fr; }
+  .settings-test-button { width: 100%; }
+  .settings-permission-actions { display: grid; grid-template-columns: 1fr; }
+}
