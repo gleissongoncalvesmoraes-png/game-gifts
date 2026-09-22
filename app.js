@@ -78,39 +78,39 @@ const GAME_SEO_PATHS = Object.freeze(Object.fromEntries(Object.entries(GAME_SEO)
 // Every entry has a matching internal game page and an image already present
 // in the project; it is not a second or invented game catalog.
 const RECOVERED_GAME_CATALOG = Object.freeze([
-  { name: "Match Masters", slug: "match-masters", description: "Competição rápida, desafios e recompensas para colecionar.", image: "/uploads/file_00000000f940820ea01aaadff3c7df3f.png" },
-  { name: "Monopoly GO!", slug: "monopoly-go", description: "Dados grátis e links públicos de recompensa para sua próxima partida.", image: "/uploads/file_00000000ef9c820e8fb9420f35ff24fe.png" },
-  { name: "Dice Dreams", slug: "dice-dreams", description: "Giros, construções e presentes para a sua próxima aventura.", image: "/uploads/file_000000003ac0820eadfbf26969ac6696.png" },
-  { name: "Animals & Coins", slug: "animals-and-coins", description: "Energia grátis e recompensas públicas para sua ilha.", image: "/uploads/file_000000004e54820e93eb148e318275d9.png" },
-  { name: "Family Island", slug: "family-island", description: "Energia e rubis em links públicos de recompensa.", image: "/uploads/file_000000006c3c820e8473c8451f119bd6.png" },
-  { name: "Travel Town", slug: "travel-town", description: "Energia grátis e links públicos de recompensa atualizados.", image: "/uploads/file_000000003230820eb2ec324ed61264ac.png" },
-  { name: "Gossip Harbor", slug: "gossip-harbor", description: "Energia grátis e links públicos para continuar sua história.", image: "/uploads/file_0000000006dc820ea058c6bef13ceba9.png" },
-  { name: "Bingo Blitz", slug: "bingo-blitz", description: "Créditos e moedas em links públicos de recompensa.", image: "/uploads/file_000000003720820e9ce4d36eb34a5f9f-2.png" },
-  { name: "Crazy Fox", slug: "crazy-fox", description: "Recompensas públicas para suas próximas partidas.", image: "/assets/logos/crazy-fox.svg" },
-  { name: "Coin Master", slug: "coin-master", description: "Gire, construa e encontre novos links para sua vila.", image: "/uploads/file_0000000037b4820e8c10b3944507b647.png" },
-  { name: "Roblox", slug: "roblox", description: "Experiências, novidades e presentes públicos para jogar mais.", image: "/assets/logos/roblox.svg" },
-  { name: "Free Fire", slug: "free-fire", description: "Eventos e recompensas públicas para suas partidas.", image: "/assets/logos/free-fire.svg" },
-  { name: "Stumble Guys", slug: "stumble-guys", description: "Eventos e recompensas públicas para suas próximas partidas.", image: "/assets/logos/stumble-guys.svg" },
-  { name: "Lords Mobile", slug: "lords-mobile", description: "Presentes e recompensas públicas para seu reino.", image: "/assets/logos/lords-mobile.svg" },
-  { name: "Clash of Clans", slug: "clash-of-clans", description: "Recompensas e novidades públicas para sua aldeia.", image: "/assets/logos/clash-of-clans.svg" },
-  { name: "Solitaire Grand Harvest", slug: "solitaire-grand-harvest", description: "Moedas grátis e links públicos para sua coleção.", image: "/assets/logos/solitaire-grand-harvest.svg" },
-  { name: "Board Kings", slug: "board-kings", description: "Rolls grátis e recompensas públicas para o seu tabuleiro.", image: "/assets/logos/board-kings.svg" },
-  { name: "Seaside Escape", slug: "seaside-escape", description: "Energia grátis e recompensas públicas para sua aventura.", image: "/uploads/file_00000000c0f0820e8d1fe6ea7271e5cd.png" },
-  { name: "Carnival Tycoon", slug: "carnival-tycoon", description: "Eventos e recompensas públicas para sua próxima partida.", image: "/assets/logos/carnival-tycoon.svg" },
+  { name: "Match Masters", slug: "match-masters", description: "Competição rápida, desafios e recompensas para colecionar.", image: "uploads/file_00000000f940820ea01aaadff3c7df3f.png" },
+  { name: "Monopoly GO!", slug: "monopoly-go", description: "Dados grátis e links públicos de recompensa para sua próxima partida.", image: "uploads/file_00000000ef9c820e8fb9420f35ff24fe.png" },
+  { name: "Dice Dreams", slug: "dice-dreams", description: "Giros, construções e presentes para a sua próxima aventura.", image: "uploads/file_000000003ac0820eadfbf26969ac6696.png" },
+  { name: "Animals & Coins", slug: "animals-and-coins", description: "Energia grátis e recompensas públicas para sua ilha.", image: "uploads/file_000000004e54820e93eb148e318275d9.png" },
+  { name: "Family Island", slug: "family-island", description: "Energia e rubis em links públicos de recompensa.", image: "uploads/file_000000006c3c820e8473c8451f119bd6.png" },
+  { name: "Travel Town", slug: "travel-town", description: "Energia grátis e links públicos de recompensa atualizados.", image: "uploads/file_000000003230820eb2ec324ed61264ac.png" },
+  { name: "Gossip Harbor", slug: "gossip-harbor", description: "Energia grátis e links públicos para continuar sua história.", image: "uploads/file_0000000006dc820ea058c6bef13ceba9.png" },
+  { name: "Bingo Blitz", slug: "bingo-blitz", description: "Créditos e moedas em links públicos de recompensa.", image: "uploads/file_000000003720820e9ce4d36eb34a5f9f-2.png" },
+  { name: "Crazy Fox", slug: "crazy-fox", description: "Recompensas públicas para suas próximas partidas.", image: "assets/logos/crazy-fox.svg" },
+  { name: "Coin Master", slug: "coin-master", description: "Gire, construa e encontre novos links para sua vila.", image: "uploads/file_0000000037b4820e8c10b3944507b647.png" },
+  { name: "Roblox", slug: "roblox", description: "Experiências, novidades e presentes públicos para jogar mais.", image: "assets/logos/roblox.svg" },
+  { name: "Free Fire", slug: "free-fire", description: "Eventos e recompensas públicas para suas partidas.", image: "assets/logos/free-fire.svg" },
+  { name: "Stumble Guys", slug: "stumble-guys", description: "Eventos e recompensas públicas para suas próximas partidas.", image: "assets/logos/stumble-guys.svg" },
+  { name: "Lords Mobile", slug: "lords-mobile", description: "Presentes e recompensas públicas para seu reino.", image: "assets/logos/lords-mobile.svg" },
+  { name: "Clash of Clans", slug: "clash-of-clans", description: "Recompensas e novidades públicas para sua aldeia.", image: "assets/logos/clash-of-clans.svg" },
+  { name: "Solitaire Grand Harvest", slug: "solitaire-grand-harvest", description: "Moedas grátis e links públicos para sua coleção.", image: "assets/logos/solitaire-grand-harvest.svg" },
+  { name: "Board Kings", slug: "board-kings", description: "Rolls grátis e recompensas públicas para o seu tabuleiro.", image: "assets/logos/board-kings.svg" },
+  { name: "Seaside Escape", slug: "seaside-escape", description: "Energia grátis e recompensas públicas para sua aventura.", image: "uploads/file_00000000c0f0820e8d1fe6ea7271e5cd.png" },
+  { name: "Carnival Tycoon", slug: "carnival-tycoon", description: "Eventos e recompensas públicas para sua próxima partida.", image: "assets/logos/carnival-tycoon.svg" },
 ]);
 // Card-sized derivatives keep the existing artwork and the original files
 // remain available for hero and detail-page artwork.
 const OPTIMIZED_GAME_IMAGES = Object.freeze({
-  "/uploads/file_00000000f940820ea01aaadff3c7df3f.png": "/uploads/optimized/match-masters.webp",
-  "/uploads/file_00000000ef9c820e8fb9420f35ff24fe.png": "/uploads/optimized/monopoly-go.webp",
-  "/uploads/file_000000003ac0820eadfbf26969ac6696.png": "/uploads/optimized/dice-dreams.webp",
-  "/uploads/file_000000004e54820e93eb148e318275d9.png": "/uploads/optimized/animals-and-coins.webp",
-  "/uploads/file_000000006c3c820e8473c8451f119bd6.png": "/uploads/optimized/family-island.webp",
-  "/uploads/file_000000003230820eb2ec324ed61264ac.png": "/uploads/optimized/travel-town.webp",
-  "/uploads/file_0000000006dc820ea058c6bef13ceba9.png": "/uploads/optimized/gossip-harbor.webp",
-  "/uploads/file_000000003720820e9ce4d36eb34a5f9f-2.png": "/uploads/optimized/bingo-blitz.webp",
-  "/uploads/file_0000000037b4820e8c10b3944507b647.png": "/uploads/optimized/coin-master.webp",
-  "/uploads/file_00000000c0f0820e8d1fe6ea7271e5cd.png": "/uploads/optimized/seaside-escape.webp",
+  "uploads/file_00000000f940820ea01aaadff3c7df3f.png": "uploads/optimized/match-masters.webp",
+  "uploads/file_00000000ef9c820e8fb9420f35ff24fe.png": "uploads/optimized/monopoly-go.webp",
+  "uploads/file_000000003ac0820eadfbf26969ac6696.png": "uploads/optimized/dice-dreams.webp",
+  "uploads/file_000000004e54820e93eb148e318275d9.png": "uploads/optimized/animals-and-coins.webp",
+  "uploads/file_000000006c3c820e8473c8451f119bd6.png": "uploads/optimized/family-island.webp",
+  "uploads/file_000000003230820eb2ec324ed61264ac.png": "uploads/optimized/travel-town.webp",
+  "uploads/file_0000000006dc820ea058c6bef13ceba9.png": "uploads/optimized/gossip-harbor.webp",
+  "uploads/file_000000003720820e9ce4d36eb34a5f9f-2.png": "uploads/optimized/bingo-blitz.webp",
+  "uploads/file_0000000037b4820e8c10b3944507b647.png": "uploads/optimized/coin-master.webp",
+  "uploads/file_00000000c0f0820e8d1fe6ea7271e5cd.png": "uploads/optimized/seaside-escape.webp",
 });
 // Rewards never come from a hand-written client-side catalog. The fallback
 // may use the maintained monitor snapshot below, but an unavailable snapshot
@@ -441,7 +441,7 @@ if (!document.querySelector('link[data-game-gifts-portal]')) {
   portalSheet.dataset.gameGiftsPortal = "";
   document.head.appendChild(portalSheet);
 }
-if (!document.querySelector('link[rel="icon"]')) { const favicon = document.createElement("link"); favicon.rel = "icon"; favicon.href = assetUrl("/favicon.svg"); favicon.type = "image/svg+xml"; document.head.appendChild(favicon); }
+if (!document.querySelector('link[rel="icon"]')) { const favicon = document.createElement("link"); favicon.rel = "icon"; favicon.href = assetUrl("favicon.svg"); favicon.type = "image/svg+xml"; document.head.appendChild(favicon); }
 const todayKey = () => { const date = new Date(); return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`; };
 const offsetDateKey = (offset) => { const date = new Date(); date.setHours(12, 0, 0, 0); date.setDate(date.getDate() + offset); return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`; };
 const yesterdayKey = () => offsetDateKey(-1);
@@ -1349,7 +1349,7 @@ const updateSeo = (current) => {
   setMetaContent('meta[property="og:description"]', description);
   setMetaContent('meta[property="og:url"]', canonical);
   setMetaContent('meta[property="og:type"]', "website");
-  const image = currentEvent?.image || currentEventGame?.image || currentGame?.image || "/favicon.svg";
+  const image = currentEvent?.image || currentEventGame?.image || currentGame?.image || "favicon.svg";
   let imageUrl = publicUrl(image);
   try { imageUrl = /^(?:https?:|data:|blob:)/i.test(image) ? image : new URL(assetUrl(image), location.origin).href; } catch {}
   setMetaContent('meta[property="og:image"]', imageUrl);
@@ -1514,7 +1514,7 @@ const renderHome = () => {
   const trustItems = state.lang === "pt" ? [["🛡️", "Links verificados", "Seguros e atualizados"], ["⚡", "Novos presentes todos os dias", "Fique por dentro e não perca nada"], ["👥", "Comunidade global", "Milhares de jogadores"], ["🔒", "100% Grátis", "Sem cadastro"]] : [["🛡️", "Verified links", "Safe and updated"], ["⚡", "New gifts every day", "Never miss an update"], ["👥", "Global community", "Thousands of players"], ["🔒", "100% Free", "No sign-up"]];
   return `<div class="home-dashboard"><section class="home-dashboard-hero" aria-label="GAME GIFTS"><div class="home-hero-backdrop">${heroTiles}<span class="home-hero-glow home-hero-glow-one"></span><span class="home-hero-glow home-hero-glow-two"></span></div><div class="home-dashboard-hero-copy"><span class="home-hero-kicker">🎮 GAME GIFTS · ${todayGifts || 0} ${state.lang === "pt" ? "ATIVOS HOJE" : "ACTIVE TODAY"}</span><h1>${state.lang === "pt" ? "SEUS JOGOS" : "YOUR GAMES"}<br><em>${state.lang === "pt" ? "SEUS PRESENTES" : "YOUR GIFTS"}</em></h1><p>${state.lang === "pt" ? "Descubra, resgate e jogue mais!" : "Discover, redeem and play more!"}</p></div></section><nav class="home-quick-links" aria-label="Atalhos"><a href="${pathFor("news")}?recent=1" data-route><span>🎁</span>${state.lang === "pt" ? "Presentes Grátis" : "Free Gifts"}</a><a href="${pathFor("games")}" data-route><span>⚡</span>${state.lang === "pt" ? "Links Diários" : "Daily Links"}</a><a href="${pathFor("games")}?codes=1" data-route><span>⭐</span>${state.lang === "pt" ? "Códigos" : "Codes"}</a><a href="${pathFor("news")}" data-route><span>🔥</span>${state.lang === "pt" ? "Novidades" : "News"}</a></nav><section class="home-dashboard-section home-arrival-section"><div class="home-dashboard-heading"><div><span class="home-dashboard-kicker">⚡ ${state.lang === "pt" ? "ACABOU DE CHEGAR" : "JUST IN"}</span><p>${state.lang === "pt" ? "Presentes encontrados recentemente. Seja rápido!" : "Recently found gifts. Be quick!"}</p></div><a href="${pathFor("news")}?recent=1" data-route>${state.lang === "pt" ? "Ver todos" : "View all"} <b>→</b></a></div><div class="home-arrival-grid">${arrivalRewards.map(homeArrivalCard).join("") || `<div class="home-empty-state"><span>🎁</span><strong>${esc(homeCopy().noRecent)}</strong></div>`}</div></section><section class="home-dashboard-section home-featured-section"><div class="home-dashboard-heading"><div><span class="home-dashboard-kicker">⭐ ${state.lang === "pt" ? "DESTAQUES DA SEMANA" : "WEEKLY HIGHLIGHTS"}</span></div><a href="${pathFor("games")}" data-route>${state.lang === "pt" ? "Ver todos" : "View all"} <b>→</b></a></div><div class="home-featured-games-grid">${featuredGames.map(homeFeaturedGameCard).join("") || emptyState(copy().noGames, copy().noGamesCopy)}</div></section><section class="home-dashboard-section home-all-games-section"><div class="home-dashboard-heading home-all-games-heading"><div><span class="home-dashboard-kicker">🎮 ${state.lang === "pt" ? "TODOS OS JOGOS" : "ALL GAMES"}</span><p>${state.lang === "pt" ? "Escolha um jogo e veja todos os presentes disponíveis." : "Choose a game and see all available gifts."}</p></div><div class="home-game-filters"><button type="button" class="home-filter-icon" data-home-sort="all" aria-label="${sortLabel.all}">▦</button><button type="button" class="${state.homeSort === "all" ? "is-active" : ""}" data-home-sort="all">${sortLabel.all}</button><button type="button" class="${state.homeSort === "popular" ? "is-active" : ""}" data-home-sort="popular">♡ ${sortLabel.popular}</button><button type="button" class="${state.homeSort === "az" ? "is-active" : ""}" data-home-sort="az">${sortLabel.az}</button><button type="button" class="${state.homeSort === "new" ? "is-active" : ""}" data-home-sort="new">🔥 ${sortLabel.new}</button></div></div><div class="home-premium-games-grid home-all-games-grid">${games.map((game) => homeGameCard(game)).join("") || emptyState(copy().noGames, copy().noGamesCopy)}</div></section><section class="home-dashboard-section home-news-section"><div class="home-dashboard-heading"><div><span class="home-dashboard-kicker">📣 ${state.lang === "pt" ? "NOVIDADES DOS JOGOS" : "GAME NEWS"}</span><p>${state.lang === "pt" ? "Eventos, temporadas e mudanças relevantes dos jogos." : "Events, seasons and relevant game updates."}</p></div><a href="${pathFor("news")}" data-route>${state.lang === "pt" ? "Ver todas" : "View all"} <b>→</b></a></div><div class="home-news-grid">${newsContent}</div></section><section class="home-trust-strip" aria-label="Game Gifts"><div>${trustItems.map(([icon,title,desc]) => `<article><span>${icon}</span><div><strong>${esc(title)}</strong><small>${esc(desc)}</small></div></article>`).join("")}</div></section></div>`;
 };
-const HOME_REFERENCE_IMAGE = "/uploads/optimized/home-banner.webp";
+const HOME_REFERENCE_IMAGE = "uploads/optimized/home-banner.webp";
 const HOME_TOP_CAROUSEL_SLUGS = Object.freeze([
   "match-masters", "travel-town", "monopoly-go", "bingo-blitz",
   "dice-dreams", "coin-master", "family-island", "animals-and-coins",
@@ -2373,7 +2373,7 @@ const lockCustomGameCover = () => {
   const input = form?.querySelector('[name="image"]');
   const gameId = Number(form?.dataset.editGameId);
   const game = state.admin?.games.find((item) => Number(item.id) === gameId);
-  if (!game || !input || !game.image || game.image === `/assets/logos/${game.slug}.svg`) return;
+  if (!game || !input || !game.image || game.image === `/assets/logos/${game.slug}.svg` || game.image === `assets/logos/${game.slug}.svg`) return;
   input.disabled = true;
   input.setAttribute("aria-disabled", "true");
   const field = input.closest(".field");
