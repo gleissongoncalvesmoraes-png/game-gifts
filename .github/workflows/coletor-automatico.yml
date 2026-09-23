@@ -1,0 +1,22 @@
+name: Motor 24h - Game Gifts
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '00 * * * *'
+
+jobs:
+  motor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Executar coletor automático
+        run: node match-masters-monitor.mjs
