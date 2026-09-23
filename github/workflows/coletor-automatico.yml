@@ -3,7 +3,7 @@ name: Motor 24h - Game Gifts
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 * * * *'
+    - cron: '00 * * * *'
 
 jobs:
   motor:
