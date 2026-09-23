@@ -13,8 +13,10 @@ jobs:
       - name: Baixar projeto
         uses: actions/checkout@v4
 
-      - name: Confirmar execução automática
-        run: |
-          echo "Motor 24h do Game Gifts acordou."
-          echo "Data UTC: $(date -u)"
-          echo "Projeto disponível para executar o coletor."
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Executar coletor automático
+        run: node match-masters-monitor.mjs
