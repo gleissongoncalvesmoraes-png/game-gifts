@@ -1,0 +1,20 @@
+name: Motor 24h - Game Gifts
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+
+jobs:
+  motor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+
+      - name: Confirmar execução automática
+        run: |
+          echo "Motor 24h do Game Gifts acordou."
+          echo "Data UTC: $(date -u)"
+          echo "Projeto disponível para executar o coletor."
